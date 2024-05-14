@@ -1,0 +1,18 @@
+body{
+	background-color: #4ada1e;
+   
+}
+
+ .form-login{
+    padding-bottom:: 50px 0px;
+}   
+
+.vertical-offset-100{
+    padding-top:100px;
+}
+
+.recuperar{
+    margin-top: 25px;
+    font-size: 12px;
+    text-align: center;
+}   
