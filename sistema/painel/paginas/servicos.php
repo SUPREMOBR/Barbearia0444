@@ -3,12 +3,12 @@
 require_once("verificar.php");
 require_once("../conexao.php");
 
-$pag = 'usuarios';
+$pag = 'servicos';
 
 ?>
 
 <div class="">      
-	<a class="btn btn-success" onclick="inserir()" class="btn btn-success btn-flat btn-pri"><i class="fa fa-plus" aria-hidden="true"></i> Novo Usuário</a>
+	<a class="btn btn-success" onclick="inserir()" class="btn btn-success btn-flat btn-pri"><i class="fa fa-plus" aria-hidden="true"></i> Novo Serviço</a>
 </div>
 
 <div class="bs-example widget-shadow" style="padding:15px" id="listar">
@@ -41,45 +41,32 @@ $pag = 'usuarios';
 						<div class="col-md-6">
 
 							<div class="form-group">
-								<label for="exampleInputEmail1">Email</label>
-								<input type="email" class="form-control" id="email" name="email" placeholder="Email"  required>    
+								<label for="exampleInputEmail1">Valor</label>
+								<input type="text" class="form-control" id="valor" name="valor" placeholder="Valor" >    
 							</div> 	
 						</div>
 					</div>
 
 
 					<div class="row">
-						<div class="col-md-4">
-							<div class="form-group">
-								<label for="exampleInputEmail1">Telefone</label>
-								<input type="text" class="form-control" id="telefone" name="telefone" placeholder="Telefone" >    
-							</div> 	
-						</div>
+						
 						<div class="col-md-4">
 							
 							<div class="form-group">
-								<label for="exampleInputEmail1">CPF</label>
-								<input type="text" class="form-control" id="cpf" name="cpf" placeholder="CPF" >    
-							</div> 	
-						</div>
-
-						<div class="col-md-4">
-							
-							<div class="form-group">
-								<label for="exampleInputEmail1">Nível</label>
-								<select class="form-control sel2" id="cargo" name="cargo" style="width:100%;" > 
+								<label for="exampleInputEmail1">Categoria</label>
+								<select class="form-control sel2" id="categoria" name="categoria" style="width:100%;" > 
 
 									<?php 
-									$query = $pdo->query("SELECT * FROM cargos ORDER BY nome asc");
+									$query = $pdo->query("SELECT * FROM categoria_servicos ORDER BY id desc");
 									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 									$total_registro = @count($resultado);
 									if($total_registro > 0){
 										for($i=0; $i < $total_registro; $i++){
 										foreach ($resultado[$i] as $key => $value){}
-										echo '<option value="'.$resultado[$i]['nome'].'">'.$resultado[$i]['nome'].'</option>';
+										echo '<option value="'.$resultado[$i]['id'].'">'.$resultado[$i]['nome'].'</option>';
 										}
 									}else{
-											echo '<option value="0">Cadastre um Cargo</option>';
+											echo '<option value="0">Cadastre um Serviço</option>';
 										}
 									 ?>
 									
@@ -89,21 +76,12 @@ $pag = 'usuarios';
 						</div>
 					</div>
 
-					
-
-					<div class="row">
-						<div class="col-md-12">
+					   <div class="col-md-4">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Endereço</label>
-								<input type="text" class="form-control" id="endereco" name="endereco" placeholder="Rua X Número 1 Bairro xxx" >    
+								<label for="exampleInputEmail1">Comissão <?php echo $item_comissao ?></label>
+								<input type="text" class="form-control" id="comissao" name="comissao" placeholder="Valor Comissão" >    
 							</div> 	
 						</div>
-						
-					</div>
-
-
-
-
 
 						<div class="row">
 							<div class="col-md-8">						
@@ -114,7 +92,7 @@ $pag = 'usuarios';
 							</div>
 							<div class="col-md-4">
 								<div id="divImg">
-									<img src="img/perfil/sem-foto.jpg"  width="80px" id="target">									
+									<img src="img/servicos/sem-foto.jpg"  width="80px" id="target">									
 								</div>
 							</div>
 
@@ -157,61 +135,28 @@ $pag = 'usuarios';
 
 				<div class="row" style="border-bottom: 1px solid #cac7c7;">
 					<div class="col-md-8">							
-						<span><b>Email: </b></span>
-						<span id="email_dados"></span>							
+						<span><b>Categoria: </b></span>
+						<span id="categoria_dados"></span>							
 					</div>
 					<div class="col-md-4">							
-						<span><b>Senha: </b></span>
-						<span id="senha_dados"></span>
-					</div>					
-
-				</div>
-
-
-				<div class="row" style="border-bottom: 1px solid #cac7c7;">
-					<div class="col-md-6">							
-						<span><b>CPF: </b></span>
-						<span id="cpf_dados"></span>							
-					</div>
-					<div class="col-md-6">							
-						<span><b>Telefone: </b></span>
-						<span id="telefone_dados"></span>
-					</div>					
-
-				</div>
-
-
-
-
-				<div class="row" style="border-bottom: 1px solid #cac7c7;">
-					<div class="col-md-4">							
-						<span><b>Nível: </b></span>
-						<span id="nivel_dados"></span>							
-					</div>
-					<div class="col-md-3">							
-						<span><b>Ativo: </b></span>
-						<span id="ativo_dados"></span>
+						<span><b>Valor: </b></span>
+						<span id="valor_dados"></span>
 					</div>		
-					<div class="col-md-5">							
-						<span><b>Cadastro: </b></span>
-						<span id="data_dados"></span>
-					</div>				
 
 				</div>
-
-
-
-
-
-
+                 
 				<div class="row" style="border-bottom: 1px solid #cac7c7;">
-					
-					<div class="col-md-12">							
-						<span><b>Endereço: </b></span>
-						<span id="endereco_dados"></span>
-					</div>					
+				    <div class="col-md-6">							
+						<span><b>Ativo: </b></span>
+						<span id="ativo_dados"></span>							
+					</div>
+					<div class="col-md-6">							
+						<span><b>Comissão: </b></span>
+						<span id="comissao_dados"></span>							
+					</div>	
 
 				</div>
+
 
 
 				<div class="row">

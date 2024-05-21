@@ -3,7 +3,7 @@
 require_once("verificar.php");
 require_once("../conexao.php");
 
-$pag = 'funcioanrios';
+$pag = 'funcionarios';
 
 ?>
 
@@ -19,7 +19,7 @@ $pag = 'funcioanrios';
 
 
 <!-- Modal Inserir-->
-<div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalform" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -229,6 +229,51 @@ $pag = 'funcioanrios';
 </div>
 
 
+<!-- Modal Horarios-->
+<div class="modal fade" id="modalHorarios" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="exampleModalLabel"><span id="nome_horarios"></span></h4>
+				<button id="btn-fechar-horarios" type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px">
+					<span aria-hidden="true" >&times;</span>
+				</button>
+			</div>
+			
+			<div class="modal-body">
+				<form id="form-horarios">
+				<div class="row">
+					<div class="col-md-4">						
+						<div class="form-group">
+							<label for="exampleInputEmail1">Horário</label>
+							<input type="time" class="form-control" id="horario" name="horario" required>    
+						</div> 	
+					</div>
+
+					<div class="col-md-4">						
+						<button type="submit" class="btn btn-primary" style="margin-top:20px">Salvar</button>
+					</div>
+
+					<input type="hidden" name="id" id="id_horarios">
+
+				</div>
+				</form>
+
+				<hr>
+				<div class="" id="listar-horarios">
+					
+				</div>
+
+				<br>
+				<small><div id="mensagem-horarios"></div></small>
+
+			</div>
+
+			
+		</div>
+	</div>
+</div>
+
 
 
 
@@ -269,5 +314,67 @@ $pag = 'funcioanrios';
 
 
 
+
+</script>
+
+
+<script type="text/javascript">
+	
+
+$("#form-horarios").submit(function () {
+
+	var funcionario = $("#id_horarios").val();
+    event.preventDefault();
+    var formData = new FormData(this);
+
+    $.ajax({
+        url: 'paginas/' + pag + "/inserir-horario.php",
+        type: 'POST',
+        data: formData,
+
+        success: function (mensagem) {
+            $('#mensagem-horarios').text('');
+            $('#mensagem-horarios').removeClass()
+            if (mensagem.trim() == "Salvo com Sucesso") {
+
+                //$('#btn-fechar-horarios').click();
+                listarHorarios(funcionario);          
+
+            } else {
+
+                $('#mensagem-horarios').addClass('text-danger')
+                $('#mensagem-horarios').text(mensagem)
+            }
+
+
+        },
+
+        cache: false,
+        contentType: false,
+        processData: false,
+
+    });
+
+});
+
+
+</script>
+
+
+<script type="text/javascript">
+	function listarHorarios(funcionario){
+		
+    $.ajax({
+        url: 'paginas/' + pag + "/listar-horarios.php",
+        method: 'POST',
+        data: {funcionario},
+        dataType: "html",
+
+        success:function(result){
+            $("#listar-horarios").html(result);
+            $('#mensagem-horario-excluir').text('');
+        }
+    });
+}
 
 </script>

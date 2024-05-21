@@ -3,12 +3,12 @@
 require_once("verificar.php");
 require_once("../conexao.php");
 
-$pag = 'cargos';
+$pag = 'categoria_servicos';
 
 ?>
 
 <div class="">      
-	<a class="btn btn-success" onclick="inserir()" class="btn btn-success btn-flat btn-pri"><i class="fa fa-plus" aria-hidden="true"></i> Novo Cargo</a>
+	<a class="btn btn-success" onclick="inserir()" class="btn btn-success btn-flat btn-pri"><i class="fa fa-plus" aria-hidden="true"></i> Nova Categoria</a>
 </div>
 
 <div class="bs-example widget-shadow" style="padding:15px" id="listar">

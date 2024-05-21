@@ -1,27 +1,28 @@
 <?php 
 require_once("../../../conexao.php");
-$tabela = 'usuarios';
+$tabela = 'usuarios01';
 
-$query = $pdo->query("SELECT * FROM $tabela ORDER BY id desc");
+$query = $pdo->query("SELECT * FROM $tabela where nivel != 'Administrador' ORDER BY id desc");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
 if($total_registro > 0){
 
-echo <<<HTML
+	echo <<<HTML
 	<small>
 	<table class="table table-hover" id="tabela">
 	<thead> 
 	<tr> 
 	<th>Nome</th>	
 	<th class="esc">Email</th> 	
-	<th class="esc">Senha</th> 	
-	<th class="esc">Nível</th> 	
+	<th class="esc">CPF</th> 	
+	<th class="esc">Cargo</th> 	
 	<th class="esc">Cadastro</th>
 	<th>Ações</th>
 	</tr> 
 	</thead> 
 	<tbody>	
 HTML;
+
 
 for($i=0; $i < $total_registro; $i++){
 	foreach ($resultado[$i] as $key => $value){}
@@ -39,12 +40,7 @@ for($i=0; $i < $total_registro; $i++){
 
 	$dataFormatada = implode('/', array_reverse(explode('-', $data)));
 	
-	if($nivel == 'Administrador'){
-		$senhaFormatada = '******';
-	}else{
-		$senhaFormatada = $senha;
-	}
-
+	$senha = '*******';
 
 	if($ativo == 'Sim'){
 			$icone = 'fa-check-square';
@@ -59,20 +55,20 @@ for($i=0; $i < $total_registro; $i++){
 		}
 
 
-echo <<<HTML
-<tr class="{$classe_linha}">
-<td>
-<img src="img/perfil/{$foto}" width="27px" class="mr-2">
-{$nome}
-</td>
-<td class="esc">{$email}</td>
-<td class="esc">{$senhaFormatada}</td>
-<td class="esc">{$nivel}</td>
-<td class="esc">{$dataFormatada}</td>
-<td>
+		echo <<<HTML
+		<tr class="{$classe_linha}">
+		<td>
+		<img src="img/perfil/{$foto}" width="27px" class="mr-2">
+		{$nome}
+		</td>
+		<td class="esc">{$email}</td>
+		<td class="esc">{$cpf}</td>
+		<td class="esc">{$nivel}</td>
+		<td class="esc">{$dataFormatada}</td>
+		<td>
 		<big><a href="#" onclick="editar('{$id}','{$nome}', '{$email}', '{$telefone}', '{$cpf}', '{$nivel}', '{$endereco}', '{$foto}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
 
-		<big><a href="#" onclick="mostrar('{$nome}', '{$email}', '{$cpf}', '{$senhaFormatada}', '{$nivel}', '{$dataFormatada}', '{$ativo}', '{$telefone}', '{$endereco}', '{$foto}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
+		<big><a href="#" onclick="mostrar('{$nome}', '{$email}', '{$cpf}', '{$senha}', '{$nivel}', '{$dataFormatada}', '{$ativo}', '{$telefone}', '{$endereco}', '{$foto}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
 
 
 
@@ -91,7 +87,8 @@ echo <<<HTML
 
 
 		<big><a href="#" onclick="ativar('{$id}', '{$acao}')" title="{$titulo_link}"><i class="fa {$icone} text-success"></i></a></big>
-
+        
+		<a href="#" onclick="horarios('{$id}', '{$nome}')" title="Lançar Horários}"><i class="fa fa-calendar text-secondary"></i></a>
 
 		</td>
 </tr>
@@ -170,5 +167,17 @@ HTML;
 		$('#target_mostrar').attr('src','img/perfil/' + foto);
 
 		$('#modalDados').modal('show');
+	}
+</script>
+
+
+<script type="text/javascript">
+	function horarios(id, nome){
+
+		$('#nome_horarios').text(nome);		
+		$('#id_horarios').val(id);		
+
+		$('#modalHorarios').modal('show');
+		listarHorarios(id);
 	}
 </script>

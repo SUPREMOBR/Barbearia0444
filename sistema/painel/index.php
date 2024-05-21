@@ -157,6 +157,7 @@ if(@$_GET['pagina'] == ""){
 								<ul class="treeview-menu">
 									<li><a href="index.php?pagina=usuarios"><i class="fa fa-angle-right"></i> Usuários</a></li>
 									<li><a href="index.php?pagina=funcionarios"><i class="fa fa-angle-right"></i> Funcionários</a></li>
+									<li><a href="index.php?pagina=clientes"><i class="fa fa-angle-right"></i> Clientes</a></li>
 								</ul>
 							</li>
 
@@ -167,7 +168,9 @@ if(@$_GET['pagina'] == ""){
 									<i class="fa fa-angle-left pull-right"></i>
 								</a>
 								<ul class="treeview-menu">
+								<li><a href="index.php?pagina=servicos"><i class="fa fa-angle-right"></i> Serviços</a></li>
 									<li><a href="index.php?pagina=cargos"><i class="fa fa-angle-right"></i> Cargos</a></li>
+									<li><a href="index.php?pagina=categoria_servicos"><i class="fa fa-angle-right"></i> Categoria Serviços</a></li>
 								</ul>
 							</li>
 

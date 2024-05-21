@@ -1,6 +1,6 @@
 <?php 
 require_once("../../../conexao.php");
-$tabela = 'usuarios01';
+$tabela = 'servicos';
 
 $id = $_POST['id'];
 
@@ -10,7 +10,7 @@ $total_registro = @count($resultado);
 $foto = $resultado[0]['foto'];
 
 if($foto != "sem-foto.jpg"){
-	@unlink('../../img/perfil/'.$foto);
+	@unlink('../../img/servicos/'.$foto);
 }
 
 $pdo->query("DELETE from $tabela where id = '$id'");

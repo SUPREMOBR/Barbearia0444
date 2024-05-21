@@ -8,7 +8,7 @@ $(document).ready(function() {
 
 
 function listar(){
-    alert('teste')
+    //alert('teste')
     $.ajax({
         url: 'paginas/' + pag + "/listar.php",
         method: 'POST',
@@ -17,7 +17,7 @@ function listar(){
 
         success:function(result){
 
-            alert(result)
+            //alert(result)
             $("#listar").html(result);
             $('#mensagem-excluir').text('');
         }
@@ -26,6 +26,7 @@ function listar(){
 
 
 function inserir(){
+    //alert('teste')
     $('#mensagem').text('');
     $('#titulo_inserir').text('Inserir Registro');
     $('#modalform').modal('show');
