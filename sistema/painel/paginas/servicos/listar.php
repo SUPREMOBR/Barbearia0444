@@ -152,6 +152,7 @@ HTML;
 		$('#nome').val('');
 		$('#valor').val('');		
 		$('#comissao').val('');
+		$('#foto').val('');
 		$('#target').attr('src','img/servicos/sem-foto.jpg');
 	}
 </script>

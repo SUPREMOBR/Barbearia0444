@@ -52,11 +52,11 @@ $nome_img = preg_replace('/[ :]+/' , '-' , $nome_img);
 
 $caminho = '../../img/perfil/' .$nome_img;
 
-$imagem_temp = @$_FILES['foto']['tmp_name']; 
+$imagem_temporaria = @$_FILES['foto']['tmp_name']; 
 
 if(@$_FILES['foto']['name'] != ""){
-	$ext = pathinfo($nome_img, PATHINFO_EXTENSION);   
-	if($ext == 'png' or $ext == 'jpg' or $ext == 'jpeg' or $ext == 'gif'){ 
+	$extencao = pathinfo($nome_img, PATHINFO_EXTENSION);   
+	if($extencao == 'png' or $extencao == 'jpg' or $extencao == 'jpeg' or $extencao == 'gif'){ 
 	
 			//EXCLUO A FOTO ANTERIOR
 			if($foto != "sem-foto.jpg"){
@@ -65,7 +65,7 @@ if(@$_FILES['foto']['name'] != ""){
 
 			$foto = $nome_img;
 		
-		move_uploaded_file($imagem_temp, $caminho);
+		move_uploaded_file($imagem_temporaria, $caminho);
 	}else{
 		echo 'Extensão de Imagem não permitida!';
 		exit();

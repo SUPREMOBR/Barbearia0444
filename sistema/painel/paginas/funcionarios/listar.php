@@ -133,7 +133,7 @@ HTML;
 
 		
 		$('#titulo_inserir').text('Editar Registro');
-		$('#modalForm').modal('show');
+		$('#modalform').modal('show');
 
 		$('#target').attr('src','img/perfil/' + foto);
 	}
@@ -145,6 +145,7 @@ HTML;
 		$('#email').val('');
 		$('#cpf').val('');
 		$('#endereco').val('');
+		$('#foto').val('');
 		$('#target').attr('src','img/perfil/sem-foto.jpg');
 	}
 </script>

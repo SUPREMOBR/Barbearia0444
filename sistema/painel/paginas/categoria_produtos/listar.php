@@ -1,6 +1,6 @@
 <?php 
 require_once("../../../conexao.php");
-$tabela = 'categoria_servicos';
+$tabela = 'categoria_produtos';
 
 $query = $pdo->query("SELECT * FROM $tabela ORDER BY id desc");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -13,7 +13,7 @@ echo <<<HTML
 	<thead> 
 	<tr> 
 	<th>Nome</th>
-	<th>Serviços</th>	
+	<th>Produtos</th>	
 	<th>Ações</th>
 	</tr> 
 	</thead> 
@@ -25,7 +25,7 @@ for($i=0; $i < $total_registro; $i++){
 	$id = $resultado[$i]['id'];
 	$nome = $resultado[$i]['nome'];
 
-	$query2 = $pdo->query("SELECT * FROM servicos where categoria = '$id'");
+	$query2 = $pdo->query("SELECT * FROM produtos where categoria = '$id'");
 	$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 	$total_servicos = @count($resultado2);
 	

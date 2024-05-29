@@ -4,7 +4,6 @@ require_once("verificar.php");
 require_once("../conexao.php");
 
 $pag = 'funcionarios';
-
 ?>
 
 <div class="">      
@@ -72,7 +71,7 @@ $pag = 'funcionarios';
 									<?php 
 									$query = $pdo->query("SELECT * FROM cargos where nome != 'Administrador' ORDER BY nome asc");
 									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
-									$total_registro = @count($res);
+									$total_registro = @count($resultado);
 									if($total_registro > 0){
 										for($i=0; $i < $total_registro; $i++){
 										foreach ($resultado[$i] as $key => $value){}
@@ -284,7 +283,7 @@ $pag = 'funcionarios';
 <script type="text/javascript">
 	$(document).ready(function() {
     $('.sel2').select2({
-    	dropdownParent: $('#modalForm')
+    	dropdownParent: $('#modalform')
     });
 
 

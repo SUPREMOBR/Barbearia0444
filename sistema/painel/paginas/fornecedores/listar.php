@@ -1,19 +1,21 @@
 <?php 
 require_once("../../../conexao.php");
-$tabela = 'categoria_servicos';
+$tabela = 'fornecedores';
 
 $query = $pdo->query("SELECT * FROM $tabela ORDER BY id desc");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
 if($total_registro > 0){
 
-echo <<<HTML
+	echo <<<HTML
 	<small>
 	<table class="table table-hover" id="tabela">
 	<thead> 
 	<tr> 
-	<th>Nome</th>
-	<th>Serviços</th>	
+	<th>Nome</th>	
+	<th class="esc">Telefone</th> 	
+	<th class="esc">Cadastro</th> 	
+	
 	<th>Ações</th>
 	</tr> 
 	</thead> 
@@ -23,20 +25,26 @@ HTML;
 for($i=0; $i < $total_registro; $i++){
 	foreach ($resultado[$i] as $key => $value){}
 	$id = $resultado[$i]['id'];
-	$nome = $resultado[$i]['nome'];
-
-	$query2 = $pdo->query("SELECT * FROM servicos where categoria = '$id'");
-	$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-	$total_servicos = @count($resultado2);
+	$nome = $resultado[$i]['nome'];	
 	
-echo <<<HTML
-<tr class="">
-<td>{$nome}</td>
-<td>{$total_servicos}</td>
-<td>
-		<big><a href="#" onclick="editar('{$id}','{$nome}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
+	$data_cadastro = $resultado[$i]['data_cadastro'];	
+	$telefone = $resultado[$i]['telefone'];
+	$endereco = $resultado[$i]['endereco'];
+	
+	
+	$data_cadastroFormatada = implode('/', array_reverse(explode('-', $data_cadastro)));
+	
+	
+	echo <<<HTML
+	<tr class="">
+	<td>{$nome}</td>
+	<td class="esc">{$telefone}</td>
+	<td class="esc">{$data_cadastroFormatada}</td>
+	<td>
+	<big><a href="#" onclick="editar('{$id}','{$nome}', '{$telefone}', '{$endereco}' )" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
 
-		
+    <big><a href="#" onclick="mostrar('{$nome}', '{$telefone}','{$data_cadastroFormatada}', '{$endereco}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
+
 
 
 
@@ -51,6 +59,9 @@ echo <<<HTML
 		</li>										
 		</ul>
 		</li>
+
+
+
 
 		</td>
 </tr>
@@ -84,16 +95,37 @@ HTML;
 
 
 <script type="text/javascript">
-	function editar(id, nome){
+	function editar(id, nome, telefone, endereco){
 		$('#id').val(id);
-		$('#nome').val(nome);
+		$('#nome').val(nome);		
+		$('#telefone').val(telefone);		
+		$('#endereco').val(endereco);
+
+		
 		$('#titulo_inserir').text('Editar Registro');
-		$('#modalForm').modal('show');
+		$('#modalform').modal('show');
+		
 	}
 
 	function limparCampos(){
-		$('#nome').val('');
 		$('#id').val('');
+		$('#nome').val('');
+		$('#telefone').val('');
+		$('#endereco').val('');
 	}
 </script>
 
+
+
+<script type="text/javascript">
+	function mostrar(nome, telefone,data_cadastro, endereco){
+
+		$('#nome_dados').text(nome);		
+		$('#data_cadastro_dados').text(data_cadastro);
+		
+		$('#telefone_dados').text(telefone);
+		$('#endereco_dados').text(endereco);		
+
+		$('#modalDados').modal('show');
+	}
+</script>

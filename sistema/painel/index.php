@@ -156,8 +156,12 @@ if(@$_GET['pagina'] == ""){
 								</a>
 								<ul class="treeview-menu">
 									<li><a href="index.php?pagina=usuarios"><i class="fa fa-angle-right"></i> Usuários</a></li>
+
 									<li><a href="index.php?pagina=funcionarios"><i class="fa fa-angle-right"></i> Funcionários</a></li>
+
 									<li><a href="index.php?pagina=clientes"><i class="fa fa-angle-right"></i> Clientes</a></li>
+
+									<li><a href="index.php?pagina=fornecedores"><i class="fa fa-angle-right"></i> Fornecedores</a></li>
 								</ul>
 							</li>
 
@@ -169,10 +173,62 @@ if(@$_GET['pagina'] == ""){
 								</a>
 								<ul class="treeview-menu">
 								<li><a href="index.php?pagina=servicos"><i class="fa fa-angle-right"></i> Serviços</a></li>
+
 									<li><a href="index.php?pagina=cargos"><i class="fa fa-angle-right"></i> Cargos</a></li>
+
 									<li><a href="index.php?pagina=categoria_servicos"><i class="fa fa-angle-right"></i> Categoria Serviços</a></li>
+
+									<li><a href="index.php?pagina=fornecedores"><i class="fa fa-angle-right"></i> Fornecedores</a></li>
 								</ul>
 							</li>
+
+                            <li class="treeview">
+								<a href="#">
+									<i class="fa fa-plus"></i>
+									<span>Produtos</span>
+									<i class="fa fa-angle-left pull-right"></i>
+								</a>
+								<ul class="treeview-menu">
+								<li><a href="index.php?pagina=produtos"><i class="fa fa-angle-right"></i> Produtos</a></li>
+
+									<li><a href="index.php?pagina=categoria_produtos"><i class="fa fa-angle-right"></i> Categorias</a></li>
+
+									<li><a href="index.php?pagina=estoque"><i class="fa fa-angle-right"></i> Estoque Baixo</a></li>
+
+									<li><a href="index.php?pagina=saidas"><i class="fa fa-angle-right"></i> Saídas</a></li>
+
+									<li><a href="index.php?pagina=entradas"><i class="fa fa-angle-right"></i> Entradas</a></li>
+								</ul>
+							</li>
+
+							<li class="treeview">
+								<a href="#">
+									<i class="fa fa-usd"></i>
+									<span>Financeiro</span>
+									<i class="fa fa-angle-left pull-right"></i>
+								</a>
+								<ul class="treeview-menu">
+
+									<li><a href="index.php?pagina=vendas"><i class="fa fa-angle-right"></i> Vendas</a></li>
+
+									<li><a href="index.php?pagina=compras"><i class="fa fa-angle-right"></i>Compras</a></li>
+									
+									<li><a href="index.php?pagina=pagar"><i class="fa fa-angle-right"></i> Contas à Pagar</a></li>
+
+									<li><a href="index.php?pagina=receber"><i class="fa fa-angle-right"></i> Contas à Receber</a></li>									
+								
+								</ul>
+							</li>
+
+
+                            <li class="treeview">
+								<a href="index.php?pagina=horarios">
+									<i class="fa fa-clock-o"></i> <span>Meus Horários</span>
+								</a>
+							</li>
+                           
+
+
 
 						</ul>
 					</div>
@@ -362,7 +418,7 @@ if(@$_GET['pagina'] == ""){
 								</div>	
 							</a>
 							<ul class="dropdown-menu drp-mnu">
-								<li> <a href="#"><i class="fa fa-cog"></i> Configurações</a> </li> 	
+								<li> <a href="" data-toggle="modal" data-target="#modalConfig"><i class="fa fa-cog"></i> Configurações</a> </li> 	
 								<li> <a href="" data-toggle="modal" data-target="#modalPerfil"><i class="fa fa-suitcase"></i> Editar Perfil</a> </li> 
 								<li> <a href="logout.php"><i class="fa fa-sign-out"></i> Sair</a> </li>
 							</ul>
@@ -560,7 +616,149 @@ if(@$_GET['pagina'] == ""){
 </div>
 
 
+<!-- Modal Config-->
+<div class="modal fade" id="modalConfig" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="exampleModalLabel">Editar Configurações</h4>
+				<button id="btn-fechar-config" type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px">
+					<span aria-hidden="true" >&times;</span>
+				</button>
+			</div>
+			<form method="post" id="form-config">
+				<div class="modal-body">
 
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Nome Barbearia</label>
+								<input type="text" class="form-control" id="nome_sistema" name="nome_sistema" placeholder="Nome da Barbearia" value="<?php echo $nome_sistema ?>" required>    
+							</div> 	
+						</div>
+						<div class="col-md-4">
+
+							<div class="form-group">
+								<label for="exampleInputEmail1">Email Barbearia</label>
+								<input type="email" class="form-control" id="email_sistema" name="email_sistema" placeholder="Email" value="<?php echo $email_sistema ?>" required>    
+							</div> 	
+						</div>
+
+						<div class="col-md-4">
+
+							<div class="form-group">
+								<label for="exampleInputEmail1">Whatsapp Barbearia</label>
+								<input type="text" class="form-control" id="whatsapp_sistema" name="whatsapp_sistema" placeholder="Whatsapp" value="<?php echo $whatsapp_sistema ?>" required>    
+							</div> 	
+						</div>
+					</div>
+
+
+					<div class="row">
+						
+						<div class="col-md-4">
+
+							<div class="form-group">
+								<label for="exampleInputEmail1">Tel Fixo Barbearia</label>
+								<input type="text" class="form-control" id="telefone_fixo_sistema" name="telefone_fixo_sistema" placeholder="Fixo" value="<?php echo $telefone_fixo_sistema ?>" required>    
+							</div> 	
+						</div>
+						<div class="col-md-8">
+							
+							<div class="form-group">
+								<label for="exampleInputEmail1">Endereço Barbearia</label>
+								<input type="text" class="form-control" id="endereco_sistema" name="endereco_sistema" placeholder="Rua X Numero X Bairro Cidade" value="<?php echo $endereco_sistema ?>">    
+							</div> 	
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="col-md-2">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Tipo Relatório</label>
+								<select class="form-control" name="tipo_rel" id="tipo_rel">
+									<option value="PDF" <?php if($tipo_relatorio == 'PDF'){?> selected <?php } ?> >PDF</option>
+									<option value="HTML" <?php if($tipo_relatorio == 'HTML'){?> selected <?php } ?> >HTML</option>
+								</select>   
+							</div> 	
+						</div>
+
+						
+						<div class="col-md-2">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Tipo Comissão</label>
+								<select class="form-control" name="tipo_comissao" id="tipo_comissao">
+									<option value="Porcentagem" <?php if($tipo_comissao == 'Porcentagem'){?> selected <?php } ?> >Porcentagem</option>
+									<option value="R$" <?php if($tipo_comissao == 'R$'){?> selected <?php } ?> >R$ Reais</option>
+								</select>   
+							</div> 	
+						</div>
+			
+					</div>
+
+
+						<div class="row">
+
+							<div class="col-md-4">						
+								<div class="form-group"> 
+									<label>Logo (*PNG)</label> 
+									<input class="form-control" type="file" name="foto-logo" onChange="carregarImgLogo();" id="foto-logo">
+								</div>						
+							</div>
+							<div class="col-md-2">
+								<div id="divImg">
+									<img src="../img/<?php echo $logo_sistema ?>"  width="80px" id="target-logo">									
+								</div>
+							</div>
+
+
+							<div class="col-md-4">						
+								<div class="form-group"> 
+									<label>Ícone (*Ico)</label> 
+									<input class="form-control" type="file" name="foto-icone" onChange="carregarImgIcone();" id="foto-icone">
+								</div>						
+							</div>
+							<div class="col-md-2">
+								<div id="divImg">
+									<img src="../img/<?php echo $icone_sistema ?>"  width="20px" id="target-icone">									
+								</div>
+							</div>
+
+						</div>
+
+
+
+						<div class="row">
+
+							<div class="col-md-4">						
+								<div class="form-group"> 
+									<label>Logo Relatório (*Jpg)</label> 
+									<input class="form-control" type="file" name="foto-logo-relatorio" onChange="carregarImgLogoRelatorio();" id="foto-logo-relatorio">
+								</div>						
+							</div>
+							<div class="col-md-2">
+								<div id="divImg">
+									<img src="../img/<?php echo $logo_relatorio ?>"  width="80px" id="target-logo-relatorio">									
+								</div>
+							</div>
+
+
+
+						</div>
+					
+						
+
+					<br>
+					<small><div id="mensagem-config" align="center"></div></small>
+				</div>
+				<div class="modal-footer">      
+					<button type="submit" class="btn btn-primary">Salvar Dados</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 
 
 
@@ -602,12 +800,6 @@ if(@$_GET['pagina'] == ""){
 </script>
 
 
-
-
-
-
-
-
 <script type="text/javascript">
 	function carregarImgPerfil() {
     var target = document.getElementById('target-usu');
@@ -629,3 +821,102 @@ if(@$_GET['pagina'] == ""){
 </script>
 
 
+<script type="text/javascript">
+	$("#form-config").submit(function () {
+
+		event.preventDefault();
+		var formData = new FormData(this);
+
+		$.ajax({
+			url: "editar-config.php",
+			type: 'POST',
+			data: formData,
+
+			success: function (mensagem) {
+				$('#mensagem-config').text('');
+				$('#mensagem-config').removeClass()
+				if (mensagem.trim() == "Editado com Sucesso") {
+
+					$('#btn-fechar-config').click();
+					location.reload();			
+					
+				} else {
+
+					$('#mensagem-config').addClass('text-danger')
+					$('#mensagem-config').text(mensagem)
+				}
+
+
+			},
+
+			cache: false,
+			contentType: false,
+			processData: false,
+
+		});
+
+	});
+</script>
+
+
+<script type="text/javascript">
+	function carregarImgLogo() {
+    var target = document.getElementById('target-logo');
+    var file = document.querySelector("#foto-logo").files[0];
+    
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            target.src = reader.result;
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+
+        } else {
+            target.src = "";
+        }
+    }
+</script>
+
+
+<script type="text/javascript">
+	function carregarImgLogoRelatorio() {
+    var target = document.getElementById('target-logo-relatorio');
+    var file = document.querySelector("#foto-logo-relatorio").files[0];
+    
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            target.src = reader.result;
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+
+        } else {
+            target.src = "";
+        }
+    }
+</script>
+
+
+<script type="text/javascript">
+	function carregarImgIcone() {
+    var target = document.getElementById('target-icone');
+    var file = document.querySelector("#foto-icone").files[0];
+    
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            target.src = reader.result;
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+
+        } else {
+            target.src = "";
+        }
+    }
+</script>

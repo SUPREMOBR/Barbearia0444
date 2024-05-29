@@ -148,6 +148,7 @@ HTML;
 		$('#email').val('');
 		$('#cpf').val('');
 		$('#endereco').val('');
+		$('#foto').val('');
 		$('#target').attr('src','img/perfil/sem-foto.jpg');
 	}
 </script>

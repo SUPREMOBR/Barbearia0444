@@ -87,6 +87,7 @@ HTML;
 
 	function limparCampos(){
 		$('#nome').val('');
+		
 	}
 </script>
 

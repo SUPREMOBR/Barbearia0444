@@ -45,7 +45,7 @@ if($total_registro == 0){
     	<div class="col-md-4 col-md-offset-4">
     		<div class="panel panel-sucess form-login" style="opacity:0.9; border-radius: 20px">
 			  	<div class="panel-heading" align="center" style="border-top-right-radius: 20px; border-top-left-radius: 20px">
-			    	<img src="img/favicon.ico" width="100px">
+			    	<img src="img/logo.png" width="100px">
 			 	</div>
 			  	<div class="panel-body">
 			    	<form accept-charset="UTF-8" role="form" action="autenticar.php" method="post">

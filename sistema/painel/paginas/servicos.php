@@ -5,6 +5,11 @@ require_once("../conexao.php");
 
 $pag = 'servicos';
 
+if($tipo_comissao == 'Porcentagem'){
+	$item_comissao = '(%)';
+}else{
+	$item_comissao = '(R$)';
+}
 ?>
 
 <div class="">      
@@ -66,7 +71,7 @@ $pag = 'servicos';
 										echo '<option value="'.$resultado[$i]['id'].'">'.$resultado[$i]['nome'].'</option>';
 										}
 									}else{
-											echo '<option value="0">Cadastre um Serviço</option>';
+											echo '<option value="0">Cadastre uma Categoria</option>';
 										}
 									 ?>
 									
