@@ -2,58 +2,116 @@
 @session_start();
 require_once("verificar.php");
 require_once("../conexao.php");
+
+$query = $pdo->query("SELECT * FROM clientes ");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+$total_clientes = @count($resultado);
+
+$query = $pdo->query("SELECT * FROM pagar where data_vencimento = curDate() and pago != 'Sim' ");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+$contas_pagar_hoje = @count($resultado);
+
+$query = $pdo->query("SELECT * FROM receber where data_vencimento = curDate() and pago != 'Sim' ");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+$contas_receber_hoje = @count($resultado);
+
+
+$query = $pdo->query("SELECT * FROM produtos");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+$total_registro = @count($resultado);
+$estoque_baixo = 0;
+if($total_registro > 0){
+    for($i=0; $i < $total_registro; $i++){
+    foreach ($resultado[$i] as $key => $value){}
+        $estoque = $resultado[$i]['estoque'];
+        $nivel_estoque = $resultado[$i]['nivel_estoque'];
+
+        if($nivel_estoque >= $estoque){
+            $estoque_baixo += 1;
+        }
+    }
+}
+
  ?>
 <div class="main-page">
 
 
-	<div class="col_3">
-		<div class="col-md-3 widget widget1">
-			<div class="r3_counter_box">
-				<i class="pull-left fa fa-dollar icon-rounded"></i>
-				<div class="stats">
-					<h5><strong>$452</strong></h5>
-					<span>Total Revenue</span>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-3 widget widget1">
-			<div class="r3_counter_box">
-				<i class="pull-left fa fa-laptop user1 icon-rounded"></i>
-				<div class="stats">
-					<h5><strong>$1019</strong></h5>
-					<span>Online Revenue</span>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-3 widget widget1">
-			<div class="r3_counter_box">
-				<i class="pull-left fa fa-money user2 icon-rounded"></i>
-				<div class="stats">
-					<h5><strong>$1012</strong></h5>
-					<span>Expenses</span>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-3 widget widget1">
-			<div class="r3_counter_box">
-				<i class="pull-left fa fa-pie-chart dollar1 icon-rounded"></i>
-				<div class="stats">
-					<h5><strong>$450</strong></h5>
-					<span>Expenditure</span>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-3 widget">
-			<div class="r3_counter_box">
-				<i class="pull-left fa fa-users dollar2 icon-rounded"></i>
-				<div class="stats">
-					<h5><strong>1450</strong></h5>
-					<span>Total Users</span>
-				</div>
-			</div>
-		</div>
-		<div class="clearfix"> </div>
-	</div>
+<div class="col_3">
+
+    <a href="index.php?pagina=clientes">
+    <div class="col-md-3 widget widget1">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-users icon-rounded"></i>
+            <div class="stats">
+                    <h5><strong><big><big><?php echo $total_clientes ?></big></big></strong></h5>
+
+                </div>
+                <hr style="margin-top:10px">
+                <div align="center"><span>Total de Clientes</span></div>
+        </div>
+    </div>
+    </a>
+
+
+
+     <a href="index.php?pagina=pagar">
+    <div class="col-md-3 widget widget1">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-money user1 icon-rounded"></i>
+            <div class="stats">
+                    <h5><strong><big><big><?php echo $contas_pagar_hoje ?></big></big></strong></h5>
+
+                </div>
+                <hr style="margin-top:10px">
+                <div align="center"><span>Contas à Pagar Hoje</span></div>
+        </div>
+    </div>
+    </a>
+
+
+       <a href="index.php?pagina=receber">
+    <div class="col-md-3 widget widget1">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-money dollar2 icon-rounded"></i>
+            <div class="stats">
+                    <h5><strong><big><big><?php echo $contas_receber_hoje ?></big></big></strong></h5>
+
+                </div>
+                <hr style="margin-top:10px">
+                <div align="center"><span>Contas à Receber Hoje</span></div>
+        </div>
+    </div>
+    </a>
+
+     <a href="index.php?pagina=estoque">
+    <div class="col-md-3 widget widget1">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-pie-chart dollar1 icon-rounded"></i>
+            <div class="stats">
+                    <h5><strong><big><big><?php echo $estoque_baixo ?></big></big></strong></h5>
+
+                </div>
+                <hr style="margin-top:10px">
+                <div align="center"><span>Produtos Estoque Baixo</span></div>
+        </div>
+    </div>
+</a>
+
+
+
+    <div class="col-md-3 widget">
+        <div class="r3_counter_box">
+            <i class="pull-left fa fa-usd dollar2 icon-rounded"></i>
+            <div class="stats">
+                    <h5><strong><big><big>R$ 0</big></big></strong></h5>
+
+                </div>
+                <hr style="margin-top:10px">
+                <div align="center"><span>Saldo do Dia</span></div>
+        </div>
+    </div>
+    <div class="clearfix"> </div>
+</div>
 
 
 

@@ -17,6 +17,7 @@ if($total_registro > 0){
 	$telefone_usuario = $resultado[0]['telefone'];
 	$endereco_usuario = $resultado[0]['endereco'];
 	$foto_usuario = $resultado[0]['foto'];
+	$atendimento = $resultado[0]['atendimento'];
 }
 
 if(@$_GET['pagina'] == ""){
@@ -222,9 +223,57 @@ if(@$_GET['pagina'] == ""){
 
 
                             <li class="treeview">
-								<a href="index.php?pagina=horarios">
-									<i class="fa fa-clock-o"></i> <span>Meus Horários</span>
+								<a href="#">
+									<i class="fa fa-calendar-o"></i>
+									<span>Agendamento / Serviço</span>
+									<i class="fa fa-angle-left pull-right"></i>
 								</a>
+								<ul class="treeview-menu">
+
+									<li><a href="index.php?pagina=agendamentos"><i class="fa fa-angle-right"></i>Agendamentos</a></li>
+
+									<li><a href="index.php?pagina=servicos_agenda"><i class="fa fa-angle-right"></i>Serviços</a></li>
+									
+																	
+								
+								</ul>
+							</li>
+
+
+							<?php if(@$atendimento == 'Sim'){ ?>
+							<li class="treeview">
+								<a href="index.php?pagina=agenda">
+									<i class="fa fa-calendar-o"></i> <span>Minha Agenda</span>
+								</a>
+							</li>
+							<?php } ?>
+
+
+							<?php if(@$atendimento == 'Sim'){ ?>
+							<li class="treeview">
+								<a href="index.php?pagina=meus_servicos">
+									<i class="fa fa-server"></i> <span>Meus Serviços</span>
+								</a>
+							</li>
+							<?php } ?>
+
+
+                            <li class="treeview">
+								<a href="#">
+									<i class="fa fa-usd"></i>
+									<span>Horário / Dias</span>
+									<i class="fa fa-clock-o pull-right"></i>
+								</a>
+								<ul class="treeview-menu">
+
+									<li><a href="index.php?pagina=horarios"><i class="fa fa-angle-right"></i>Meus Horários</a></li>
+									
+									<li><a href="index.php?pagina=dias"><i class="fa fa-angle-right"></i>Dias Semana</a></li>
+
+
+																		
+								
+								</ul>
 							</li>
                            
 
@@ -570,12 +619,21 @@ if(@$_GET['pagina'] == ""){
 						</div>
 					</div>
 
+					<div class="col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Atendimento</label>
+								<select class="form-control" name="atendimento" id="atendimento-perfil">
+									<option <?php if($atendimento == 'Sim'){ ?> selected <?php } ?> value="Sim">Sim</option>
+									<option <?php if($atendimento == 'Não'){ ?> selected <?php } ?> value="Não">Não</option>
+								</select>  
+							</div> 	
+						</div>
 
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group">
 								<label for="exampleInputEmail1">Endereço</label>
-								<input type="text" class="form-control" id="endereco-perfil" name="endereco" placeholder="Rua X Número 1 Bairro xxx" value="<?php echo $endereco_usuario ?>" >    
+								<input type="text" class="form-control" id="endereco-perfil" name="endereco" placeholder="Rua, Número, Bairro" value="<?php echo $endereco_usuario ?>" >    
 							</div> 	
 						</div>
 						
@@ -608,7 +666,7 @@ if(@$_GET['pagina'] == ""){
 					<small><div id="mensagem-perfil" align="center"></div></small>
 				</div>
 				<div class="modal-footer">      
-					<button type="submit" class="btn btn-primary">Editar Perfil</button>
+					<button type="submit" class="btn btn-success">Editar Perfil</button>
 				</div>
 			</form>
 		</div>
@@ -660,7 +718,7 @@ if(@$_GET['pagina'] == ""){
 
 							<div class="form-group">
 								<label for="exampleInputEmail1">Tel Fixo Barbearia</label>
-								<input type="text" class="form-control" id="telefone_fixo_sistema" name="telefone_fixo_sistema" placeholder="Fixo" value="<?php echo $telefone_fixo_sistema ?>" required>    
+								<input type="text" class="form-control" id="telefone_fixo_sistema" name="telefone_fixo_sistema" placeholder="Fixo" value="<?php echo $telefone_fixo_sistema ?>">    
 							</div> 	
 						</div>
 						<div class="col-md-8">
@@ -677,7 +735,7 @@ if(@$_GET['pagina'] == ""){
 						<div class="col-md-2">
 							<div class="form-group">
 								<label for="exampleInputEmail1">Tipo Relatório</label>
-								<select class="form-control" name="tipo_rel" id="tipo_rel">
+								<select class="form-control" name="tipo_relatorio" id="tipo_relatorio">
 									<option value="PDF" <?php if($tipo_relatorio == 'PDF'){?> selected <?php } ?> >PDF</option>
 									<option value="HTML" <?php if($tipo_relatorio == 'HTML'){?> selected <?php } ?> >HTML</option>
 								</select>   
@@ -753,7 +811,7 @@ if(@$_GET['pagina'] == ""){
 					<small><div id="mensagem-config" align="center"></div></small>
 				</div>
 				<div class="modal-footer">      
-					<button type="submit" class="btn btn-primary">Salvar Dados</button>
+					<button type="submit" class="btn btn-success">Salvar Dados</button>
 				</div>
 			</form>
 		</div>

@@ -43,7 +43,7 @@ for($i=0; $i < $total_registro; $i++){
 	
 
 	
-
+	$whats = '55'.preg_replace('/[ ()-]+/' , '' , $telefone);
 
 
 
@@ -75,6 +75,7 @@ for($i=0; $i < $total_registro; $i++){
 		</ul>
 		</li>
 
+		<big><a href="http://api.whatsapp.com/send?1=pt_BR&phone=$whats&text=" target="_blank" title="Abrir Whatsapp"><i class="fa fa-whatsapp verde"></i></a></big>
 
 
 

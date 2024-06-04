@@ -37,6 +37,7 @@ for($i=0; $i < $total_registro; $i++){
 	$telefone = $resultado[$i]['telefone'];
 	$endereco = $resultado[$i]['endereco'];
 	$foto = $resultado[$i]['foto'];
+	$atendimento = $resultado[$i]['atendimento'];
 
 	$dataFormatada = implode('/', array_reverse(explode('-', $data)));
 	
@@ -54,7 +55,8 @@ for($i=0; $i < $total_registro; $i++){
 			$classe_linha = 'text-muted';
 		}
 
-
+		$whats = '55'.preg_replace('/[ ()-]+/' , '' , $telefone);
+		
 		echo <<<HTML
 		<tr class="{$classe_linha}">
 		<td>
@@ -66,9 +68,9 @@ for($i=0; $i < $total_registro; $i++){
 		<td class="esc">{$nivel}</td>
 		<td class="esc">{$dataFormatada}</td>
 		<td>
-		<big><a href="#" onclick="editar('{$id}','{$nome}', '{$email}', '{$telefone}', '{$cpf}', '{$nivel}', '{$endereco}', '{$foto}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
+		<big><a href="#" onclick="editar('{$id}','{$nome}', '{$email}', '{$telefone}', '{$cpf}', '{$nivel}', '{$endereco}', '{$foto}', '{$atendimento}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
 
-		<big><a href="#" onclick="mostrar('{$nome}', '{$email}', '{$cpf}', '{$senha}', '{$nivel}', '{$dataFormatada}', '{$ativo}', '{$telefone}', '{$endereco}', '{$foto}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
+		<big><a href="#" onclick="mostrar('{$nome}', '{$email}', '{$cpf}', '{$senha}', '{$nivel}', '{$dataFormatada}', '{$ativo}', '{$telefone}', '{$endereco}', '{$foto}', '{$atendimento}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
 
 
 
@@ -89,6 +91,10 @@ for($i=0; $i < $total_registro; $i++){
 		<big><a href="#" onclick="ativar('{$id}', '{$acao}')" title="{$titulo_link}"><i class="fa {$icone} text-success"></i></a></big>
         
 		<a href="#" onclick="horarios('{$id}', '{$nome}')" title="Lançar Horários}"><i class="fa fa-calendar text-secondary"></i></a>
+
+		<a href="#" onclick="dias('{$id}', '{$nome}')" title="Lançar Dias"><i class="fa fa-calendar text-danger"></i></a>
+
+		<big><a href="http://api.whatsapp.com/send?1=pt_BR&phone=$whats&text=" target="_blank" title="Abrir Whatsapp"><i class="fa fa-whatsapp verde"></i></a></big>
 
 		</td>
 </tr>
@@ -122,7 +128,7 @@ HTML;
 
 
 <script type="text/javascript">
-	function editar(id, nome, email, telefone, cpf, nivel, endereco, foto){
+	function editar(id, nome, email, telefone, cpf, nivel, endereco, foto, atendimento){
 		$('#id').val(id);
 		$('#nome').val(nome);
 		$('#email').val(email);
@@ -130,7 +136,7 @@ HTML;
 		$('#cpf').val(cpf);
 		$('#cargo').val(nivel).change();
 		$('#endereco').val(endereco);
-
+        $('#atendimento').val(atendimento).change();
 		
 		$('#titulo_inserir').text('Editar Registro');
 		$('#modalform').modal('show');
@@ -153,7 +159,7 @@ HTML;
 
 
 <script type="text/javascript">
-	function mostrar(nome, email, cpf, senha, nivel, data, ativo, telefone, endereco, foto){
+	function mostrar(nome, email, cpf, senha, nivel, data, ativo, telefone, endereco, foto, atendimento){
 
 		$('#nome_dados').text(nome);
 		$('#email_dados').text(email);
@@ -164,6 +170,7 @@ HTML;
 		$('#ativo_dados').text(ativo);
 		$('#telefone_dados').text(telefone);
 		$('#endereco_dados').text(endereco);
+		$('#atendimento_dados').text(atendimento);
 
 		$('#target_mostrar').attr('src','img/perfil/' + foto);
 
@@ -180,5 +187,17 @@ HTML;
 
 		$('#modalHorarios').modal('show');
 		listarHorarios(id);
+	}
+</script>
+
+
+<script type="text/javascript">
+	function dias(id, nome){
+
+		$('#nome_dias').text(nome);		
+		$('#id_dias').val(id);		
+
+		$('#modalDias').modal('show');
+		listarDias(id);
 	}
 </script>

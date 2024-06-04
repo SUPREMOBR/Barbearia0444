@@ -97,7 +97,19 @@ $pag = 'funcionarios';
 								<input type="text" class="form-control" id="endereco" name="endereco" placeholder="Rua X Número 1 Bairro xxx" >    
 							</div> 	
 						</div>
-						
+
+
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Atendimento</label>
+								<select class="form-control" name="atendimento" id="atendimento">
+									<option value="Sim">Sim</option>
+									<option value="Não">Não</option>
+								</select>  
+							</div> 	
+						</div>
+
+
 					</div>
 
 
@@ -191,14 +203,22 @@ $pag = 'funcionarios';
 						<span><b>Ativo: </b></span>
 						<span id="ativo_dados"></span>
 					</div>		
-					<div class="col-md-5">							
+									
+				</div>
+
+                <div class="row" style="border-bottom: 1px solid #cac7c7;">
+						
+					<div class="col-md-6">							
 						<span><b>Cadastro: </b></span>
 						<span id="data_dados"></span>
+					</div>	
+
+						<div class="col-md-6">							
+						<span><b>Atendimento: </b></span>
+						<span id="atendimento_dados"></span>
 					</div>				
 
 				</div>
-
-
 
 
 
@@ -274,7 +294,62 @@ $pag = 'funcionarios';
 </div>
 
 
+<!-- Modal Dias-->
+<div class="modal fade" id="modalDias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="exampleModalLabel"><span id="nome_dias"></span></h4>
+				<button id="btn-fechar-dias" type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px">
+					<span aria-hidden="true" >&times;</span>
+				</button>
+			</div>
+			
+			<div class="modal-body">
+				<form id="form-dias">
+				<div class="row">
+					<div class="col-md-4">						
+						<div class="form-group">
+							<label for="exampleInputEmail1">Dias</label>
+							 	
+								<select class="form-control" id="dias" name="dias" required > 
+									<option value="Segunda-Feira">Segunda-Feira</option>	
+									<option value="Terça-Feira">Terça-Feira</option>
+									<option value="Quarta-Feira">Quarta-Feira</option>
+									<option value="Quinta-Feira">Quinta-Feira</option>
+									<option value="Sexta-Feira">Sexta-Feira</option>
+									<option value="Sábado">Sábado</option>
+									<option value="Domingo">Domingo</option>
+													
 
+								</select>   
+							
+						</div> 	
+					</div>
+
+					<div class="col-md-4">						
+						<button type="submit" class="btn btn-primary" style="margin-top:20px">Salvar</button>
+					</div>
+
+					<input type="hidden" name="id" id="id_dias">
+
+				</div>
+				</form>
+
+				<hr>
+				<div class="" id="listar-dias">
+					
+				</div>
+
+				<br>
+				<small><div id="mensagem-dias"></div></small>
+
+			</div>
+
+			
+		</div>
+	</div>
+</div>
 
 <script type="text/javascript">var pag = "<?=$pag?>"</script>
 <script src="js/ajax.js"></script>
@@ -372,6 +447,68 @@ $("#form-horarios").submit(function () {
         success:function(result){
             $("#listar-horarios").html(result);
             $('#mensagem-horario-excluir').text('');
+        }
+    });
+}
+
+</script>
+
+
+<script type="text/javascript">
+	
+
+$("#form-dias").submit(function () {
+
+	var funcionario = $("#id_dias").val();
+    event.preventDefault();
+    var formData = new FormData(this);
+
+    $.ajax({
+        url: 'paginas/' + pag + "/inserir-dias.php",
+        type: 'POST',
+        data: formData,
+
+        success: function (mensagem) {
+            $('#mensagem-dias').text('');
+            $('#mensagem-dias').removeClass()
+            if (mensagem.trim() == "Salvo com Sucesso") {
+
+                //$('#btn-fechar-dias').click();
+                listarDias(funcionario);          
+
+            } else {
+
+                $('#mensagem-dias').addClass('text-danger')
+                $('#mensagem-dias').text(mensagem)
+            }
+
+
+        },
+
+        cache: false,
+        contentType: false,
+        processData: false,
+
+    });
+
+});
+
+
+</script>
+
+
+<script type="text/javascript">
+	function listarDias(funcionario){
+		
+    $.ajax({
+        url: 'paginas/' + pag + "/listar-dias.php",
+        method: 'POST',
+        data: {funcionario},
+        dataType: "html",
+
+        success:function(result){
+            $("#listar-dias").html(result);
+            $('#mensagem-dias-excluir').text('');
         }
     });
 }

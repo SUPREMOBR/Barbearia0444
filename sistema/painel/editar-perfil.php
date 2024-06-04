@@ -10,6 +10,7 @@ $senha = $_POST['senha'];
 $conf_senha = $_POST['conf_senha'];
 $endereco = $_POST['endereco'];
 $senha_crip = md5($senha);
+$atendimento = $_POST['atendimento'];
 
 $foto = '';
 
@@ -76,7 +77,7 @@ if(@$_FILES['foto']['name'] != ""){
 
 
 
-$query = $pdo->prepare("UPDATE usuarios01 SET nome = :nome, email = :email, telefone = :telefone, cpf = :cpf, senha = :senha, senha_crip = '$senha_crip', endereco = :endereco, foto = '$foto' WHERE id = '$id'");
+$query = $pdo->prepare("UPDATE usuarios01 SET nome = :nome, email = :email, telefone = :telefone, cpf = :cpf, senha = :senha, senha_crip = '$senha_crip', endereco = :endereco, foto = '$foto', atendimento = '$atendimento' WHERE id = '$id'");
 
 $query->bindValue(":nome", "$nome");
 $query->bindValue(":email", "$email");

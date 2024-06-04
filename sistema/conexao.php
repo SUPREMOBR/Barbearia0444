@@ -15,7 +15,7 @@ echo 'Não conectado ao Banco de Dados! <br><br>'  .$erro;
 
 
 //VARIAVEIS DO SISTEMA
-$nome_sistema = 'Salão Lima';
+$nome_sistema = 'Barbearia Lima';
 $email_sistema = 'nagatabrisa.05@gmail.com';
 $whatsapp_sistema = '(96) 99182-7077';
 

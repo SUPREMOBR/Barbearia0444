@@ -1,10 +1,10 @@
 body{
-	background-color: #4ada1e;
+	background-image: linear-gradient(100deg,rgb(8, 90, 8), rgb(55, 160, 6));
    
 }
 
  .form-login{
-    padding-bottom:: 50px 0px;
+    padding-bottom:50px 0px;
 }   
 
 .vertical-offset-100{

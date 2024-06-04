@@ -1,6 +1,6 @@
 <?php 
 require_once("../../../conexao.php");
-$tabela = 'pagar';
+$tabela = 'receber';
 $data_hoje = date('Y-m-d');
 
 $dataInicial = @$_POST['dataInicial'];
@@ -22,12 +22,12 @@ if($total_registro > 0){
 	<table class="table table-hover" id="tabela">
 	<thead> 
 	<tr> 
-	<th>Produto</th>	
+	<th>Descrição</th>	
 	<th class="esc">Valor</th> 	
 	<th class="esc">Vencimento</th> 	
 	<th class="esc">Data Pagamento</th> 
-	
-	<th class="esc">Fornecedor</th>	
+	<th class="esc">Usuário Pagamento</th>
+	<th class="esc">Cliente</th>	
 	<th class="esc">Arquivo</th>	
 	<th>Ações</th>
 	</tr> 
@@ -51,7 +51,6 @@ for($i=0; $i < $total_registro; $i++){
 	$usuario_baixa = $resultado[$i]['usuario_baixa'];
 	$foto = $resultado[$i]['foto'];
 	$pessoa = $resultado[$i]['pessoa'];
-	$produto = $resultado[$i]['produto'];
 	$pago = $resultado[$i]['pago'];
 	
 	$valorFormatado = number_format($valor, 2, ',', '.');
@@ -61,19 +60,21 @@ for($i=0; $i < $total_registro; $i++){
 	$data_vencimentoFormatado = implode('/', array_reverse(explode('-', $data_vencimento)));
 
 
-	$query2 = $pdo->query("SELECT * FROM fornecedores where id = '$pessoa'");
+	$query2 = $pdo->query("SELECT * FROM clientes where id = '$pessoa'");
 		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 		$total_registro2 = @count($resultado2);
 		if($total_registro2 > 0){
 			$nome_pessoa = $resultado2[0]['nome'];
 			$telefone_pessoa  = $resultado2[0]['nome'];
+			$classe_whats = '';
 		}else{
 			$nome_pessoa = 'Sem Referência!';
 			$telefone_pessoa = '';
+			$classe_whats = 'ocultar';
 		}
 
 
-	$query2 = $pdo->query("SELECT * FROM fornecedores where id = '$usuario_baixa'");
+	$query2 = $pdo->query("SELECT * FROM clientes where id = '$usuario_baixa'");
 	    $resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 	    $total_registro2 = @count($resultado2);
 	    if($total_registro2 > 0){
@@ -83,7 +84,7 @@ for($i=0; $i < $total_registro; $i++){
 		}
 	
 
-	$query2 = $pdo->query("SELECT * FROM fornecedores where id = '$$usuario_lancou'");
+	$query2 = $pdo->query("SELECT * FROM clientes where id = '$$usuario_lancou'");
 	    $resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 	    $total_registro2 = @count($resultado2);
 	    if($total_registro2 > 0){
@@ -122,6 +123,13 @@ if($data_vencimento < $data_hoje and $pago != 'Sim'){
 	$classe_debito = '';
 }
 
+if($pago == 'Sim'){
+	$classe_cor_whats = 'verde';
+}else{
+	$classe_cor_whats = 'text-danger';
+}
+		$whats = '55'.preg_replace('/[ ()-]+/' , '' , $telefone_pessoa);
+
 
 		echo <<<HTML
 		<tr class="{$classe_debito}">
@@ -129,11 +137,13 @@ if($data_vencimento < $data_hoje and $pago != 'Sim'){
 		<td class="esc">R$ {$valorFormatado}</td>
 		<td class="esc">{$data_vencimentoFormatado}</td>
 		<td class="esc">{$data_pagamentoFormatado}</td>
+		<td class="esc">{$nome_usuario_pagamento}</td>
 		<td class="esc">{$nome_pessoa}</td>
 		<td><a href="img/contas/{$foto}" target="_blank"><img src="img/contas/{$tumb_arquivo}" width="27px" class="mr-2"></a></td>
 		<td>
-        
-		<big><a href="#" onclick="mostrar('{$descricao}', '{$valorFormatado}', '{$data_lancamentoFormatado}', '{$data_vencimentoFormatado}',  '{$data_pagamentoFormatado}', '{$nome_usuario_lancou}', '{$nome_usuario_pagamento}', '{$tumb_arquivo}', '{$nome_pessoa}', '{$foto}', '{$telefone_pessoa}'))" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
+        <big><a href="#" onclick="editar('{$id}','{$descricao}', '{$pessoa}', '{$valor}', '{$data_vencimento}', '{$data_pagamento}', '{$tumb_arquivo}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
+
+		<big><a href="#" onclick="mostrar('{$descricao}', '{$valorFormatado}', '{$data_lancamentoFormatado}', '{$data_vencimentoFormatado}',  '{$data_pagamentoFormatado}', '{$nome_usuario_lancou}', '{$nome_usuario_pagamento}', '{$tumb_arquivo}', '{$nome_pessoa}', '{$foto}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
 
 
 
@@ -163,6 +173,9 @@ if($data_vencimento < $data_hoje and $pago != 'Sim'){
 		</li>
 
 
+		<big><a href="http://api.whatsapp.com/send?1=pt_BR&phone=$whats&text=Ola, {$nome_pessoa} Lembrete de vencimento de pagamento no dia: {$data_vencimentoFormatado} no valor de: R$ {$valorFormatado}." target="_blank" title="Abrir Whatsapp" class="{$classe_whats}"><i class="fa fa-whatsapp {$classe_cor_whats}"></i></a></big>
+
+
 		</td>
 </tr>
 HTML;
@@ -179,8 +192,8 @@ echo <<<HTML
 </table>
 
 <br>	
-<div align="right">Total Pago: <span class="verde">R$ {$total_pagoFormatado}</span> </div>
-<div align="right">Total à Pagar: <span class="text-danger">R$ {$total_a_pagarFormatado}</span> </div>
+<div align="right">Total Recebido: <span class="verde">R$ {$total_pagoFormatado}</span> </div>
+<div align="right">Total à Receber: <span class="text-danger">R$ {$total_a_pagarFormatado}</span> </div>
 
 </small>
 HTML;
@@ -220,19 +233,17 @@ HTML;
 	function limparCampos(){
 		$('#id').val('');
 		$('#descricao').val('');
-		$('#pessoa').val(0).change();
 		$('#valor').val('');
 		$('#data_pagamento').val('');
 		$('#data_vencimento').val('<?=$data_hoje?>');		
 		$('#foto').val('');
-		$('#quantidade').val('1');
 
 		$('#target').attr('src','img/contas/sem-foto.jpg');
 	}
 </script>
 
 <script type="text/javascript">
-	function mostrar(descricao, valor, data_lancamento, data_vencimento, data_pagamento, usuario_lancou, usuario_pagamento, foto, pessoa, link, telefone){
+	function mostrar(descricao, valor, data_lancamento, data_vencimento, data_pagamento, usuario_lancou, usuario_pagamento, foto, pessoa, link){
 
 		$('#nome_dados').text(descricao);
 		$('#valor_dados').text(valor);
@@ -242,7 +253,6 @@ HTML;
 		$('#usuario_lancou_dados').text(usuario_lancou);
 		$('#usuario_baixa_dados').text(usuario_pagamento);
 		$('#pessoa_dados').text(pessoa);
-		$('#telefone_dados').text(telefone);
 		
 		$('#link_mostrar').attr('href','img/contas/' + link);
 		$('#target_mostrar').attr('src','img/contas/' + foto);
@@ -273,6 +283,8 @@ HTML;
 		$('#modalEntrada').modal('show');
 	}
 </script>
+
+
 
 
 

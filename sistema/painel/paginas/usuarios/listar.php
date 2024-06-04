@@ -36,6 +36,7 @@ for($i=0; $i < $total_registro; $i++){
 	$telefone = $resultado[$i]['telefone'];
 	$endereco = $resultado[$i]['endereco'];
 	$foto = $resultado[$i]['foto'];
+	$atendimento = $resultado[$i]['atendimento'];
 
 	$dataFormatada = implode('/', array_reverse(explode('-', $data)));
 	
@@ -70,9 +71,9 @@ echo <<<HTML
 <td class="esc">{$nivel}</td>
 <td class="esc">{$dataFormatada}</td>
 <td>
-		<big><a href="#" onclick="editar('{$id}','{$nome}', '{$email}', '{$telefone}', '{$cpf}', '{$nivel}', '{$endereco}', '{$foto}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
+		<big><a href="#" onclick="editar('{$id}','{$nome}', '{$email}', '{$telefone}', '{$cpf}', '{$nivel}', '{$endereco}', '{$foto}', '{$atendimento}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
 
-		<big><a href="#" onclick="mostrar('{$nome}', '{$email}', '{$cpf}', '{$senhaFormatada}', '{$nivel}', '{$dataFormatada}', '{$ativo}', '{$telefone}', '{$endereco}', '{$foto}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
+		<big><a href="#" onclick="mostrar('{$nome}', '{$email}', '{$cpf}', '{$senhaFormatada}', '{$nivel}', '{$dataFormatada}', '{$ativo}', '{$telefone}', '{$endereco}', '{$foto}', '{$atendimento}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
 
 
 
@@ -125,7 +126,7 @@ HTML;
 
 
 <script type="text/javascript">
-	function editar(id, nome, email, telefone, cpf, nivel, endereco, foto){
+	function editar(id, nome, email, telefone, cpf, nivel, endereco, foto, atendimento){
 		$('#id').val(id);
 		$('#nome').val(nome);
 		$('#email').val(email);
@@ -133,10 +134,11 @@ HTML;
 		$('#cpf').val(cpf);
 		$('#cargo').val(nivel).change();
 		$('#endereco').val(endereco);
+		$('#atendimento').val(atendimento);
 
 		
 		$('#titulo_inserir').text('Editar Registro');
-		$('#modalForm').modal('show');
+		$('#modalform').modal('show');
 
 		$('#target').attr('src','img/perfil/' + foto);
 	}
@@ -156,7 +158,7 @@ HTML;
 
 
 <script type="text/javascript">
-	function mostrar(nome, email, cpf, senha, nivel, data, ativo, telefone, endereco, foto){
+	function mostrar(nome, email, cpf, senha, nivel, data, ativo, telefone, endereco, foto, atendimento){
 
 		$('#nome_dados').text(nome);
 		$('#email_dados').text(email);
@@ -167,6 +169,7 @@ HTML;
 		$('#ativo_dados').text(ativo);
 		$('#telefone_dados').text(telefone);
 		$('#endereco_dados').text(endereco);
+		$('#atendimento_dados').text(atendimento);
 
 		$('#target_mostrar').attr('src','img/perfil/' + foto);
 

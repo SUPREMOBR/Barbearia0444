@@ -1,7 +1,6 @@
 /*
 Monthly 2.0.5 by Kevin Thornbloom is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.
 */
-
 (function($) {
 	$.fn.extend({
 		monthly: function(options) {
@@ -18,6 +17,7 @@ Monthly 2.0.5 by Kevin Thornbloom is licensed under a Creative Commons Attributi
 				showTrigger: '',
 				stylePast: false,
 				disablePast: false
+				
 			}
 
 			var options = $.extend(defaults, options),
@@ -27,8 +27,8 @@ Monthly 2.0.5 by Kevin Thornbloom is licensed under a Creative Commons Attributi
 				currentMonth = d.getMonth() + 1,
 				currentYear = d.getFullYear(),
 				currentDay = d.getDate(),
-				monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-				dayNames = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+				monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+				dayNames = ['DOM','SEG','TER','QUA','QUI','SEX','SAB'];
 
 		if (options.maxWidth != false){
 			$('#'+uniqueId).css('maxWidth',options.maxWidth);
@@ -57,7 +57,7 @@ Monthly 2.0.5 by Kevin Thornbloom is licensed under a Creative Commons Attributi
 
 		// Add Day Of Week Titles
 		if (options.weekStart == 'Sun') {
-			$('#' + uniqueId).append('<div class="monthly-day-title-wrap"><div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div></div><div class="monthly-day-wrap"></div>');
+			$('#' + uniqueId).append('<div class="monthly-day-title-wrap"><div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sab</div></div><div class="monthly-day-wrap"></div>');
 		} else if (options.weekStart == 'Mon') {
 			$('#' + uniqueId).append('<div class="monthly-day-title-wrap"><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div><div>Sun</div></div><div class="monthly-day-wrap"></div>');
 		} else {
@@ -74,6 +74,7 @@ Monthly 2.0.5 by Kevin Thornbloom is licensed under a Creative Commons Attributi
 
 		// Massive function to build the month
 		function setMonthly(m, y){
+
 			$('#' + uniqueId).data('setMonth', m).data('setYear', y);
 
 			// Get number of days
@@ -81,6 +82,21 @@ Monthly 2.0.5 by Kevin Thornbloom is licensed under a Creative Commons Attributi
 				// Get day of the week the first day is
 				mZeroed = m -1,
 				firstDay = new Date(y, mZeroed, 1, 0, 0, 0, 0).getDay();
+
+				//montar data inicial mes e final
+				if(m < 10){
+					m2 = '0' + m;
+				}else{
+					m2 = m;
+				}
+				dataInicioMes = y + '-' + m2 + '-' + '01';
+				$('#data_inicio_mes').val(dataInicioMes);
+
+				dataFinalMes = y + '-' + m2 + '-' + dayQty;
+				$('#data_final_mes').val(dataFinalMes);				
+				listar();
+
+				
 
 			// Remove old days
 			$('#' + uniqueId + ' .monthly-day, #' + uniqueId + ' .monthly-day-blank').remove();
@@ -92,7 +108,29 @@ Monthly 2.0.5 by Kevin Thornbloom is licensed under a Creative Commons Attributi
 					var day = i + 1; // Fix 0 indexed days
 					var dayNamenum = new Date(y, mZeroed, day, 0, 0, 0, 0).getDay()
 
-					$('#' + uniqueId + ' .monthly-day-wrap').append('<a href="#" class="m-d monthly-day monthly-day-event" data-number="'+day+'"><div class="monthly-day-number">'+day+'</div><div class="monthly-indicator-wrap"></div></a>');
+					if($('#dias_busca').val() != undefined && $('#dias_busca_anterior').val() != undefined){
+						
+						if(m == currentMonth){
+							var dias_busca = $('#dias_busca').val();
+						}else if(m == (currentMonth - 1)){
+							var dias_busca = $('#dias_busca_anterior').val();
+						}else{
+							var dias_busca = '';
+						}
+						
+						var dias = dias_busca.split("-");
+
+						if(dias[i] == day){
+							classe = 'monthly-day-number3';
+						}else{
+							classe = '';
+						}	
+					}else{
+						classe = '';
+					}
+					
+
+					$('#' + uniqueId + ' .monthly-day-wrap').append('<a href="#" class="m-d monthly-day monthly-day-event" data-number="'+day+'"><div class="monthly-day-number '+classe+'">'+day+'</div><div class="monthly-indicator-wrap"></div></a>');
 					$('#' + uniqueId + ' .monthly-event-list').append('<div class="monthly-list-item" id="'+uniqueId+'day'+day+'" data-number="'+day+'"><div class="monthly-event-list-date">'+dayNames[dayNamenum]+'<br>'+day+'</div></div>');
 				}
 			} else {
@@ -337,38 +375,37 @@ Monthly 2.0.5 by Kevin Thornbloom is licensed under a Creative Commons Attributi
 
 		// Click A Day
 		$(document.body).on('click', '#'+uniqueId+' a.monthly-day', function (e) {
-			// If events, show events list
-			if(options.mode == 'event' && options.eventList == true) {
-				var whichDay = $(this).data('number');
-				$('#' + uniqueId+' .monthly-event-list').show();
-				$('#' + uniqueId+' .monthly-event-list').css('transform');
-				$('#' + uniqueId+' .monthly-event-list').css('transform','scale(1)');
-				$('#'+uniqueId+' .monthly-list-item[data-number="'+whichDay+'"]').show();
 
-				var myElement = document.getElementById(uniqueId+'day'+whichDay);
-				var topPos = myElement.offsetTop;
-				//document.getElementByClassname('scrolling_div').scrollTop = topPos;
-				$('#'+uniqueId+' .monthly-event-list').scrollTop(topPos);
-				viewToggleButton();
-			// If picker, pick date
-			} else if (options.mode == 'picker') {
-				var whichDay = $(this).data('number'),
-				setMonth = $('#' + uniqueId).data('setMonth'),
-				setYear = $('#' + uniqueId).data('setYear');
+			setMonth = $('#' + uniqueId).data('setMonth'),
+			setYear = $('#' + uniqueId).data('setYear');
+			var dia = $(this).data('number');		
+					
 
-				// Should days in the past be disabled?
-				if($(this).hasClass('monthly-past-day') && options.disablePast == true) {
-					// If so, don't do anything.
-					e.preventDefault();
-				} else {
-					// Otherwise, select the date ...
-					$(''+options.target+'').val(setMonth+'/'+whichDay+'/'+setYear);
-					// ... and then hide the calendar if it started that way
-					if(options.startHidden == true) {
-						$('#'+uniqueId).hide();
-					}
-				}
+			$('#' + uniqueId + ' *[data-number]').removeClass('monthly-today');
+			$('#' + uniqueId + ' *[data-number="'+currentDay+'"]').removeClass('monthly-today2');
+			if(dia != currentDay && setMonth == currentMonth){
+				$('#' + uniqueId + ' *[data-number="'+currentDay+'"]').addClass('monthly-today2');
 			}
+			
+			$('#' + uniqueId + ' *[data-number="'+dia+'"]').addClass('monthly-today');
+
+			if(dia < 10){
+				dia = '0' + dia;
+			}
+
+			if(setMonth < 10){
+				setMonth = '0' + setMonth;
+			}
+
+			var dataFormatada = setYear + '-' + setMonth + '-' + dia;
+
+			//DEFINIR DATA PARA O INPUT
+			$('#data_agenda').val(dataFormatada);
+			listar();
+			
+			buscarData();
+			buscarDataAnterior()
+
 			e.preventDefault();
 		});
 

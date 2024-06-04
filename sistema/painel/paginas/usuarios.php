@@ -92,13 +92,24 @@ $pag = 'usuarios';
 					
 
 					<div class="row">
-						<div class="col-md-12">
+						<div class="col-md-9">
 							<div class="form-group">
 								<label for="exampleInputEmail1">Endereço</label>
 								<input type="text" class="form-control" id="endereco" name="endereco" placeholder="Rua X Número 1 Bairro xxx" >    
 							</div> 	
 						</div>
-						
+
+
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Atendimento</label>
+								<select class="form-control" name="atendimento" id="atendimento">
+									<option value="Sim">Sim</option>
+									<option value="Não">Não</option>
+								</select>  
+							</div> 	
+						</div>
+					
 					</div>
 
 
@@ -191,15 +202,23 @@ $pag = 'usuarios';
 					<div class="col-md-3">							
 						<span><b>Ativo: </b></span>
 						<span id="ativo_dados"></span>
-					</div>		
-					<div class="col-md-5">							
-						<span><b>Cadastro: </b></span>
-						<span id="data_dados"></span>
 					</div>				
 
 				</div>
 
+                <div class="row" style="border-bottom: 1px solid #cac7c7;">
+						
+					<div class="col-md-6">							
+						<span><b>Cadastro: </b></span>
+						<span id="data_dados"></span>
+					</div>	
 
+						<div class="col-md-6">							
+						<span><b>Atendimento: </b></span>
+						<span id="atendimento_dados"></span>
+					</div>				
+
+				</div>
 
 
 
@@ -239,7 +258,7 @@ $pag = 'usuarios';
 <script type="text/javascript">
 	$(document).ready(function() {
     $('.sel2').select2({
-    	dropdownParent: $('#modalForm')
+    	dropdownParent: $('#modalform')
     });
 
 

@@ -8478,3 +8478,19 @@ h4.asd label {
 .ocultar{
   display:none;
 }
+
+.vermelho-escuro{
+  color: #4f0202;
+}
+
+.cardTarefas{
+  margin-bottom: 10px; 
+  margin-left:9px;
+}
+
+@media only screen and (max-width: 700px) {
+  .cardTarefas{
+    margin-bottom: 10px; 
+    margin-left:5px;
+  }
+}

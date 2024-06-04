@@ -3,7 +3,7 @@
 require_once("verificar.php");
 require_once("../conexao.php");
 
-$pag = 'compras';
+$pag = 'receber';
 
 
 
@@ -27,7 +27,7 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 ?>
 
 <div class="">      
-	<a class="btn btn-success" onclick="inserir()" class="btn btn-success btn-flat btn-pri"><i class="fa fa-plus" aria-hidden="true"></i> Nova Compra</a>
+	<a class="btn btn-success" onclick="inserir()" class="btn btn-success btn-flat btn-pri"><i class="fa fa-plus" aria-hidden="true"></i> Nova Conta</a>
 </div>
 
 <div class="bs-example widget-shadow" style="padding:15px">
@@ -96,40 +96,22 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 					<div class="row">
 					    <div class="col-md-6">
 							<div class="form-group">
-							   <label for="exampleInputEmail1">Produto</label>
-							   <select class="form-control sel2" id="produto" name="produto" style="width:100%;" > 
-
-                               <?php 
-									$query = $pdo->query("SELECT * FROM produtos ORDER BY nome asc");
-									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
-									$total_registro = @count($resultado);
-
-									if($total_registro > 0){
-										for($i=0; $i < $total_registro; $i++){
-										foreach ($resultado[$i] as $key => $value){}
-										echo '<option value="'.$resultado[$i]['id'].'">'.$resultado[$i]['nome'].'</option>';
-										}
-									}else{
-										echo '<option value="0">Cadastre um Produto</option>';
-									}
-									?>
-									
-
-								</select>   
+								<label for="exampleInputEmail1">Descrição</label>
+								<input type="text" class="form-control" id="descricao" name="descricao" placeholder="Descrição da Conta" >    
 							</div> 	
 						</div>
 						<div class="col-md-5">
 							
 							<div class="form-group">
-								<label for="exampleInputEmail1">Fornecedor</label>
+								<label for="exampleInputEmail1">Cliente</label>
 								<select class="form-control sel2" id="pessoa" name="pessoa" style="width:100%;" > 
 
 									<?php 
-									$query = $pdo->query("SELECT * FROM fornecedores ORDER BY nome asc");
+									$query = $pdo->query("SELECT * FROM clientes ORDER BY nome asc");
 									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 									$total_registro = @count($resultado);
 
-									echo '<option value="0">Selecione um Fornecedor</option>';
+									echo '<option value="0">Selecione um Cliente</option>';
 
 									if($total_registro > 0){
 										for($i=0; $i < $total_registro; $i++){
@@ -143,24 +125,15 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 								</select>   
 							</div> 	
 						</div>
-
-						   <div class="col-md-3">
-
-                               <div class="form-group">
-                                 <label for="exampleInputEmail1">Quantidade</label>
-                                 <input type="number" class="form-control" id="quantidade" name="quantidade" placeholder="Quantidade" required>    
-                               </div> 	
-                             </div>	
-
 					</div>
-                        
+
 
 					<div class="row">
 
 						<div class="col-md-4">
 
 							<div class="form-group">
-								<label for="exampleInputEmail1">Valor Total Compra</label>
+								<label for="exampleInputEmail1">Valor</label>
 								<input type="text" class="form-control" id="valor" name="valor" placeholder="Valor" required>    
 							</div> 	
 						</div>					
@@ -191,7 +164,7 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 					<div class="row">
 						<div class="col-md-8">						
 							<div class="form-group"> 
-								<label>Arquivo (Nota Fiscal)</label> 
+								<label>Arquivo</label> 
 								<input class="form-control" type="file" name="foto" onChange="carregarImg();" id="foto">
 							</div>						
 						</div>
@@ -287,14 +260,10 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 				<div class="row" style="border-bottom: 1px solid #cac7c7;">
 					
 					<div class="col-md-8">							
-						<span><b>Fornecedor: </b></span>
+						<span><b>Cliente: </b></span>
 						<span id="pessoa_dados"></span>							
 					</div>
-                     
-					<div class="col-md-8">							
-						<span><b>Telefone: </b></span>
-						<span id="telefone_dados"></span>							
-					</div>
+
 
 				</div>
 
@@ -325,7 +294,7 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 <script type="text/javascript">
 	$(document).ready(function() {
     $('.sel2').select2({
-    	dropdownParent: $('#modalForm')
+    	dropdownParent: $('#modalform')
     });
 
 

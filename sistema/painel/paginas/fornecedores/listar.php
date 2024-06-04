@@ -34,6 +34,7 @@ for($i=0; $i < $total_registro; $i++){
 	
 	$data_cadastroFormatada = implode('/', array_reverse(explode('-', $data_cadastro)));
 	
+	$whats = '55'.preg_replace('/[ ()-]+/' , '' , $telefone);
 	
 	echo <<<HTML
 	<tr class="">
@@ -60,7 +61,7 @@ for($i=0; $i < $total_registro; $i++){
 		</ul>
 		</li>
 
-
+        <big><a href="http://api.whatsapp.com/send?1=pt_BR&phone=$whats&text=" target="_blank" title="Abrir Whatsapp"><i class="fa fa-whatsapp verde"></i></a></big>
 
 
 		</td>

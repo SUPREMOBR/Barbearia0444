@@ -1,6 +1,6 @@
 <?php 
 require_once("../../../conexao.php");
-$tabela = 'pagar';
+$tabela = 'receber';
 $data_hoje = date('Y-m-d');
 
 $dataInicial = @$_POST['dataInicial'];
@@ -11,8 +11,7 @@ $status = '%'.@$_POST['status'].'%';
 $total_pago = 0;
 $total_a_pagar = 0;
 
-$query = $pdo->query("SELECT * FROM $tabela where data_vencimento >= '$dataInicial' and data_vencimento <= '$dataFinal' and pago LIKE '$status' 
-ORDER BY pago asc, data_vencimento asc");
+$query = $pdo->query("SELECT * FROM $tabela where data_vencimento >= '$dataInicial' and data_vencimento <= '$dataFinal' and pago LIKE '$status' and produto != 0 ORDER BY pago asc, data_vencimento asc");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
 if($total_registro > 0){
@@ -27,7 +26,7 @@ if($total_registro > 0){
 	<th class="esc">Vencimento</th> 	
 	<th class="esc">Data Pagamento</th> 
 	
-	<th class="esc">Fornecedor</th>	
+	<th class="esc">Cliente</th>	
 	<th class="esc">Arquivo</th>	
 	<th>Ações</th>
 	</tr> 
@@ -61,7 +60,7 @@ for($i=0; $i < $total_registro; $i++){
 	$data_vencimentoFormatado = implode('/', array_reverse(explode('-', $data_vencimento)));
 
 
-	$query2 = $pdo->query("SELECT * FROM fornecedores where id = '$pessoa'");
+	$query2 = $pdo->query("SELECT * FROM clientes where id = '$pessoa'");
 		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 		$total_registro2 = @count($resultado2);
 		if($total_registro2 > 0){
@@ -73,7 +72,7 @@ for($i=0; $i < $total_registro; $i++){
 		}
 
 
-	$query2 = $pdo->query("SELECT * FROM fornecedores where id = '$usuario_baixa'");
+	$query2 = $pdo->query("SELECT * FROM usuarios where id = '$usuario_baixa'");
 	    $resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 	    $total_registro2 = @count($resultado2);
 	    if($total_registro2 > 0){
@@ -83,7 +82,7 @@ for($i=0; $i < $total_registro; $i++){
 		}
 	
 
-	$query2 = $pdo->query("SELECT * FROM fornecedores where id = '$$usuario_lancou'");
+	$query2 = $pdo->query("SELECT * FROM usuarios where id = '$$usuario_lancou'");
 	    $resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 	    $total_registro2 = @count($resultado2);
 	    if($total_registro2 > 0){
@@ -179,8 +178,8 @@ echo <<<HTML
 </table>
 
 <br>	
-<div align="right">Total Pago: <span class="verde">R$ {$total_pagoFormatado}</span> </div>
-<div align="right">Total à Pagar: <span class="text-danger">R$ {$total_a_pagarFormatado}</span> </div>
+<div align="right">Total Recebido: <span class="verde">R$ {$total_pagoFormatado}</span> </div>
+<div align="right">Total à Receber: <span class="text-danger">R$ {$total_a_pagarFormatado}</span> </div>
 
 </small>
 HTML;
@@ -220,7 +219,6 @@ HTML;
 	function limparCampos(){
 		$('#id').val('');
 		$('#descricao').val('');
-		$('#pessoa').val(0).change();
 		$('#valor').val('');
 		$('#data_pagamento').val('');
 		$('#data_vencimento').val('<?=$data_hoje?>');		
@@ -228,6 +226,7 @@ HTML;
 		$('#quantidade').val('1');
 
 		$('#target').attr('src','img/contas/sem-foto.jpg');
+		calcular()
 	}
 </script>
 
