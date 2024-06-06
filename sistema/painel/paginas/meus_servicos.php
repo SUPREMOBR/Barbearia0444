@@ -6,6 +6,7 @@ require_once("../conexao.php");
 $pag = 'meus_servicos';
 
 
+
 $data_hoje = date('Y-m-d');
 $data_ontem = date('Y-m-d', strtotime("-1 days",strtotime($data_hoje)));
 
@@ -23,43 +24,43 @@ if($mes_atual == '4' || $mes_atual == '6' || $mes_atual == '9' || $mes_atual == 
 
 $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 
-
 ?>
 
 <div class="">      
-	<a class="btn btn-primary" onclick="inserir()" class="btn btn-primary btn-flat btn-pri"><i class="fa fa-plus" aria-hidden="true"></i> Novo Serviço</a>
+	<a class="btn btn-success" onclick="inserir()" class="btn btn-success btn-flat btn-pri"><i class="fa fa-plus" aria-hidden="true"></i> Novo Serviço</a>
 </div>
 
 <div class="bs-example widget-shadow" style="padding:15px">
+	
+<div class="row">
 
-	<div class="row">
-		<div class="col-md-5" style="margin-bottom:5px;">
-			<div style="float:left; margin-right:10px"><span><small><i title="Data de Vencimento Inicial" class="fa fa-calendar-o"></i></small></span></div>
-			<div  style="float:left; margin-right:20px">
-				<input type="date" class="form-control " name="data-inicial"  id="data-inicial-caixa" value="<?php echo $data_hoje ?>" required>
-			</div>
+<div class="col-md-5" style="margin-bottom:5px;">			
 
-			<div style="float:left; margin-right:10px"><span><small><i title="Data de Vencimento Final" class="fa fa-calendar-o"></i></small></span></div>
-			<div  style="float:left; margin-right:30px">
-				<input type="date" class="form-control " name="data-final"  id="data-final-caixa" value="<?php echo $data_hoje ?>" required>
-			</div>
-		</div>
+	<div style="float:left; margin-right:10px"><span><small><i title="Data de Vencimento Inicial" class="fa fa-calendar-o"></i></small></span></div>
+	<div  style="float:left; margin-right:20px">
+		<input type="date" class="form-control " name="data-inicial"  id="data-inicial-caixa" value="<?php echo $data_inicio_mes ?>" required>
+	</div>
 
-
-		
-		<div class="col-md-2" style="margin-top:5px;" align="center">	
-			<div > 
-				<small >
-					<a title="Conta de Ontem" class="text-muted" href="#" onclick="valorData('<?php echo $data_ontem ?>', '<?php echo $data_ontem ?>')"><span>Ontem</span></a> / 
-					<a title="Conta de Hoje" class="text-muted" href="#" onclick="valorData('<?php echo $data_hoje ?>', '<?php echo $data_hoje ?>')"><span>Hoje</span></a> / 
-					<a title="Conta do Mês" class="text-muted" href="#" onclick="valorData('<?php echo $data_inicio_mes ?>', '<?php echo $data_final_mes ?>')"><span>Mês</span></a>
-				</small>
-			</div>
-		</div>
+	<div style="float:left; margin-right:10px"><span><small><i title="Data de Vencimento Final" class="fa fa-calendar-o"></i></small></span></div>
+	<div  style="float:left; margin-right:30px">
+		<input type="date" class="form-control " name="data-final"  id="data-final-caixa" value="<?php echo $data_final_mes ?>" required>
+	</div>
+</div>
 
 
+	
+<div class="col-md-2" style="margin-top:5px;" align="center">	
+	<div > 
+	<small >
+		<a title="Conta de Ontem" class="text-muted" href="#" onclick="valorData('<?php echo $data_ontem ?>', '<?php echo $data_ontem ?>')"><span>Ontem</span></a> / 
+		<a title="Conta de Hoje" class="text-muted" href="#" onclick="valorData('<?php echo $data_hoje ?>', '<?php echo $data_hoje ?>')"><span>Hoje</span></a> / 
+		<a title="Conta do Mês" class="text-muted" href="#" onclick="valorData('<?php echo $data_inicio_mes ?>', '<?php echo $data_final_mes ?>')"><span>Mês</span></a>
+	</small>
+	</div>
+</div>
 
-	<div class="col-md-3" style="margin-top:5px;" align="center">	
+
+        <div class="col-md-3" style="margin-top:5px;" align="center">	
 			<div > 
 				<small >
 					<a title="Todos os Serviços" class="text-muted" href="#" onclick="buscarContas('')"><span>Todos</span></a> / 
@@ -68,27 +69,20 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 				</small>
 			</div>
 		</div>
-
 		<input type="hidden" id="buscar-contas">
 
-	</div>
-
-	<hr>
-	<div id="listar">
-
-	</div>
-	
 </div>
 
+   <hr>
+   <div id="listar">
 
-
-
-
+   </div>
+</div>
 
 <!-- Modal Inserir-->
-<div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalform" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
-		<div class="modal-content">
+		<div class="modal-content ">
 			<div class="modal-header">
 				<h4 class="modal-title"><span id="titulo_inserir"></span></h4>
 				<button id="btn-fechar" type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px">
@@ -96,97 +90,90 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 				</button>
 			</div>
 			<form id="form">
-				<div class="modal-body">
+			    <div class="modal-body">
 
 					<div class="row">
-					
-						<div class="col-md-6">						
-							<div class="form-group"> 
-								<label>Clientes</label> 
-								<select class="form-control sel2" id="cliente" name="cliente" style="width:100%;" required> 
+					    
+						<div class="col-md-6">
+							
+							<div class="form-group">
+								<label for="exampleInputEmail1">Cliente</label>
+								<select class="form-control sel2" id="pessoa" name="pessoa" style="width:100%;" > 
 
 									<?php 
 									$query = $pdo->query("SELECT * FROM clientes ORDER BY nome asc");
-									$res = $query->fetchAll(PDO::FETCH_ASSOC);
-									$total_reg = @count($res);
-									if($total_reg > 0){
-										for($i=0; $i < $total_reg; $i++){
-											foreach ($res[$i] as $key => $value){}
-												echo '<option value="'.$res[$i]['id'].'">'.$res[$i]['nome'].'</option>';
+									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+									$total_registro = @count($resultado);
+
+
+									if($total_registro > 0){
+										for($i=0; $i < $total_registro; $i++){
+										foreach ($resultado[$i] as $key => $value){}
+										echo '<option value="'.$resultado[$i]['id'].'">'.$resultado[$i]['nome'].'</option>';
 										}
 									}
 									?>
+									
 
-
-								</select>    
-							</div>						
+								</select>   
+							</div> 	
 						</div>
+					    <div class="col-md-6">
 
-
-							<div class="col-md-6">						
-							<div class="form-group"> 
-								<label>Serviço</label> 
+							<div class="form-group">
+							    <label>Serviço</label> 
 								<select class="form-control sel2" id="servico" name="servico" style="width:100%;" required> 
 
 									<?php 
 									$query = $pdo->query("SELECT * FROM servicos ORDER BY nome asc");
-									$res = $query->fetchAll(PDO::FETCH_ASSOC);
-									$total_reg = @count($res);
-									if($total_reg > 0){
-										for($i=0; $i < $total_reg; $i++){
-											foreach ($res[$i] as $key => $value){}
-												echo '<option value="'.$res[$i]['id'].'">'.$res[$i]['nome'].'</option>';
+									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+									$total_registro = @count($resultado);
+									if($total_registro > 0){
+										for($i=0; $i < $total_registro; $i++){
+											foreach ($resultado[$i] as $key => $value){}
+												echo '<option value="'.$resultado[$i]['id'].'">'.$resultado[$i]['nome'].'</option>';
 										}
 									}
 									?>
 
 
-								</select>    
-							</div>						
+								</select>        
+							</div> 	
 						</div>				
-
-
-							
-
 					</div>
-
-
-				
-
-
 
 					<div class="row">
 
-							
+						<div class="col-md-3">
 
-						<div class="col-md-3" id="nasc">						
-							<div class="form-group"> 
-								<label>Valor </label> 
-								<input type="text" class="form-control" name="valor_serv" id="valor_serv" required> 
-							</div>						
+							<div class="form-group">
+							<label>Valor </label> 
+								<input type="text" class="form-control" name="valor_serv" id="valor_serv" required>
+							</div> 	
+						</div>	
+
+
+						<div class="col-md-4">
+
+							<div class="form-group">
+								<label for="exampleInputEmail1">Data Pagamento</label>
+								<input type="date" class="form-control" id="data_pagamento" name="data_pagamento" value="<?php echo date('Y-m-d') ?>" >    
+							</div> 	
 						</div>
 
+						
 
-							<div class="col-md-4" id="nasc">						
-							<div class="form-group"> 
-								<label>Data PGTO</label> 
-								<input type="date" class="form-control" name="data_pgto" id="data_pgto" value="<?php echo date('Y-m-d') ?>"> 
-							</div>						
-						</div>	
-					
 					</div>
 
 
-
-					
-					<input type="hidden" name="id" id="id">
+						<input type="hidden" name="id" id="id">
 
 					<br>
 					<small><div id="mensagem" align="center"></div></small>
 				</div>
 
 				<div class="modal-footer">      
-					<button type="submit" class="btn btn-primary">Salvar</button>
+					<button type="submit" class="btn btn-success">Salvar</button>
 				</div>
 			</form>
 
@@ -220,7 +207,7 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 
 					<div class="col-md-6">							
 						<span><b>Data Lançamento: </b></span>
-						<span id="data_lanc_dados"></span>							
+						<span id="data_lancamento_dados"></span>							
 					</div>
 
 
@@ -232,12 +219,12 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 				<div class="row" style="border-bottom: 1px solid #cac7c7;">
 					<div class="col-md-6">							
 						<span><b>Data Vencimento: </b></span>
-						<span id="data_venc_dados"></span>							
+						<span id="data_vencimento_dados"></span>							
 					</div>
 
 					<div class="col-md-6">							
-						<span><b>Data PGTO: </b></span>
-						<span id="data_pgto_dados"></span>							
+						<span><b>Data Pagamento: </b></span>
+						<span id="data_pagamento_dados"></span>							
 					</div>
 
 
@@ -247,8 +234,8 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 
 				<div class="row" style="border-bottom: 1px solid #cac7c7;">
 					<div class="col-md-6">							
-						<span><b>Usuário Lanc: </b></span>
-						<span id="usuario_lanc_dados"></span>							
+						<span><b>Usuário Lançou: </b></span>
+						<span id="usuario_lancou_dados"></span>							
 					</div>
 
 					<div class="col-md-6">							
@@ -261,12 +248,12 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 
 				<div class="row" style="border-bottom: 1px solid #cac7c7;">
 					
-					<div class="col-md-6">							
+					<div class="col-md-8">							
 						<span><b>Cliente: </b></span>
 						<span id="pessoa_dados"></span>							
 					</div>
-
-						<div class="col-md-6">							
+                   
+					<div class="col-md-6">							
 						<span><b>Telefone: </b></span>
 						<span id="telefone_dados"></span>							
 					</div>
@@ -293,9 +280,6 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 </div>
 
 
-
-
-
 <script type="text/javascript">var pag = "<?=$pag?>"</script>
 <script src="js/ajax.js"></script>
 
@@ -303,13 +287,12 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 <script type="text/javascript">
 	$(document).ready(function() {
 		calcular()
+    $('.sel2').select2({
+    	dropdownParent: $('#modalform')
+    });
 
-		$('.sel2').select2({
-			dropdownParent: $('#modalForm')
-		});
-	});
+});
 </script>
-
 
 <script type="text/javascript">
 	function carregarImg() {
@@ -348,7 +331,6 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 </script>
 
 
-
 <script type="text/javascript">
 	function valorData(dataInicio, dataFinal){
 	 $('#data-inicial-caixa').val(dataInicio);
@@ -370,9 +352,6 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 			listar();
 		});	
 </script>
-
-
-
 
 
 <script type="text/javascript">
@@ -431,11 +410,10 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 
 </script>
 
-
 <script type="text/javascript">
 	function calcular(){
 
-		var quant = $('#quantidade').val();
+		var quantidade = $('#quantidade').val();
 		var produto = $('#produto').val();
 
 
@@ -443,7 +421,7 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
     $.ajax({
         url: 'paginas/' + pag + "/calcular.php",
         method: 'POST',
-        data: {produto, quant},
+        data: {produto, quantidade},
         dataType: "text",
 
         success: function (mensagem) {  

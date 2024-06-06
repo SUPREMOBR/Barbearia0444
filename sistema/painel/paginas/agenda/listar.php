@@ -51,7 +51,7 @@ if($status == 'Agendado'){
 	$classe_status = 'ocultar';
 }
 
-$query2 = $pdo->query("SELECT * FROM usuarios where id = '$usuario'");
+$query2 = $pdo->query("SELECT * FROM usuarios01 where id = '$usuario'");
 $resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 if(@count($resultado2) > 0){
 	$nome_usu = $resultado2[0]['nome'];

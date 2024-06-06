@@ -4,6 +4,12 @@ require_once("../conexao.php");
 $pag = 'agendamentos';
 $data_atual = date('Y-m-d');
 
+//verificar se ele tem a permissão de estar nessa página
+if(@$agendamentos == 'ocultar'){
+    echo "<script>window.location='../index.php'</script>";
+    exit();
+}
+
 ?>
 
 <div class="row">
@@ -67,7 +73,7 @@ $data_atual = date('Y-m-d');
 
 <!-- Modal -->
 <div class="modal fade" id="modalform" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title" id="titulo_inserir"></h4>
@@ -79,7 +85,7 @@ $data_atual = date('Y-m-d');
 				<div class="modal-body">
 
 					<div class="row">
-						<div class="col-md-7">						
+						<div class="col-md-5">						
 							<div class="form-group"> 
 								<label>Cliente</label> 
 								<select class="form-control sel3" id="cliente" name="cliente" style="width:100%;" required> 
@@ -101,7 +107,31 @@ $data_atual = date('Y-m-d');
 							</div>						
 						</div>
 
-						<div class="col-md-5" id="nasc">						
+
+						<div class="col-md-4">						
+							<div class="form-group"> 
+								<label>Serviço</label> 
+								<select class="form-control sel3" id="servico" name="servico" style="width:100%;" required> 
+
+									<?php 
+									$query = $pdo->query("SELECT * FROM servicos ORDER BY nome asc");
+									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+									$total_registro = @count($resultado);
+									if($total_registro > 0){
+										for($i=0; $i < $total_registro; $i++){
+											foreach ($resultado[$i] as $key => $value){}
+												echo '<option value="'.$resultado[$i]['id'].'">'.$resultado[$i]['nome'].'</option>';
+										}
+									}
+									?>
+
+
+								</select>    
+							</div>						
+						</div>
+
+
+						<div class="col-md-3" id="nasc">						
 							<div class="form-group"> 
 								<label>Data </label> 
 								<input type="date" class="form-control" name="data" id="data-modal"> 
@@ -120,37 +150,12 @@ $data_atual = date('Y-m-d');
 
 							<div class="col-md-5" id="nasc">						
 							<div class="form-group"> 
-								<label>Hora</label> 
 								<div id="listar-horarios">
 									<small>Selecionar Funcionário</small>
 								</div>
 							</div>						
 						</div>	
 
-
-					<div class="col-md-7">						
-						<div class="form-group"> 
-							<label>Serviço</label> 
-							<select class="form-control sel3" id="servico" name="servico" style="width:100%;" required> 
-
-									<?php 
-									$query = $pdo->query("SELECT * FROM servicos ORDER BY nome asc");
-									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
-									$total_registro = @count($resultado);
-									if($total_registro > 0){
-										for($i=0; $i < $total_registro; $i++){
-											foreach ($resultado[$i] as $key => $value){}
-												echo '<option value="'.$resultado[$i]['id'].'">'.$resultado[$i]['nome'].'</option>';
-										}
-									}
-									?>
-
-
-								</select>    
-						</div>						
-					</div>
-
-				
 
 				</div>
 
@@ -361,6 +366,7 @@ $data_atual = date('Y-m-d');
 				if (mensagem.trim() == "Salvo com Sucesso") {                    
 					$('#btn-fechar').click();
 					listar();
+					listarHorarios();
 				} else {
 					$('#mensagem').addClass('text-danger')
 					$('#mensagem').text(mensagem)

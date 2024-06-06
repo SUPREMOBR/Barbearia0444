@@ -24,4 +24,8 @@ if(strtotime($data_pagamento) <=  strtotime($data_atual)){
 	$usuario_baixa = 0;
 }
 
+$pdo->query("INSERT INTO $tabela SET descricao = '$descricao', tipo = 'Serviço', valor = '$valor_serv', data_lancamento = curDate(), data_vencimento = '$data_pagamento', data_pagamento = '$data_pagamento2', usuario_lancou = '$usuario_logado', usuario_baixa = '$usuario_baixa', foto = 'sem-foto.jpg', pessoa = '$cliente', pago = '$pago', servico = '$servico', funcionario = '$funcionario'");
+
+echo 'Salvo com Sucesso'; 
+
 ?>
