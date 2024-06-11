@@ -5,6 +5,12 @@ require_once("../conexao.php");
 
 $pag = 'categoria_servicos';
 
+//verificar se ele tem a permissão de estar nessa página
+if(@$categoria_servicos == 'ocultar'){
+    echo "<script>window.location='../index.php'</script>";
+    exit();
+}
+
 ?>
 
 <div class="">      

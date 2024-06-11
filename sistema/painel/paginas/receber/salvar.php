@@ -13,8 +13,8 @@ $data_vencimento = $_POST['data_vencimento'];
 $data_pagamento = $_POST['data_pagamento'];
 
 
-if($pessoa == 0 and $descricao == ""){
-	echo 'Selecione um Fornecedor ou coloque uma descrição!';
+if($descricao == ""){
+	echo 'Insira uma descrição!';
 	exit();
 }
 

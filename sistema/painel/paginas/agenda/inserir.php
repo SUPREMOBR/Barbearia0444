@@ -14,7 +14,7 @@ $funcionario = @$_SESSION['id'];
 $servico = $_POST['servico'];
 
 if(@$hora == ""){
-	echo 'Selecione um Funcionário antes de agendar';
+	echo 'Selecione um Horário antes de agendar';
 	exit();
 }
 
@@ -31,16 +31,10 @@ if(@count($resultado) == 0){
 }
 
 
-if(@$hora == ""){
-	echo 'Selecione um Funcionário antes de agendar';
-	exit();
-}
-
-
 $dataFormatada = implode('/', array_reverse(explode('-', $data)));
 $horaFormatada = date("H:i", strtotime($hora));
 
-//validar cpf
+//validar horario
 $query = $pdo->query("SELECT * FROM $tabela where data = '$data' and hora = '$hora' and funcionario = '$funcionario'");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);

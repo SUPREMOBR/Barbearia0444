@@ -3,6 +3,7 @@
 require_once("verificar.php");
 require_once("../conexao.php");
 
+$pag_inicial = 'home';
 $id_usuario = $_SESSION['id'];
 
 $query = $pdo->query("SELECT * from usuarios01 where id = '$id_usuario'");
@@ -142,67 +143,69 @@ if(@$_GET['pagina'] == ""){
 							<li class="header">MENU DE NAVEGAÇÃO</li>
 
 
-							<li class="treeview">
+							<li class="treeview <?php echo @$home ?>">
 								<a href="index.php">
 									<i class="fa fa-dashboard"></i> <span>Home</span>
 								</a>
 							</li>
 
 
-							<li class="treeview">
+							<li class="treeview <?php echo $menu_pessoas ?>">
 								<a href="#">
 									<i class="fa fa-users"></i>
 									<span>Pessoas</span>
 									<i class="fa fa-angle-left pull-right"></i>
 								</a>
 								<ul class="treeview-menu">
-									<li><a href="index.php?pagina=usuarios"><i class="fa fa-angle-right"></i> Usuários</a></li>
+								<li class="<?php echo @$usuarios ?>"><a href="index.php?pagina=usuarios"><i class="fa fa-angle-right"></i>Usuários</a></li>
 
-									<li><a href="index.php?pagina=funcionarios"><i class="fa fa-angle-right"></i> Funcionários</a></li>
+									<li class="<?php echo @$funcionarios ?>"><a href="index.php?pagina=funcionarios"><i class="fa fa-angle-right"></i>Funcionários</a></li>
 
-									<li><a href="index.php?pagina=clientes"><i class="fa fa-angle-right"></i> Clientes</a></li>
+									<li class="<?php echo @$clientes ?>"><a href="index.php?pagina=clientes"><i class="fa fa-angle-right"></i>Clientes</a></li>
 
-									<li><a href="index.php?pagina=fornecedores"><i class="fa fa-angle-right"></i> Fornecedores</a></li>
+									<li class="<?php echo @$fornecedores ?>"><a href="index.php?pagina=fornecedores"><i class="fa fa-angle-right"></i>Fornecedores</a></li>
 								</ul>
 							</li>
 
-							<li class="treeview">
+							<li class="treeview <?php echo $menu_cadastros ?>">
 								<a href="#">
 									<i class="fa fa-plus"></i>
 									<span>Cadastros</span>
 									<i class="fa fa-angle-left pull-right"></i>
 								</a>
 								<ul class="treeview-menu">
-								<li><a href="index.php?pagina=servicos"><i class="fa fa-angle-right"></i> Serviços</a></li>
+								<li class="<?php echo @$servicos ?>"><a href="index.php?pagina=servicos"><i class="fa fa-angle-right"></i>Serviços</a></li>
 
-									<li><a href="index.php?pagina=cargos"><i class="fa fa-angle-right"></i> Cargos</a></li>
+                                <li class="<?php echo @$cargos ?>"><a href="index.php?pagina=cargos"><i class="fa fa-angle-right"></i>Cargos</a></li>
 
-									<li><a href="index.php?pagina=categoria_servicos"><i class="fa fa-angle-right"></i> Categoria Serviços</a></li>
+                                <li class="<?php echo @$categoria_servicos ?>"><a href="index.php?pagina=categoria_servicos"><i class="fa fa-angle-right"></i>Categoria Serviços</a></li>
 
-									<li><a href="index.php?pagina=fornecedores"><i class="fa fa-angle-right"></i> Fornecedores</a></li>
+                                <li class="<?php echo @$grupos ?>"><a href="index.php?pagina=grupos"><i class="fa fa-angle-right"></i>Grupo Acessos</a></li>
+
+                                <li class="<?php echo @$acessos ?>"><a href="index.php?pagina=acessos"><i class="fa fa-angle-right"></i>Acessos</a></li>
 								</ul>
 							</li>
 
-                            <li class="treeview">
+                            <li class="treeview <?php echo $menu_produtos ?>">
 								<a href="#">
 									<i class="fa fa-plus"></i>
 									<span>Produtos</span>
 									<i class="fa fa-angle-left pull-right"></i>
 								</a>
 								<ul class="treeview-menu">
-								<li><a href="index.php?pagina=produtos"><i class="fa fa-angle-right"></i> Produtos</a></li>
+								    <li class="<?php echo @$produtos ?>"><a href="index.php?pagina=produtos"><i class="fa fa-angle-right"></i>Produtos</a></li>
 
-									<li><a href="index.php?pagina=categoria_produtos"><i class="fa fa-angle-right"></i> Categorias</a></li>
+									<li class="<?php echo @$categoria_produtos ?>"><a href="index.php?pagina=categoria_produtos"><i class="fa fa-angle-right"></i>Categorias</a></li>
+									
+									<li class="<?php echo @$estoque ?>"><a href="index.php?pagina=estoque"><i class="fa fa-angle-right"></i>Estoque Baixo</a></li>
 
-									<li><a href="index.php?pagina=estoque"><i class="fa fa-angle-right"></i> Estoque Baixo</a></li>
+									<li class="<?php echo @$saidas ?>"><a href="index.php?pagina=saidas"><i class="fa fa-angle-right"></i>Saídas</a></li>
 
-									<li><a href="index.php?pagina=saidas"><i class="fa fa-angle-right"></i> Saídas</a></li>
-
-									<li><a href="index.php?pagina=entradas"><i class="fa fa-angle-right"></i> Entradas</a></li>
+									<li class="<?php echo @$entradas ?>"><a href="index.php?pagina=entradas"><i class="fa fa-angle-right"></i>Entradas</a></li>
 								</ul>
 							</li>
 
-							<li class="treeview">
+							<li class="treeview <?php echo $menu_financeiro ?>">
 								<a href="#">
 									<i class="fa fa-usd"></i>
 									<span>Financeiro</span>
@@ -210,19 +213,21 @@ if(@$_GET['pagina'] == ""){
 								</a>
 								<ul class="treeview-menu">
 
-									<li><a href="index.php?pagina=vendas"><i class="fa fa-angle-right"></i> Vendas</a></li>
+								<li class="<?php echo @$vendas ?>"><a href="index.php?pagina=vendas"><i class="fa fa-angle-right"></i>Vendas</a></li>
 
-									<li><a href="index.php?pagina=compras"><i class="fa fa-angle-right"></i>Compras</a></li>
-									
-									<li><a href="index.php?pagina=pagar"><i class="fa fa-angle-right"></i> Contas à Pagar</a></li>
+                                <li class="<?php echo @$compras ?>"><a href="index.php?pagina=compras"><i class="fa fa-angle-right"></i>Compras</a></li>
 
-									<li><a href="index.php?pagina=receber"><i class="fa fa-angle-right"></i> Contas à Receber</a></li>									
+                                <li class="<?php echo @$pagar ?>"><a href="index.php?pagina=pagar"><i class="fa fa-angle-right"></i>Contas à Pagar</a></li>
+
+                                <li class="<?php echo @$receber ?>"><a href="index.php?pagina=receber"><i class="fa fa-angle-right"></i>Contas à Receber</a></li>	
+
+                                <li class="<?php echo @$comissoes ?>"><a href="index.php?pagina=comissoes"><i class="fa fa-angle-right"></i>Comissões</a></li>																
 								
 								</ul>
 							</li>
 
 
-                            <li class="treeview">
+                            <li class="treeview <?php echo $menu_agendamentos ?>">
 								<a href="#">
 									<i class="fa fa-calendar-o"></i>
 									<span>Agendamento / Serviço</span>
@@ -230,9 +235,9 @@ if(@$_GET['pagina'] == ""){
 								</a>
 								<ul class="treeview-menu">
 
-									<li><a href="index.php?pagina=agendamentos"><i class="fa fa-angle-right"></i>Agendamentos</a></li>
+									<li class="<?php echo @$agendamentos ?>"><a href="index.php?pagina=agendamentos"><i class="fa fa-angle-right"></i>Agendamentos</a></li>
 
-									<li><a href="index.php?pagina=servicos_agenda"><i class="fa fa-angle-right"></i>Serviços</a></li>
+									<li class="<?php echo @$servicos_agenda ?>"><a href="index.php?pagina=servicos_agenda"><i class="fa fa-angle-right"></i>Serviços</a></li>
 									
 																	
 								
@@ -256,6 +261,13 @@ if(@$_GET['pagina'] == ""){
 								</a>
 							</li>
 							<?php } ?>
+
+
+							<li class="treeview">
+								<a href="index.php?pagina=minhas_comissoes">
+									<i class="fa fa-server"></i> <span>Minhas Comissões</span>
+								</a>
+							</li>		
 
 
                             <li class="treeview">
@@ -295,151 +307,81 @@ if(@$_GET['pagina'] == ""){
 				<!--toggle button end-->
 				<div class="profile_details_left"><!--notifications of menu start -->
 					<ul class="nofitications-dropdown">
+
+
+						<?php if($atendimento == 'Sim'){ 
+
+													//totalizando agendamentos dia usuario
+						$query = $pdo->query("SELECT * FROM agendamentos where data = curDate() and funcionario = '$id_usuario' and status = 'Agendado'");
+						$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+						$total_agendamentos_hoje_usuario_pendentes = @count($resultado);
+
+							?>
 						<li class="dropdown head-dpdn">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-envelope"></i><span class="badge">4</span></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-bell"></i><span class="badge text-danger"><?php echo $total_agendamentos_hoje_usuario_pendentes ?></span></a>
 							<ul class="dropdown-menu">
 								<li>
-									<div class="notification_header">
-										<h3>You have 3 new messages</h3>
+									<div class="notification_header" align="center">
+										<h3><?php echo $total_agendamentos_hoje_usuario_pendentes ?> Agendamento Pendente Hoje</h3>
 									</div>
 								</li>
-								<li><a href="#">
-									<div class="user_img"><img src="images/1.jpg" alt=""></div>
+
+								<?php 
+								for($i=0; $i < @count($resultado); $i++){
+									foreach ($resultado[$i] as $key => $value){}
+								$id = $resultado[$i]['id'];								
+								$cliente = $resultado[$i]['cliente'];
+								$hora = $resultado[$i]['hora'];
+								$servico = $resultado[$i]['servico'];
+								$horaFormatada = date("H:i", strtotime($hora));
+
+
+									$query2 = $pdo->query("SELECT * FROM servicos where id = '$servico'");
+									$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+									if(@count($resultado2) > 0){
+										$nome_serv = $resultado2[0]['nome'];
+										$valor_serv = $resultado2[0]['valor'];
+									}else{
+										$nome_serv = 'Não Lançado';
+										$valor_serv = '';
+									}
+
+
+									$query2 = $pdo->query("SELECT * FROM clientes where id = '$cliente'");
+									$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+									if(@count($resultado2) > 0){
+										$nome_cliente = $resultado2[0]['nome'];
+									}else{
+										$nome_cliente = 'Sem Cliente';
+									}
+								 ?>
+								<li>									
 									<div class="notification_desc">
-										<p>Lorem ipsum dolor amet</p>
-										<p><span>1 hour ago</span></p>
+										<p><b><?php echo $horaFormatada ?> </b> - <?php echo $nome_cliente ?> / <?php echo $nome_serv ?></p>
+										<p><span></span></p>
 									</div>
 									<div class="clearfix"></div>	
-								</a></li>
-								<li class="odd"><a href="#">
-									<div class="user_img"><img src="images/4.jpg" alt=""></div>
-									<div class="notification_desc">
-										<p>Lorem ipsum dolor amet </p>
-										<p><span>1 hour ago</span></p>
-									</div>
-									<div class="clearfix"></div>	
-								</a></li>
-								<li><a href="#">
-									<div class="user_img"><img src="images/3.jpg" alt=""></div>
-									<div class="notification_desc">
-										<p>Lorem ipsum dolor amet </p>
-										<p><span>1 hour ago</span></p>
-									</div>
-									<div class="clearfix"></div>	
-								</a></li>
-								<li><a href="#">
-									<div class="user_img"><img src="images/2.jpg" alt=""></div>
-									<div class="notification_desc">
-										<p>Lorem ipsum dolor amet </p>
-										<p><span>1 hour ago</span></p>
-									</div>
-									<div class="clearfix"></div>	
-								</a></li>
-								<li>
-									<div class="notification_bottom">
-										<a href="#">See all messages</a>
-									</div> 
 								</li>
-							</ul>
-						</li>
-						<li class="dropdown head-dpdn">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-bell"></i><span class="badge blue">4</span></a>
-							<ul class="dropdown-menu">
+								<?php 
+							}
+								 ?>
+								
+								
+							
 								<li>
-									<div class="notification_header">
-										<h3>You have 3 new notification</h3>
-									</div>
-								</li>
-								<li><a href="#">
-									<div class="user_img"><img src="images/4.jpg" alt=""></div>
-									<div class="notification_desc">
-										<p>Lorem ipsum dolor amet</p>
-										<p><span>1 hour ago</span></p>
-									</div>
-									<div class="clearfix"></div>	
-								</a></li>
-								<li class="odd"><a href="#">
-									<div class="user_img"><img src="images/1.jpg" alt=""></div>
-									<div class="notification_desc">
-										<p>Lorem ipsum dolor amet </p>
-										<p><span>1 hour ago</span></p>
-									</div>
-									<div class="clearfix"></div>	
-								</a></li>
-								<li><a href="#">
-									<div class="user_img"><img src="images/3.jpg" alt=""></div>
-									<div class="notification_desc">
-										<p>Lorem ipsum dolor amet </p>
-										<p><span>1 hour ago</span></p>
-									</div>
-									<div class="clearfix"></div>	
-								</a></li>
-								<li><a href="#">
-									<div class="user_img"><img src="images/2.jpg" alt=""></div>
-									<div class="notification_desc">
-										<p>Lorem ipsum dolor amet </p>
-										<p><span>1 hour ago</span></p>
-									</div>
-									<div class="clearfix"></div>	
-								</a></li>
-								<li>
-									<div class="notification_bottom">
-										<a href="#">See all notifications</a>
+									<div class="notification_bottom" style="background: #ffe8e6">
+										<a href="index.php?pagina=agenda">Ver Agendamentos</a>
 									</div> 
 								</li>
 							</ul>
 						</li>	
-						<li class="dropdown head-dpdn">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-tasks"></i><span class="badge blue1">8</span></a>
-							<ul class="dropdown-menu">
-								<li>
-									<div class="notification_header">
-										<h3>You have 8 pending task</h3>
-									</div>
-								</li>
-								<li><a href="#">
-									<div class="task-info">
-										<span class="task-desc">Database update</span><span class="percentage">40%</span>
-										<div class="clearfix"></div>	
-									</div>
-									<div class="progress progress-striped active">
-										<div class="bar yellow" style="width:40%;"></div>
-									</div>
-								</a></li>
-								<li><a href="#">
-									<div class="task-info">
-										<span class="task-desc">Dashboard done</span><span class="percentage">90%</span>
-										<div class="clearfix"></div>	
-									</div>
-									<div class="progress progress-striped active">
-										<div class="bar green" style="width:90%;"></div>
-									</div>
-								</a></li>
-								<li><a href="#">
-									<div class="task-info">
-										<span class="task-desc">Mobile App</span><span class="percentage">33%</span>
-										<div class="clearfix"></div>	
-									</div>
-									<div class="progress progress-striped active">
-										<div class="bar red" style="width: 33%;"></div>
-									</div>
-								</a></li>
-								<li><a href="#">
-									<div class="task-info">
-										<span class="task-desc">Issues fixed</span><span class="percentage">80%</span>
-										<div class="clearfix"></div>	
-									</div>
-									<div class="progress progress-striped active">
-										<div class="bar  blue" style="width: 80%;"></div>
-									</div>
-								</a></li>
-								<li>
-									<div class="notification_bottom">
-										<a href="#">See all pending tasks</a>
-									</div> 
-								</li>
-							</ul>
-						</li>	
+					<?php } ?>
+
+
+
+						
+
+
 					</ul>
 					<div class="clearfix"> </div>
 				</div>

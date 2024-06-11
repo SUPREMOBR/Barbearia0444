@@ -26,7 +26,7 @@ if($total_registro > 0){
 	<th class="esc">Valor</th> 	
 	<th class="esc">Vencimento</th> 	
 	<th class="esc">Data Pagamento</th> 
-	<th class="esc">Usuário Pagamento</th>
+	<th class="esc">Funcionário</th>
 	<th class="esc">Fornecedor</th>	
 	<th class="esc">Arquivo</th>	
 	<th>Ações</th>
@@ -52,6 +52,7 @@ for($i=0; $i < $total_registro; $i++){
 	$foto = $resultado[$i]['foto'];
 	$pessoa = $resultado[$i]['pessoa'];
 	$pago = $resultado[$i]['pago'];
+	$funcionario = $resultado[$i]['funcionario'];
 	
 	$valorFormatado = number_format($valor, 2, ',', '.');
 	
@@ -73,24 +74,35 @@ for($i=0; $i < $total_registro; $i++){
 			$classe_whats = 'ocultar';
 		}
 
-
-	$query2 = $pdo->query("SELECT * FROM fornecedores where id = '$usuario_baixa'");
+	$query2 = $pdo->query("SELECT * FROM usuarios01 where id = '$Funcionario'");
 	    $resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 	    $total_registro2 = @count($resultado2);
-	    if($total_registro2 > 0){
-		    $nome_usuario_pagamento = $resultado2[0]['nome'];
-	    }else{
-			$nome_usuario_pagamento = 'Nenhum!';
-		}
-	
 
-	$query2 = $pdo->query("SELECT * FROM fornecedores where id = '$$usuario_lancou'");
+	 if($total_registro2 > 0){
+		    $nome_funcionario = $resultado2[0]['nome'];
+			$telefone_funcionario = $resultado2[0]['telefone'];
+	    }else{
+			$nome_funcionario = 'Nenhum';
+			$telefone_funcionario = '';
+		}	
+		
+	$query2 = $pdo->query("SELECT * FROM usuarios01 where id = '$usuario_baixa'");
+	    $resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+	    $total_registro2 = @count($resultado2);
+	   
+	 if($total_registro2 > 0){
+		    $nome_usuario_lancou = $resultado2[0]['nome'];
+	    }else{
+			$nome_usuario_lancou = 'Nenhum';
+		}	
+
+	$query2 = $pdo->query("SELECT * FROM usuarios01 where id = '$usuario_lancou'");
 	    $resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 	    $total_registro2 = @count($resultado2);
 	    if($total_registro2 > 0){
 		    $nome_usuario_lancou = $resultado2[0]['nome'];
 	    }else{
-			$nome_usuario_lancou = 'Sem Referência!';
+			$nome_usuario_lancou = 'Nenhum';
 		}
 
 
@@ -136,9 +148,9 @@ if($data_vencimento < $data_hoje and $pago != 'Sim'){
 		<td class="esc">{$nome_pessoa}</td>
 		<td><a href="img/contas/{$foto}" target="_blank"><img src="img/contas/{$tumb_arquivo}" width="27px" class="mr-2"></a></td>
 		<td>
-        <big><a href="#" onclick="editar('{$id}','{$descricao}', '{$pessoa}', '{$valor}', '{$data_vencimento}', '{$data_pagamento}', '{$tumb_arquivo}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
+        <big><a href="#" onclick="editar('{$id}','{$descricao}', '{$pessoa}', '{$valor}', '{$data_vencimento}', '{$data_pagamento}', '{$tumb_arquivo}', '{$funcionario}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
 
-		<big><a href="#" onclick="mostrar('{$descricao}', '{$valorFormatado}', '{$data_lancamentoFormatado}', '{$data_vencimentoFormatado}',  '{$data_pagamentoFormatado}', '{$nome_usuario_lancou}', '{$nome_usuario_pagamento}', '{$tumb_arquivo}', '{$nome_pessoa}', '{$foto}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
+		<big><a href="#" onclick="mostrar('{$descricao}', '{$valorFormatado}', '{$data_lancamentoFormatado}', '{$data_vencimentoFormatado}',  '{$data_pagamentoFormatado}', '{$nome_usuario_lancou}', '{$nome_usuario_pagamento}', '{$tumb_arquivo}', '{$nome_pessoa}', '{$foto}','{$nome_funcionario}', '{$telefone_funcionario}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
 
 
 
@@ -210,13 +222,14 @@ HTML;
 
 
 <script type="text/javascript">
-	function editar(id, descricao, pessoa, valor, data_vencimento, data_pagamento, foto){
+	function editar(id, descricao, pessoa, valor, data_vencimento, data_pagamento, foto, funcionario){
 		$('#id').val(id);
 		$('#descricao').val(descricao);
 		$('#pessoa').val(pessoa).change();
 		$('#valor').val(valor);
 		$('#data_vencimento').val(data_vencimento);
 		$('#data_pagamento').val(data_pagamento);
+		$('#funcionario').val(funcionario).change();
 								
 		$('#titulo_inserir').text('Editar Registro');
 		$('#modalform').modal('show');
@@ -237,7 +250,7 @@ HTML;
 </script>
 
 <script type="text/javascript">
-	function mostrar(descricao, valor, data_lancamento, data_vencimento, data_pagamento, usuario_lancou, usuario_pagamento, foto, pessoa, link){
+	function mostrar(descricao, valor, data_lancamento, data_vencimento, data_pagamento, usuario_lancou, usuario_pagamento, foto, pessoa, link, nome_funcionario, telefone_funcionario){
 
 		$('#nome_dados').text(descricao);
 		$('#valor_dados').text(valor);
@@ -247,6 +260,8 @@ HTML;
 		$('#usuario_lancou_dados').text(usuario_lancou);
 		$('#usuario_baixa_dados').text(usuario_pagamento);
 		$('#pessoa_dados').text(pessoa);
+		$('#nome_funcionario_dados').text(nome_funcionario);
+		$('#telefone_funcionario_dados').text(telefone_funcionario);
 		
 		$('#link_mostrar').attr('href','img/contas/' + link);
 		$('#target_mostrar').attr('src','img/contas/' + foto);
@@ -255,5 +270,27 @@ HTML;
 	}
 </script>
 
+<script type="text/javascript">
+	function saida(id, nome, estoque){
+
+		$('#nome_saida').text(nome);
+		$('#estoque_saida').val(estoque);
+		$('#id_saida').val(id);		
+
+		$('#modalSaida').modal('show');
+	}
+</script>
+
+
+<script type="text/javascript">
+	function entrada(id, nome, estoque){
+
+		$('#nome_entrada').text(nome);
+		$('#estoque_entrada').val(estoque);
+		$('#id_entrada').val(id);		
+
+		$('#modalEntrada').modal('show');
+	}
+</script>
 
 

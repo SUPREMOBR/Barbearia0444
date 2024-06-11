@@ -14,10 +14,21 @@ $descricao = $_POST['descricao_serv_agd'];
 $funcionario = $_POST['funcionario_agd'];
 $servico = $_POST['servico_agd'];
 
+$query = $pdo->query("SELECT * FROM servicos where id = '$servico'");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+$valor = $resultado[0]['valor'];
+$comissao = $resultado[0]['comissao'];
+$descricao = $resultado[0]['nome'];
+$descricao2 = 'Comissão - '.$resultado[0]['nome'];
+
 if(strtotime($data_pagamento) <=  strtotime($data_atual)){
 	$pago = 'Sim';
 	$data_pagamento2 = $data_pagamento;
 	$usuario_baixa = $usuario_logado;
+
+    //lançar a conta a pagar para a comissão do funcionário
+	$pdo->query("INSERT INTO pagar SET descricao = '$descricao2', tipo = 'Comissão', valor = '$valor_comissao', data_lancamento = '$data_pagamento', data_vencimento = '$data_pagamento', usuario_lancou = '$usuario_logado', foto = 'sem-foto.jpg', pago = 'Não', funcionario = '$funcionario', servico = '$servico', cliente = '$cliente'");
+
 }else{
 	$pago = 'Não';
 	$data_pagamento2 = '';

@@ -3,6 +3,12 @@
 require_once("verificar.php");
 require_once("../conexao.php");
 
+//verificar se ele tem a permissão de estar nessa página
+if(@$home == 'ocultar'){
+    echo "<script>window.location='../index.php'</script>";
+    exit();
+}
+
 $query = $pdo->query("SELECT * FROM clientes ");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_clientes = @count($resultado);

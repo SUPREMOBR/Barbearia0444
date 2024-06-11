@@ -14,7 +14,7 @@ $funcionario = $_POST['id_funcionario'];
 $servico = $_POST['servico'];
 
 if(@$hora == ""){
-	echo 'Selecione um Funcionário antes de agendar';
+	echo 'Selecione um Horário antes de agendar';
 	exit();
 }
 
@@ -27,12 +27,6 @@ $query = $pdo->query("SELECT * FROM dias where funcionario = '$funcionario' and 
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 if(@count($resultado) == 0){
 		echo 'Este Funcionário não trabalha neste Dia';
-	exit();
-}
-
-
-if(@$hora == ""){
-	echo 'Selecione um Funcionário antes de agendar';
 	exit();
 }
 

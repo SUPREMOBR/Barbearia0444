@@ -2,9 +2,9 @@
 require_once("../../../conexao.php");
 $tabela = 'horarios';
 
-$id_funcionario = $_POST['funcionario'];
+$id_func = $_POST['func'];
 
-$query = $pdo->query("SELECT * FROM $tabela where funcionario = '$id_funcionario' ORDER BY horario asc");
+$query = $pdo->query("SELECT * FROM $tabela where funcionario = '$id_func' ORDER BY horario asc");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
 if($total_registro > 0){
@@ -81,8 +81,8 @@ for($i=0; $i < $total_registro; $i++){
     
             success: function (mensagem) {            
                 if (mensagem.trim() == "Excluído com Sucesso") {   
-                    var funcionario = $("#id_horarios").val();             
-                    listarHorarios(funcionario);                
+                    var func = $("#id_horarios").val();             
+                    listarHorarios(func);                
                 } else {
                     $('#mensagem-horario-excluir').addClass('text-danger')
                     $('#mensagem-horario-excluir').text(mensagem)

@@ -5,7 +5,11 @@ require_once("../conexao.php");
 
 $pag = 'compras';
 
-
+//verificar se ele tem a permissão de estar nessa página
+if(@$compras == 'ocultar'){
+    echo "<script>window.location='../index.php'</script>";
+    exit();
+}
 
 $data_hoje = date('Y-m-d');
 $data_ontem = date('Y-m-d', strtotime("-1 days",strtotime($data_hoje)));

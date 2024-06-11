@@ -5,7 +5,11 @@ require_once("../conexao.php");
 
 $pag = 'pagar';
 
-
+//verificar se ele tem a permissão de estar nessa página
+if(@$pagar == 'ocultar'){
+    echo "<script>window.location='../index.php'</script>";
+    exit();
+}
 
 $data_hoje = date('Y-m-d');
 $data_ontem = date('Y-m-d', strtotime("-1 days",strtotime($data_hoje)));
@@ -100,6 +104,7 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 								<input type="text" class="form-control" id="descricao" name="descricao" placeholder="Descrição da Conta" >    
 							</div> 	
 						</div>
+                    <div class="row">
 						<div class="col-md-5">
 							
 							<div class="form-group">
@@ -125,6 +130,34 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 								</select>   
 							</div> 	
 						</div>
+						<div class="col-md-6">
+							
+							<div class="form-group">
+								<label for="exampleInputEmail1">Funcionário</label>
+								<select class="form-control sel2" id="funcionario" name="funcionario" style="width:100%;" > 
+
+									<?php 
+									$query = $pdo->query("SELECT * FROM usuarios01");
+									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+									$total_registro = @count($resultado);
+									
+									echo '<option value="0">Selecione um Funcionário</option>';
+
+									if($total_registro > 0){
+										for($i=0; $i < $total_registro; $i++){
+											foreach ($resultado[$i] as $key => $value){}
+												echo '<option value="'.$resultado[$i]['id'].'">'.$resultado[$i]['nome'].'</option>';
+										}
+									}
+									?>
+									
+
+								</select>   
+							</div> 	
+						</div>
+
+
+
 					</div>
 
 
@@ -259,9 +292,14 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 
 				<div class="row" style="border-bottom: 1px solid #cac7c7;">
 					
-					<div class="col-md-8">							
+					<div class="col-md-6">							
 						<span><b>Fornecedor: </b></span>
 						<span id="pessoa_dados"></span>							
+					</div>
+
+					<div class="col-md-6">							
+						<span><b>Funcionário: </b></span>
+						<span id="nome_funcionario_dados"></span>							
 					</div>
 
 
@@ -300,28 +338,6 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 
 	
 });
-</script>
-
-
-<script type="text/javascript">
-	function carregarImg() {
-    var target = document.getElementById('target');
-    var file = document.querySelector("#foto").files[0];
-    
-        var reader = new FileReader();
-
-        reader.onloadend = function () {
-            target.src = reader.result;
-        };
-
-        if (file) {
-            reader.readAsDataURL(file);
-
-        } else {
-            target.src = "";
-        }
-    }
-
 </script>
 
 <script type="text/javascript">

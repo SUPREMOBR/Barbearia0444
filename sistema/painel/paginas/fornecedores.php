@@ -4,6 +4,13 @@ require_once("verificar.php");
 require_once("../conexao.php");
 
 $pag = 'fornecedores';
+
+//verificar se ele tem a permissão de estar nessa página
+if(@$fornecedores == 'ocultar'){
+    echo "<script>window.location='../index.php'</script>";
+    exit();
+}
+
 ?>
 
 <div class="">      

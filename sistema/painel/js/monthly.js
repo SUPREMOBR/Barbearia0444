@@ -402,9 +402,11 @@ Monthly 2.0.5 by Kevin Thornbloom is licensed under a Creative Commons Attributi
 			//DEFINIR DATA PARA O INPUT
 			$('#data_agenda').val(dataFormatada);
 			listar();
+			istarHorarios();
+
+			//buscarData();
+			//buscarDataAnterior();
 			
-			buscarData();
-			buscarDataAnterior()
 
 			e.preventDefault();
 		});

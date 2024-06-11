@@ -10,6 +10,14 @@ if($tipo_comissao == 'Porcentagem'){
 }else{
 	$item_comissao = '(R$)';
 }
+
+
+//verificar se ele tem a permissão de estar nessa página
+if(@$servicos == 'ocultar'){
+echo "<script>window.location='../index.php'</script>";
+exit();
+}
+
 ?>
 
 <div class="">      

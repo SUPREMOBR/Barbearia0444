@@ -29,7 +29,7 @@ if($total_registro > 0){
 	<th class="esc">Valor</th> 
 	<th class="esc">Funcionário</th>
 	<th class="esc">Data Serviço</th>		
-	<th class="esc">Data Pagamento</th>	
+	<th class="esc">Vencimento</th>	
 	<th class="esc">Cliente</th>
 	<th>Ações</th>
 	</tr> 
@@ -140,13 +140,13 @@ echo <<<HTML
 <tr class="{$classe_debito}">
 <td><i class="fa fa-square {$classe_alerta}"></i> {$descricao}</td>
 <td class="esc">R$ {$valorFormatado}</td>
-<td class="esc">{$nome_funcuncionario}</td>
+<td class="esc">{$nome_funcionario}</td>
 <td class="esc">{$data_lancamentoFormatado}</td>
-<td class="esc">{$data_pagamentoFormatado}</td>
+<td class="esc">{$data_vencimentoFormatado}</td>
 <td class="esc">{$nome_pessoa}</td>
 <td>
         
-<big><a href="#" onclick="mostrar('{$descricao}', '{$valorFormatado}', '{$data_lancimentoFormatado}', '{$data_vencimentoFormatado}',  '{$data_pagamentoFormatado}', '{$nome_usuario_lancou}', '{$nome_usuario_pagamento}', '{$tumb_arquivo}', '{$nome_pessoa}', '{$foto}', '{$telefone_pessoa}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
+<big><a href="#" onclick="mostrar('{$descricao}', '{$valorFormatado}', '{$data_lancamentoFormatado}', '{$data_vencimentoFormatado}',  '{$data_pagamentoFormatado}', '{$nome_usuario_lancou}', '{$nome_usuario_pagamento}', '{$tumb_arquivo}', '{$nome_pessoa}', '{$foto}', '{$telefone_pessoa}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
 
 
 

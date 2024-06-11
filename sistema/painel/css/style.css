@@ -8494,3 +8494,14 @@ h4.asd label {
     margin-left:5px;
   }
 }
+
+.labelcheck{
+  font-weight: 200;
+  font-size:13px;
+}
+
+.titulo-grupo{
+  font-weight: 500;
+  font-size:15px;
+  font-style: italic;
+}

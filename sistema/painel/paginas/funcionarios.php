@@ -4,6 +4,13 @@ require_once("verificar.php");
 require_once("../conexao.php");
 
 $pag = 'funcionarios';
+
+//verificar se ele tem a permissão de estar nessa página
+if(@$funcionarios == 'ocultar'){
+    echo "<script>window.location='../index.php'</script>";
+    exit();
+}
+
 ?>
 
 <div class="">      
@@ -397,7 +404,7 @@ $pag = 'funcionarios';
 
 $("#form-horarios").submit(function () {
 
-	var funcionario = $("#id_horarios").val();
+	var func = $("#id_horarios").val();
     event.preventDefault();
     var formData = new FormData(this);
 
@@ -412,7 +419,7 @@ $("#form-horarios").submit(function () {
             if (mensagem.trim() == "Salvo com Sucesso") {
 
                 //$('#btn-fechar-horarios').click();
-                listarHorarios(funcionario);          
+                listarHorarios(func);          
 
             } else {
 

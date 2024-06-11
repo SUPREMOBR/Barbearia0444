@@ -3,6 +3,13 @@
 require_once("verificar.php");
 require_once("../conexao.php");
 
+//verificar se ele tem a permissão de estar nessa página
+if(@$servicos_agenda == 'ocultar'){
+    echo "<script>window.location='../index.php'</script>";
+    exit();
+}
+
+
 $pag = 'servicos_agenda';
 
 

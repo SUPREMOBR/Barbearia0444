@@ -11,10 +11,10 @@ $valor = str_replace(',', '.', $valor);
 $pessoa = $_POST['pessoa'];
 $data_vencimento = $_POST['data_vencimento'];
 $data_pagamento = $_POST['data_pagamento'];
+$funcionario = $_POST['funcionario'];
 
-
-if($pessoa == 0 and $descricao == ""){
-	echo 'Selecione um Fornecedor ou coloque uma descrição!';
+if($descricao == ""){
+	echo 'Insira uma descrição!';
 	exit();
 }
 
@@ -70,9 +70,9 @@ if(@$_FILES['foto']['name'] != ""){
 
 
 if($id == ""){
-	$query = $pdo->prepare("INSERT INTO $tabela SET descricao = :descricao, tipo = 'Conta', valor = :valor, data_lancamento = curDate(), data_vencimento = '$data_vencimento', data_pagamento = '$data_pagamento', usuario_lancou = '$id_usuario', usuario_baixa = '$usuario_pagamento', foto = '$foto', pessoa = '$pessoa', pago = '$pago'");
+	$query = $pdo->prepare("INSERT INTO $tabela SET descricao = :descricao, tipo = 'Conta', valor = :valor, data_lancamento = curDate(), data_vencimento = '$data_vencimento', data_pagamento = '$data_pagamento', usuario_lancou = '$id_usuario', usuario_baixa = '$usuario_pagamento', foto = '$foto', pessoa = '$pessoa', pago = '$pago', funcionario = '$funcionario'");
 }else{
-	$query = $pdo->prepare("UPDATE $tabela SET descricao = :descricao, valor = :valor, data_vencimento = '$data_vencimento', data_pagamento = '$data_pagamento', foto = '$foto', pessoa = '$pessoa' WHERE id = '$id'");
+	$query = $pdo->prepare("UPDATE $tabela SET descricao = :descricao, valor = :valor, data_vencimento = '$data_vencimento', data_pagamento = '$data_pagamento', foto = '$foto', pessoa = '$pessoa', funcionario = '$funcionario' WHERE id = '$id'");
 }
 
 $query->bindValue(":descricao", "$descricao");

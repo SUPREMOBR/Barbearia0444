@@ -76,7 +76,6 @@ echo <<<HTML
 		<big><a href="#" onclick="mostrar('{$nome}', '{$email}', '{$cpf}', '{$senhaFormatada}', '{$nivel}', '{$dataFormatada}', '{$ativo}', '{$telefone}', '{$endereco}', '{$foto}', '{$atendimento}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
 
 
-
 		<li class="dropdown head-dpdn2" style="display: inline-block;">
 		<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><big><i class="fa fa-trash-o text-danger"></i></big></a>
 
@@ -90,9 +89,9 @@ echo <<<HTML
 		</li>
 
 
-
 		<big><a href="#" onclick="ativar('{$id}', '{$acao}')" title="{$titulo_link}"><i class="fa {$icone} text-success"></i></a></big>
 
+        <big><a href="#" onclick="permissoes('{$id}', '{$nome}')" title="Definir Permissões"><i class="fa fa-lock " style="color:blue; margin-left:3px"></i></a></big>
 
 		</td>
 </tr>
@@ -175,4 +174,14 @@ HTML;
 
 		$('#modalDados').modal('show');
 	}
+</script>
+
+<script type="text/javascript">
+	function permissoes(id, nome){		
+    $('#id-usuario').val(id);        
+    $('#nome-usuario').text(nome);   
+    $('#modalPermissoes').modal('show');
+    $('#mensagem-permissao').text(''); 
+    listarPermissoes(id);
+}
 </script>

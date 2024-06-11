@@ -5,6 +5,12 @@ require_once("../conexao.php");
 
 $pag = 'estoque';
 
+//verificar se ele tem a permissão de estar nessa página
+if(@$estoque == 'ocultar'){
+    echo "<script>window.location='../index.php'</script>";
+    exit();
+}
+
 ?>
 
 <div class="bs-example widget-shadow" style="padding:15px" id="listar">
