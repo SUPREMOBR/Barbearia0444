@@ -64,7 +64,21 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 				</small>
 			</div>
 		</div>	
-		
+
+		<div class="col-md-2"  align="center">	
+			<div > 
+				<form action="relatorio/relatorio_comissoes_class.php" target="_blank" method="POST">
+
+					<input type="hidden" name="dataInicial" id="dataInicial">
+					<input type="hidden" name="dataFinal" id="dataFinal">
+					<input type="hidden" name="pago" id="pago_relatorio">
+					<input type="hidden" name="funcionario" value="<?php echo $id_funcionario ?>">
+
+				<button type="submit" class="text-danger link-botao"><i class="fa fa-file-pdf-o" class="text-danger"></i> <span class="text-success">Relatório</span></button>
+
+				</form>
+			</div>
+		</div>	
 
 		<input type="hidden" id="buscar-contas">
 
@@ -121,7 +135,7 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 					</div>
 
 					<div class="col-md-6">							
-						<span><b>Data PGTO: </b></span>
+						<span><b>Data Pagamento: </b></span>
 						<span id="data_pagamento_dados"></span>							
 					</div>
 
@@ -153,7 +167,7 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 
 					<div class="col-md-6">							
 						<span><b>Funcionário: </b></span>
-						<span id="nome_func_dados"></span>							
+						<span id="nome_funcionario_dados"></span>							
 					</div>
 
 

@@ -2,9 +2,9 @@
 require_once("../../../conexao.php");
 $tabela = 'dias';
 
-$id_func = $_POST['func'];
+$id_funcionario = $_POST['funcionario'];
 
-$query = $pdo->query("SELECT * FROM $tabela where funcionario = '$id_func' ORDER BY id asc");
+$query = $pdo->query("SELECT * FROM $tabela where funcionario = '$id_funcionario' ORDER BY id asc");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
 if($total_registro > 0){
@@ -80,8 +80,8 @@ for($i=0; $i < $total_registro; $i++){
     
             success: function (mensagem) {            
                 if (mensagem.trim() == "Excluído com Sucesso") {   
-                    var func = $("#id_dias").val();             
-                    listarDias(func);                
+                    var funcionario = $("#id_dias").val();             
+                    listarDias(funcionario);                
                 } else {
                     $('#mensagem-dias-excluir').addClass('text-danger')
                     $('#mensagem-dias-excluir').text(mensagem)

@@ -9,6 +9,28 @@ if(@$home == 'ocultar'){
     exit();
 }
 
+
+$data_hoje = date('Y-m-d');
+$data_ontem = date('Y-m-d', strtotime("-1 days",strtotime($data_hoje)));
+
+$mes_atual = Date('m');
+$ano_atual = Date('Y');
+$data_inicio_mes = $ano_atual."-".$mes_atual."-01";
+
+if($mes_atual == '4' || $mes_atual == '6' || $mes_atual == '9' || $mes_atual == '11'){
+    $dia_final_mes = '30';
+}else if($mes_atual == '2'){
+    $dia_final_mes = '28';
+}else{
+    $dia_final_mes = '31';
+}
+
+$data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
+
+
+
+
+
 $query = $pdo->query("SELECT * FROM clientes ");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_clientes = @count($resultado);
@@ -38,95 +60,316 @@ if($total_registro > 0){
     }
 }
 
+
+//totalizando agendamentos
+$query = $pdo->query("SELECT * FROM agendamentos where data = curDate() ");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+$total_agendamentos_hoje = @count($resultado);
+
+$query = $pdo->query("SELECT * FROM agendamentos where data = curDate() and status = 'Concluído'");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+$total_agendamentos_concluido_hoje = @count($resultado);
+
+
+if($total_agendamentos_concluido_hoje > 0 and $total_agendamentos_hoje > 0){
+    $porcentagemAgendamentos = ($total_agendamentos_concluido_hoje / $total_agendamentos_hoje) * 100;
+}else{
+    $porcentagemAgendamentos = 0;
+}
+
+
+
+
+
+//totalizando agendamentos pagos
+$query = $pdo->query("SELECT * FROM receber where data_lancamento = curDate() and tipo = 'Serviço' ");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+$total_servicos_hoje = @count($resultado);
+
+$query = $pdo->query("SELECT * FROM receber where data_lancamento = curDate() and tipo = 'Serviço' and pago = 'Sim' ");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+$total_servicos_pago_hoje = @count($resultado);
+
+
+if($total_servicos_pago_hoje > 0 and $total_servicos_hoje > 0){
+    $porcentagemServicos = ($total_servicos_pago_hoje / $total_servicos_hoje) * 100;
+}else{
+    $porcentagemServicos = 0;
+}
+
+
+
+
+//totalizando comissoes pagas mes
+$query = $pdo->query("SELECT * FROM pagar where data_lancamento >= '$data_inicio_mes' and data_lancamento <= '$data_final_mes' and tipo = 'Comissão' ");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+$total_comissoes_mes = @count($resultado);
+
+$query = $pdo->query("SELECT * FROM pagar where data_lancamento >= '$data_inicio_mes' and data_lancamento <= '$data_final_mes' and tipo = 'Comissão' and pago = 'Sim' ");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+$total_comissoes_mes_pagas = @count($resultado);
+
+
+if($total_comissoes_mes_pagas > 0 and $total_comissoes_mes > 0){
+    $porcentagemComissoes = ($total_comissoes_mes_pagas / $total_comissoes_mes) * 100;
+}else{
+    $porcentagemComissoes = 0;
+}
+
+//TOTALIZAR CONTAS DO DIA
+$total_debitos_dia = 0;
+$query = $pdo->query("SELECT * FROM pagar where data_pagamento = curDate()");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+if(@count($resultado) > 0){
+for($i=0; $i < @count($resultado); $i++){
+    foreach ($resultado[$i] as $key => $value){}
+        $total_debitos_dia += $resultado[$i]['valor'];
+    }
+}
+
+$total_ganhos_dia = 0;
+$query = $pdo->query("SELECT * FROM receber where data_pagamento = curDate() ");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+if(@count($resultado) > 0){
+for($i=0; $i < @count($resultado); $i++){
+    foreach ($resultado[$i] as $key => $value){}
+        $total_ganhos_dia += $resultado[$i]['valor'];
+    }
+}
+
+$saldo_total_dia = $total_ganhos_dia - $total_debitos_dia;
+$saldo_total_diaFormatado = number_format($saldo_total_dia, 2, ',', '.');
+
+if($saldo_total_dia < 0){
+    $classe_saldo_dia = 'user1';
+}else{
+    $classe_saldo_dia = 'dollar2';
+}
+
+
+
+//dados para o gráfico
+$dados_meses_despesas =  '';
+$dados_meses_servicos =  '';
+$dados_meses_vendas =  '';
+        //ALIMENTAR DADOS PARA O GRÁFICO
+        for($i=1; $i <= 12; $i++){
+
+            if($i < 10){
+                $mes_atual = '0'.$i;
+            }else{
+                $mes_atual = $i;
+            }
+
+        if($mes_atual == '4' || $mes_atual == '6' || $mes_atual == '9' || $mes_atual == '11'){
+            $dia_final_mes = '30';
+        }else if($mes_atual == '2'){
+            $dia_final_mes = '28';
+        }else{
+            $dia_final_mes = '31';
+        }
+
+
+        $data_mes_inicio_grafico = $ano_atual."-".$mes_atual."-01";
+        $data_mes_final_grafico = $ano_atual."-".$mes_atual."-".$dia_final_mes;
+
+
+        //DESPESAS
+        $total_mes_despesa = 0;
+        $query = $pdo->query("SELECT * FROM pagar where pago = 'Sim' and tipo = 'Conta' and data_pagamento >= '$data_mes_inicio_grafico' and data_pagamento <= '$data_mes_final_grafico' ORDER BY id asc");
+        $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+        $total_registro = @count($resultado);
+        if($total_registro > 0){
+            for($i2=0; $i2 < $total_registro; $i2++){
+                foreach ($resultado[$i2] as $key => $value){}
+            $total_mes_despesa +=  $resultado[$i2]['valor'];
+        }
+        }
+
+        $dados_meses_despesas = $dados_meses_despesas. $total_mes_despesa. '-';
+
+
+
+
+
+         //VENDAS
+        $total_mes_vendas = 0;
+        $query = $pdo->query("SELECT * FROM receber where pago = 'Sim' and tipo = 'Venda' and data_pagamento >= '$data_mes_inicio_grafico' and data_pagamento <= '$data_mes_final_grafico' ORDER BY id asc");
+        $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+        $total_registro = @count($resultado);
+        if($total_registro > 0){
+            for($i2=0; $i2 < $total_registro; $i2++){
+                foreach ($resultado[$i2] as $key => $value){}
+            $total_mes_vendas +=  $resultado[$i2]['valor'];
+        }
+        }
+
+        $dados_meses_vendas = $dados_meses_vendas. $total_mes_vendas. '-';
+
+
+
+
+
+        //SERVICOS
+        $total_mes_servicos = 0;
+        $query = $pdo->query("SELECT * FROM receber where pago = 'Sim' and tipo = 'Serviço' and data_pagamento >= '$data_mes_inicio_grafico' and data_pagamento <= '$data_mes_final_grafico' ORDER BY id asc");
+        $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+        $total_registro = @count($resultado);
+        if($total_registro > 0){
+            for($i2=0; $i2 < $total_registro; $i2++){
+                foreach ($resultado[$i2] as $key => $value){}
+            $total_mes_servicos +=  $resultado[$i2]['valor'];
+        }
+        }
+
+        $dados_meses_servicos = $dados_meses_servicos. $total_mes_servicos. '-';
+
+
+
+    }
+
+
+
  ?>
+
+  <input type="hidden" id="dados_grafico_despesa">
+   <input type="hidden" id="dados_grafico_venda">
+    <input type="hidden" id="dados_grafico_servico">
 <div class="main-page">
 
 
-<div class="col_3">
+	<div class="col_3">
 
-    <a href="index.php?pagina=clientes">
-    <div class="col-md-3 widget widget1">
-        <div class="r3_counter_box">
-            <i class="pull-left fa fa-users icon-rounded"></i>
-            <div class="stats">
-                    <h5><strong><big><big><?php echo $total_clientes ?></big></big></strong></h5>
+        <a href="index.php?pag=clientes">
+		<div class="col-md-3 widget widget1">
+			<div class="r3_counter_box">
+				<i class="pull-left fa fa-users icon-rounded"></i>
+				<div class="stats">
+                        <h5><strong><big><big><?php echo $total_clientes ?></big></big></strong></h5>
 
-                </div>
-                <hr style="margin-top:10px">
-                <div align="center"><span>Total de Clientes</span></div>
+                    </div>
+                    <hr style="margin-top:10px">
+                    <div align="center"><span>Total de Clientes</span></div>
+			</div>
+		</div>
+        </a>
+
+	
+
+         <a href="index.php?pag=pagar">
+        <div class="col-md-3 widget widget1">
+            <div class="r3_counter_box">
+                <i class="pull-left fa fa-money user1 icon-rounded"></i>
+                <div class="stats">
+                        <h5><strong><big><big><?php echo $contas_pagar_hoje ?></big></big></strong></h5>
+
+                    </div>
+                    <hr style="margin-top:10px">
+                    <div align="center"><span>Contas à Pagar Hoje</span></div>
+            </div>
         </div>
-    </div>
+        </a>
+
+
+		   <a href="index.php?pag=receber">
+        <div class="col-md-3 widget widget1">
+            <div class="r3_counter_box">
+                <i class="pull-left fa fa-money dollar2 icon-rounded"></i>
+                <div class="stats">
+                        <h5><strong><big><big><?php echo $contas_receber_hoje ?></big></big></strong></h5>
+
+                    </div>
+                    <hr style="margin-top:10px">
+                    <div align="center"><span>Contas à Receber Hoje</span></div>
+            </div>
+        </div>
+        </a>
+
+         <a href="index.php?pag=estoque">
+		<div class="col-md-3 widget widget1">
+			<div class="r3_counter_box">
+				<i class="pull-left fa fa-pie-chart dollar1 icon-rounded"></i>
+				<div class="stats">
+                        <h5><strong><big><big><?php echo $estoque_baixo ?></big></big></strong></h5>
+
+                    </div>
+                    <hr style="margin-top:10px">
+                    <div align="center"><span>Produtos Estoque Baixo</span></div>
+			</div>
+		</div>
     </a>
-
-
-
-     <a href="index.php?pagina=pagar">
-    <div class="col-md-3 widget widget1">
-        <div class="r3_counter_box">
-            <i class="pull-left fa fa-money user1 icon-rounded"></i>
-            <div class="stats">
-                    <h5><strong><big><big><?php echo $contas_pagar_hoje ?></big></big></strong></h5>
-
-                </div>
-                <hr style="margin-top:10px">
-                <div align="center"><span>Contas à Pagar Hoje</span></div>
-        </div>
-    </div>
-    </a>
-
-
-       <a href="index.php?pagina=receber">
-    <div class="col-md-3 widget widget1">
-        <div class="r3_counter_box">
-            <i class="pull-left fa fa-money dollar2 icon-rounded"></i>
-            <div class="stats">
-                    <h5><strong><big><big><?php echo $contas_receber_hoje ?></big></big></strong></h5>
-
-                </div>
-                <hr style="margin-top:10px">
-                <div align="center"><span>Contas à Receber Hoje</span></div>
-        </div>
-    </div>
-    </a>
-
-     <a href="index.php?pagina=estoque">
-    <div class="col-md-3 widget widget1">
-        <div class="r3_counter_box">
-            <i class="pull-left fa fa-pie-chart dollar1 icon-rounded"></i>
-            <div class="stats">
-                    <h5><strong><big><big><?php echo $estoque_baixo ?></big></big></strong></h5>
-
-                </div>
-                <hr style="margin-top:10px">
-                <div align="center"><span>Produtos Estoque Baixo</span></div>
-        </div>
-    </div>
-</a>
 
 
 
     <div class="col-md-3 widget">
-        <div class="r3_counter_box">
-            <i class="pull-left fa fa-usd dollar2 icon-rounded"></i>
-            <div class="stats">
-                    <h5><strong><big><big>R$ 0</big></big></strong></h5>
+			<div class="r3_counter_box">
+				<i class="pull-left fa fa-usd <?php echo $classe_saldo_dia ?> icon-rounded"></i>
+				<div class="stats">
+                        <h5><strong><big><?php echo @$saldo_total_diaFormatado ?></big></strong></h5>
 
+                    </div>
+                    <hr style="margin-top:10px">
+                    <div align="center"><span>R$ Saldo do Dia</span></div>
+			</div>
+		</div>
+		<div class="clearfix"> </div>
+	</div>
+
+
+
+	<div class="row" style="margin-top: 20px">
+
+
+
+        <div class="col-md-4 stat stat2">
+
+            <div class="content-top-1">
+                <div class="col-md-7 top-content">
+                    <h5>Agendamentos Dia</h5>
+                    <label><?php echo $total_agendamentos_hoje  ?>+</label>
                 </div>
-                <hr style="margin-top:10px">
-                <div align="center"><span>Saldo do Dia</span></div>
+                <div class="col-md-5 top-content1">    
+                    <div id="demo-pie-1" class="pie-title-center" data-percent="<?php echo $porcentagemAgendamentos ?>"> <span class="pie-value"></span> </div>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
         </div>
+
+        <div class="col-md-4 stat">
+            <div class="content-top-1">
+                <div class="col-md-7 top-content">
+                    <h5>Serviços Pagos Hoje</h5>
+                    <label><?php echo $total_servicos_hoje ?>+</label>
+                </div>
+                <div class="col-md-5 top-content1">    
+                    <div id="demo-pie-2" class="pie-title-center" data-percent="<?php echo $porcentagemServicos ?>"> <span class="pie-value"></span> </div>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 stat">
+            <div class="content-top-1">
+                <div class="col-md-7 top-content">
+                    <h5>Comissões Pagas Mês</h5>
+                    <label><?php echo $total_comissoes_mes ?>+</label>
+                </div>
+                <div class="col-md-5 top-content1">    
+                    <div id="demo-pie-3" class="pie-title-center" data-percent="<?php echo $porcentagemComissoes ?>"> <span class="pie-value"></span> </div>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+
     </div>
-    <div class="clearfix"> </div>
-</div>
 
+        <div class="row-one widgettable">
 
-
-	<div class="row-one widgettable">
-		<div class="col-md-8 content-top-2 card">
+		<div class="col-md-12 content-top-2 card">
 
 			<div class="agileinfo-cdr">
 					<div class="card-header">
-                        <h3>Weekly Sales</h3>
+                        <h3>Demonstrativo Financeiro</h3>
                     </div>
 					
 						<div id="Linegraph" style="width: 98%; height: 350px">
@@ -135,38 +378,7 @@ if($total_registro > 0){
 				</div>
 
 		</div>
-		<div class="col-md-4 stat">
-			<div class="content-top-1">
-				<div class="col-md-6 top-content">
-					<h5>Sales</h5>
-					<label>1283+</label>
-				</div>
-				<div class="col-md-6 top-content1">	   
-					<div id="demo-pie-1" class="pie-title-center" data-percent="45"> <span class="pie-value"></span> </div>
-				</div>
-				<div class="clearfix"> </div>
-			</div>
-			<div class="content-top-1">
-				<div class="col-md-6 top-content">
-					<h5>Reviews</h5>
-					<label>2262+</label>
-				</div>
-				<div class="col-md-6 top-content1">	   
-					<div id="demo-pie-2" class="pie-title-center" data-percent="75"> <span class="pie-value"></span> </div>
-				</div>
-				<div class="clearfix"> </div>
-			</div>
-			<div class="content-top-1">
-				<div class="col-md-6 top-content">
-					<h5>Visitors</h5>
-					<label>12589+</label>
-				</div>
-				<div class="col-md-6 top-content1">	   
-					<div id="demo-pie-3" class="pie-title-center" data-percent="90"> <span class="pie-value"></span> </div>
-				</div>
-				<div class="clearfix"> </div>
-			</div>
-		</div>
+
 
 
 
@@ -204,255 +416,105 @@ if($total_registro > 0){
 <!-- for index page weekly sales java script -->
 	<script src="js/SimpleChart.js"></script>
     <script>
+        $('#dados_grafico_despesa').val('<?=$dados_meses_despesas?>'); 
+        var dados = $('#dados_grafico_despesa').val();
+        saldo_mes = dados.split('-'); 
+
+
+         $('#dados_grafico_venda').val('<?=$dados_meses_vendas?>'); 
+        var dados_venda = $('#dados_grafico_venda').val();
+        saldo_mes_venda = dados_venda.split('-'); 
+
+
+         $('#dados_grafico_servico').val('<?=$dados_meses_servicos?>'); 
+        var dados_servico = $('#dados_grafico_servico').val();
+        saldo_mes_servico = dados_servico.split('-'); 
+
+
+
         var graphdata1 = {
-            linecolor: "#CCA300",
-            title: "Monday",
+            linecolor: "#e32424",
+            title: "Despesas",
             values: [
-            { X: "6:00", Y: 10.00 },
-            { X: "7:00", Y: 20.00 },
-            { X: "8:00", Y: 40.00 },
-            { X: "9:00", Y: 34.00 },
-            { X: "10:00", Y: 40.25 },
-            { X: "11:00", Y: 28.56 },
-            { X: "12:00", Y: 18.57 },
-            { X: "13:00", Y: 34.00 },
-            { X: "14:00", Y: 40.89 },
-            { X: "15:00", Y: 12.57 },
-            { X: "16:00", Y: 28.24 },
-            { X: "17:00", Y: 18.00 },
-            { X: "18:00", Y: 34.24 },
-            { X: "19:00", Y: 40.58 },
-            { X: "20:00", Y: 12.54 },
-            { X: "21:00", Y: 28.00 },
-            { X: "22:00", Y: 18.00 },
-            { X: "23:00", Y: 34.89 },
-            { X: "0:00", Y: 40.26 },
-            { X: "1:00", Y: 28.89 },
-            { X: "2:00", Y: 18.87 },
-            { X: "3:00", Y: 34.00 },
-            { X: "4:00", Y: 40.00 }
+            { X: "Janeiro", Y: parseFloat(saldo_mes[0]) },
+            { X: "Fevereiro", Y: parseFloat(saldo_mes[1]) },
+            { X: "Março", Y: parseFloat(saldo_mes[2]) },
+            { X: "Abril", Y: parseFloat(saldo_mes[3]) },
+            { X: "Maio", Y: parseFloat(saldo_mes[4]) },
+            { X: "Junho", Y: parseFloat(saldo_mes[5]) },
+            { X: "Julho", Y: parseFloat(saldo_mes[6]) },
+            { X: "Agosto", Y: parseFloat(saldo_mes[7]) },
+            { X: "Setembro", Y: parseFloat(saldo_mes[8]) },
+            { X: "Outubro", Y: parseFloat(saldo_mes[9]) },
+            { X: "Novembro", Y: parseFloat(saldo_mes[10]) },
+            { X: "Dezembro", Y: parseFloat(saldo_mes[11]) },
+            
             ]
         };
+
         var graphdata2 = {
-            linecolor: "#00CC66",
-            title: "Tuesday",
+            linecolor: "#109447",
+            title: "Vendas",
             values: [
-              { X: "6:00", Y: 100.00 },
-            { X: "7:00", Y: 120.00 },
-            { X: "8:00", Y: 140.00 },
-            { X: "9:00", Y: 134.00 },
-            { X: "10:00", Y: 140.25 },
-            { X: "11:00", Y: 128.56 },
-            { X: "12:00", Y: 118.57 },
-            { X: "13:00", Y: 134.00 },
-            { X: "14:00", Y: 140.89 },
-            { X: "15:00", Y: 112.57 },
-            { X: "16:00", Y: 128.24 },
-            { X: "17:00", Y: 118.00 },
-            { X: "18:00", Y: 134.24 },
-            { X: "19:00", Y: 140.58 },
-            { X: "20:00", Y: 112.54 },
-            { X: "21:00", Y: 128.00 },
-            { X: "22:00", Y: 118.00 },
-            { X: "23:00", Y: 134.89 },
-            { X: "0:00", Y: 140.26 },
-            { X: "1:00", Y: 128.89 },
-            { X: "2:00", Y: 118.87 },
-            { X: "3:00", Y: 134.00 },
-            { X: "4:00", Y: 180.00 }
+            { X: "Janeiro", Y: parseFloat(saldo_mes_venda[0]) },
+            { X: "Fevereiro", Y: parseFloat(saldo_mes_venda[1]) },
+            { X: "Março", Y: parseFloat(saldo_mes_venda[2]) },
+            { X: "Abril", Y: parseFloat(saldo_mes_venda[3]) },
+            { X: "Maio", Y: parseFloat(saldo_mes_venda[4]) },
+            { X: "Junho", Y: parseFloat(saldo_mes_venda[5]) },
+            { X: "Julho", Y: parseFloat(saldo_mes_venda[6]) },
+            { X: "Agosto", Y: parseFloat(saldo_mes_venda[7]) },
+            { X: "Setembro", Y: parseFloat(saldo_mes_venda[8]) },
+            { X: "Outubro", Y: parseFloat(saldo_mes_venda[9]) },
+            { X: "Novembro", Y: parseFloat(saldo_mes_venda[10]) },
+            { X: "Dezembro", Y: parseFloat(saldo_mes_venda[11]) },
+            
             ]
         };
-        var graphdata3 = {
-            linecolor: "#FF99CC",
-            title: "Wednesday",
+
+
+          var graphdata3 = {
+            linecolor: "#0e248a",
+            title: "Serviços",
             values: [
-              { X: "6:00", Y: 230.00 },
-            { X: "7:00", Y: 210.00 },
-            { X: "8:00", Y: 214.00 },
-            { X: "9:00", Y: 234.00 },
-            { X: "10:00", Y: 247.25 },
-            { X: "11:00", Y: 218.56 },
-            { X: "12:00", Y: 268.57 },
-            { X: "13:00", Y: 274.00 },
-            { X: "14:00", Y: 280.89 },
-            { X: "15:00", Y: 242.57 },
-            { X: "16:00", Y: 298.24 },
-            { X: "17:00", Y: 208.00 },
-            { X: "18:00", Y: 214.24 },
-            { X: "19:00", Y: 214.58 },
-            { X: "20:00", Y: 211.54 },
-            { X: "21:00", Y: 248.00 },
-            { X: "22:00", Y: 258.00 },
-            { X: "23:00", Y: 234.89 },
-            { X: "0:00", Y: 210.26 },
-            { X: "1:00", Y: 248.89 },
-            { X: "2:00", Y: 238.87 },
-            { X: "3:00", Y: 264.00 },
-            { X: "4:00", Y: 270.00 }
+            { X: "Janeiro", Y: parseFloat(saldo_mes_servico[0]) },
+            { X: "Fevereiro", Y: parseFloat(saldo_mes_servico[1]) },
+            { X: "Março", Y: parseFloat(saldo_mes_servico[2]) },
+            { X: "Abril", Y: parseFloat(saldo_mes_servico[3]) },
+            { X: "Maio", Y: parseFloat(saldo_mes_servico[4]) },
+            { X: "Junho", Y: parseFloat(saldo_mes_servico[5]) },
+            { X: "Julho", Y: parseFloat(saldo_mes_servico[6]) },
+            { X: "Agosto", Y: parseFloat(saldo_mes_servico[7]) },
+            { X: "Setembro", Y: parseFloat(saldo_mes_servico[8]) },
+            { X: "Outubro", Y: parseFloat(saldo_mes_servico[9]) },
+            { X: "Novembro", Y: parseFloat(saldo_mes_servico[10]) },
+            { X: "Dezembro", Y: parseFloat(saldo_mes_servico[11]) },
+            
             ]
         };
-        var graphdata4 = {
-            linecolor: "Random",
-            title: "Thursday",
-            values: [
-              { X: "6:00", Y: 300.00 },
-            { X: "7:00", Y: 410.98 },
-            { X: "8:00", Y: 310.00 },
-            { X: "9:00", Y: 314.00 },
-            { X: "10:00", Y: 310.25 },
-            { X: "11:00", Y: 318.56 },
-            { X: "12:00", Y: 318.57 },
-            { X: "13:00", Y: 314.00 },
-            { X: "14:00", Y: 310.89 },
-            { X: "15:00", Y: 512.57 },
-            { X: "16:00", Y: 318.24 },
-            { X: "17:00", Y: 318.00 },
-            { X: "18:00", Y: 314.24 },
-            { X: "19:00", Y: 310.58 },
-            { X: "20:00", Y: 312.54 },
-            { X: "21:00", Y: 318.00 },
-            { X: "22:00", Y: 318.00 },
-            { X: "23:00", Y: 314.89 },
-            { X: "0:00", Y: 310.26 },
-            { X: "1:00", Y: 318.89 },
-            { X: "2:00", Y: 518.87 },
-            { X: "3:00", Y: 314.00 },
-            { X: "4:00", Y: 310.00 }
-            ]
-        };
-        var Piedata = {
-            linecolor: "Random",
-            title: "Profit",
-            values: [
-              { X: "Monday", Y: 50.00 },
-            { X: "Tuesday", Y: 110.98 },
-            { X: "Wednesday", Y: 70.00 },
-            { X: "Thursday", Y: 204.00 },
-            { X: "Friday", Y: 80.25 },
-            { X: "Saturday", Y: 38.56 },
-            { X: "Sunday", Y: 98.57 }
-            ]
-        };
-        $(function () {
-            $("#Bargraph").SimpleChart({
-                ChartType: "Bar",
-                toolwidth: "50",
-                toolheight: "25",
-                axiscolor: "#E6E6E6",
-                textcolor: "#6E6E6E",
-                showlegends: true,
-                data: [graphdata4, graphdata3, graphdata2, graphdata1],
-                legendsize: "140",
-                legendposition: 'bottom',
-                xaxislabel: 'Hours',
-                title: 'Weekly Profit',
-                yaxislabel: 'Profit in $'
-            });
-            $("#sltchartype").on('change', function () {
-                $("#Bargraph").SimpleChart('ChartType', $(this).val());
-                $("#Bargraph").SimpleChart('reload', 'true');
-            });
-            $("#Hybridgraph").SimpleChart({
-                ChartType: "Hybrid",
-                toolwidth: "50",
-                toolheight: "25",
-                axiscolor: "#E6E6E6",
-                textcolor: "#6E6E6E",
-                showlegends: true,
-                data: [graphdata4],
-                legendsize: "140",
-                legendposition: 'bottom',
-                xaxislabel: 'Hours',
-                title: 'Weekly Profit',
-                yaxislabel: 'Profit in $'
-            });
+       
+
+      
+       
+        $(function () {          
+           
+           
             $("#Linegraph").SimpleChart({
                 ChartType: "Line",
                 toolwidth: "50",
                 toolheight: "25",
                 axiscolor: "#E6E6E6",
                 textcolor: "#6E6E6E",
-                showlegends: false,
-                data: [graphdata4, graphdata3, graphdata2, graphdata1],
-                legendsize: "140",
-                legendposition: 'bottom',
-                xaxislabel: 'Hours',
-                title: 'Weekly Profit',
-                yaxislabel: 'Profit in $'
-            });
-            $("#Areagraph").SimpleChart({
-                ChartType: "Area",
-                toolwidth: "50",
-                toolheight: "25",
-                axiscolor: "#E6E6E6",
-                textcolor: "#6E6E6E",
-                showlegends: true,
-                data: [graphdata4, graphdata3, graphdata2, graphdata1],
-                legendsize: "140",
-                legendposition: 'bottom',
-                xaxislabel: 'Hours',
-                title: 'Weekly Profit',
-                yaxislabel: 'Profit in $'
-            });
-            $("#Scatterredgraph").SimpleChart({
-                ChartType: "Scattered",
-                toolwidth: "50",
-                toolheight: "25",
-                axiscolor: "#E6E6E6",
-                textcolor: "#6E6E6E",
-                showlegends: true,
-                data: [graphdata4, graphdata3, graphdata2, graphdata1],
-                legendsize: "140",
-                legendposition: 'bottom',
-                xaxislabel: 'Hours',
-                title: 'Weekly Profit',
-                yaxislabel: 'Profit in $'
-            });
-            $("#Piegraph").SimpleChart({
-                ChartType: "Pie",
-                toolwidth: "50",
-                toolheight: "25",
-                axiscolor: "#E6E6E6",
-                textcolor: "#6E6E6E",
-                showlegends: true,
-                showpielables: true,
-                data: [Piedata],
-                legendsize: "250",
-                legendposition: 'right',
-                xaxislabel: 'Hours',
-                title: 'Weekly Profit',
-                yaxislabel: 'Profit in $'
-            });
-
-            $("#Stackedbargraph").SimpleChart({
-                ChartType: "Stacked",
-                toolwidth: "50",
-                toolheight: "25",
-                axiscolor: "#E6E6E6",
-                textcolor: "#6E6E6E",
                 showlegends: true,
                 data: [graphdata3, graphdata2, graphdata1],
-                legendsize: "140",
+                legendsize: "30",
                 legendposition: 'bottom',
-                xaxislabel: 'Hours',
-                title: 'Weekly Profit',
-                yaxislabel: 'Profit in $'
-            });
+                xaxislabel: 'Meses',
+                title: '',
+                yaxislabel: 'Totais R$',
 
-            $("#StackedHybridbargraph").SimpleChart({
-                ChartType: "StackedHybrid",
-                toolwidth: "50",
-                toolheight: "25",
-                axiscolor: "#E6E6E6",
-                textcolor: "#6E6E6E",
-                showlegends: true,
-                data: [graphdata3, graphdata2, graphdata1],
-                legendsize: "140",
-                legendposition: 'bottom',
-                xaxislabel: 'Hours',
-                title: 'Weekly Profit',
-                yaxislabel: 'Profit in $'
             });
+           
         });
 
     </script>

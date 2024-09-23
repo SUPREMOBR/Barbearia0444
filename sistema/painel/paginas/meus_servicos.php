@@ -82,7 +82,7 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 <!-- Modal Inserir-->
 <div class="modal fade" id="modalform" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
-		<div class="modal-content ">
+		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title"><span id="titulo_inserir"></span></h4>
 				<button id="btn-fechar" type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px">
@@ -90,42 +90,17 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 				</button>
 			</div>
 			<form id="form">
-			    <div class="modal-body">
+				<div class="modal-body">
 
 					<div class="row">
-					    
-						<div class="col-md-6">
-							
-							<div class="form-group">
-								<label for="exampleInputEmail1">Cliente</label>
-								<select class="form-control sel2" id="pessoa" name="pessoa" style="width:100%;" > 
+					
+						<div class="col-md-6">						
+							<div class="form-group"> 
+								<label>Clientes</label> 
+								<select class="form-control sel2" id="cliente" name="cliente" style="width:100%;" required> 
 
 									<?php 
 									$query = $pdo->query("SELECT * FROM clientes ORDER BY nome asc");
-									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
-									$total_registro = @count($resultado);
-
-
-									if($total_registro > 0){
-										for($i=0; $i < $total_registro; $i++){
-										foreach ($resultado[$i] as $key => $value){}
-										echo '<option value="'.$resultado[$i]['id'].'">'.$resultado[$i]['nome'].'</option>';
-										}
-									}
-									?>
-									
-
-								</select>   
-							</div> 	
-						</div>
-					    <div class="col-md-6">
-
-							<div class="form-group">
-							    <label>Serviço</label> 
-								<select class="form-control sel2" id="servico" name="servico" style="width:100%;" required> 
-
-									<?php 
-									$query = $pdo->query("SELECT * FROM servicos ORDER BY nome asc");
 									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 									$total_registro = @count($resultado);
 									if($total_registro > 0){
@@ -137,43 +112,111 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 									?>
 
 
-								</select>        
-							</div> 	
+								</select>    
+							</div>						
+						</div>
+
+
+							<div class="col-md-6">						
+							<div class="form-group"> 
+								<label>Serviço</label> 
+								<select class="form-control sel2" id="servico" name="servico" style="width:100%;" required> 
+
+									<?php 
+									$query = $pdo->query("SELECT * FROM servicos_funcionarios where funcionario = '$id_usuario' ");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+if(@count($resultado) > 0){
+	for($i=0; $i < @count($resultado); $i++){
+		$serv = $resultado[$i]['servico'];
+
+		$query2 = $pdo->query("SELECT * FROM servicos where id = '$serv' and ativo = 'Sim' ");
+		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);	
+		$nome_funcionario = $resultado2[0]['nome'];
+
+		echo '<option value="'.$serv.'">'.$nome_funcionario.'</option>';
+	}		
+}else{
+	echo '<option value="">Nenhum Serviço</option>';
+}
+									?>
+
+
+								</select>    
+							</div>						
 						</div>				
+
+
+							
+
 					</div>
+
+
+				
+
+
 
 					<div class="row">
 
-						<div class="col-md-3">
+							
 
-							<div class="form-group">
-							<label>Valor </label> 
-								<input type="text" class="form-control" name="valor_serv" id="valor_serv" required>
-							</div> 	
-						</div>	
-
-
-						<div class="col-md-4">
-
-							<div class="form-group">
-								<label for="exampleInputEmail1">Data Pagamento</label>
-								<input type="date" class="form-control" id="data_pagamento" name="data_pagamento" value="<?php echo date('Y-m-d') ?>" >    
-							</div> 	
+						<div class="col-md-3" id="nasc">						
+							<div class="form-group"> 
+								<label>Valor </label> 
+								<input type="text" class="form-control" name="valor_serv" id="valor_serv" required> 
+							</div>						
 						</div>
 
-						
 
+							<div class="col-md-4" id="nasc">						
+							<div class="form-group"> 
+								<label>Data Pagamento</label> 
+								<input type="date" class="form-control" name="data_Pagamento" id="data_Pagamento" value="<?php echo date('Y-m-d') ?>"> 
+							</div>						
+						</div>	
+
+						<div class="col-md-5">						
+							<div class="form-group"> 
+								<label>Forma Pagamento</label> 
+								<select class="form-control" id="Pagamento" name="Pagamento" style="width:100%;" required> 
+
+									<?php 
+									$query = $pdo->query("SELECT * FROM formas_Pagamento");
+									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+									$total_registro = @count($resultado);
+									if($total_registro > 0){
+										for($i=0; $i < $total_registro; $i++){
+											foreach ($resultado[$i] as $key => $value){}
+												echo '<option value="'.$resultado[$i]['nome'].'">'.$resultado[$i]['nome'].'</option>';
+										}
+									}
+									?>
+
+
+								</select>    
+							</div>						
+						</div>
+
+							<div class="col-md-12">						
+							<div class="form-group"> 
+								<label>Observações </label> 
+								<input maxlength="1000" type="text" class="form-control" name="obs" id="obs2"> 
+							</div>						
+						</div>
+
+					
 					</div>
 
 
-						<input type="hidden" name="id" id="id">
+
+					
+					<input type="hidden" name="id" id="id">
 
 					<br>
 					<small><div id="mensagem" align="center"></div></small>
 				</div>
 
 				<div class="modal-footer">      
-					<button type="submit" class="btn btn-success">Salvar</button>
+					<button type="submit" class="btn btn-primary">Salvar</button>
 				</div>
 			</form>
 
@@ -260,15 +303,13 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 
 				</div>
 
+				<div class="row" style="border-bottom: 1px solid #cac7c7;">
+					
+					<div class="col-md-6">							
+						<span><b>OBS: </b></span>
+						<span id="obs_dados"></span>							
+					</div>
 
-
-
-				<div class="row">
-					<div class="col-md-12" align="center">	
-						<a id="link_mostrar" target="_blank" title="Clique para abrir o arquivo!">	
-							<img width="250px" id="target_mostrar">
-						</a>	
-					</div>					
 				</div>
 
 

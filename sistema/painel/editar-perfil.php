@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once('../conexao.php');
 
 $id = $_POST['id'];
@@ -14,7 +14,7 @@ $atendimento = $_POST['atendimento'];
 
 $foto = '';
 
-if($senha != $conf_senha){
+if ($senha != $conf_senha) {
 	echo 'As senhas são diferentes!!';
 	exit();
 }
@@ -22,7 +22,7 @@ if($senha != $conf_senha){
 //validar email
 $query = $pdo->query("SELECT * from usuarios01 where email = '$email'");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
-if(@count($resultado) > 0 and $id != $resultado[0]['id']){
+if (@count($resultado) > 0 and $id != $resultado[0]['id']) {
 	echo 'Email já Cadastrado, escolha outro!!';
 	exit();
 }
@@ -30,7 +30,7 @@ if(@count($resultado) > 0 and $id != $resultado[0]['id']){
 //validar cpf
 $query = $pdo->query("SELECT * from usuarios01 where cpf = '$cpf'");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
-if(@count($resultado) > 0 and $id != $resultado[0]['id']){
+if (@count($resultado) > 0 and $id != $resultado[0]['id']) {
 	echo 'CPF já Cadastrado, escolha outro!!';
 	exit();
 }
@@ -41,34 +41,34 @@ if(@count($resultado) > 0 and $id != $resultado[0]['id']){
 $query = $pdo->query("SELECT * FROM usuarios01 where id = '$id'");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
-if($total_registro > 0){
+if ($total_registro > 0) {
 	$foto = $resultado[0]['foto'];
-}else{
+} else {
 	$foto = 'sem-foto.jpg';
 }
 
 
 //SCRIPT PARA SUBIR FOTO NO SERVIDOR
-$nome_img = date('d-m-Y H:i:s') .'-'.@$_FILES['foto']['name'];
-$nome_img = preg_replace('/[ :]+/' , '-' , $nome_img);
+$nome_img = date('d-m-Y H:i:s') . '-' . @$_FILES['foto']['name'];
+$nome_img = preg_replace('/[ :]+/', '-', $nome_img);
 
-$caminho = 'img/perfil/' .$nome_img;
+$caminho = 'img/perfil/' . $nome_img;
 
-$imagem_temporaria = @$_FILES['foto']['tmp_name']; 
+$imagem_temporaria = @$_FILES['foto']['tmp_name'];
 
-if(@$_FILES['foto']['name'] != ""){
-	$extencao = pathinfo($nome_img, PATHINFO_EXTENSION);   
-	if($extencao == 'png' or $extencao == 'jpg' or $extencao == 'jpeg' or $extencao == 'gif'){ 
-	
-			//EXCLUO A FOTO ANTERIOR
-			if($foto != "sem-foto.jpg"){
-				@unlink('img/perfil/'.$foto);
-			}
+if (@$_FILES['foto']['name'] != "") {
+	$extensao = pathinfo($nome_img, PATHINFO_EXTENSION);
+	if ($extensao == 'png' or $extensao == 'jpg' or $extensao == 'jpeg' or $extensao == 'gif') {
 
-			$foto = $nome_img;
-		
+		//EXCLUO A FOTO ANTERIOR
+		if ($foto != "sem-foto.jpg") {
+			@unlink('img/perfil/' . $foto);
+		}
+
+		$foto = $nome_img;
+
 		move_uploaded_file($imagem_temporaria, $caminho);
-	}else{
+	} else {
 		echo 'Extensão de Imagem não permitida!';
 		exit();
 	}
@@ -77,7 +77,8 @@ if(@$_FILES['foto']['name'] != ""){
 
 
 
-$query = $pdo->prepare("UPDATE usuarios01 SET nome = :nome, email = :email, telefone = :telefone, cpf = :cpf, senha = :senha, senha_crip = '$senha_crip', endereco = :endereco, foto = '$foto', atendimento = '$atendimento' WHERE id = '$id'");
+$query = $pdo->prepare("UPDATE usuarios01 SET nome = :nome, email = :email, telefone = :telefone, cpf = :cpf, senha = :senha, senha_crip = '$senha_crip',
+ endereco = :endereco, foto = '$foto', atendimento = '$atendimento' WHERE id = '$id'");
 
 $query->bindValue(":nome", "$nome");
 $query->bindValue(":email", "$email");
@@ -88,4 +89,3 @@ $query->bindValue(":endereco", "$endereco");
 $query->execute();
 
 echo 'Editado com Sucesso';
- ?>

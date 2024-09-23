@@ -118,18 +118,18 @@ for($i=0; $i < $total_registro; $i++){
 
 		$query2 = $pdo->query("SELECT * FROM usuarios where id = '$funcionario'");
 		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-		$total_reg2 = @count($resultado2);
-		if($total_reg2 > 0){
-			$nome_func = $resultado2[0]['nome'];
+		$total_registro2 = @count($resultado2);
+		if($total_registro2 > 0){
+			$nome_funcionario = $resultado2[0]['nome'];
 		}else{
-			$nome_func = 'Sem Referência!';
+			$nome_funcionario = 'Sem Referência!';
 		}
 
 
 		$query2 = $pdo->query("SELECT * FROM servicos where id = '$servico'");
 		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-		$total_reg2 = @count($resultado2);
-		if($total_reg2 > 0){
+		$total_registro2 = @count($resultado2);
+		if($total_registro2 > 0){
 			$nome_serv = $resultado2[0]['nome'];
 		}else{
 			$nome_serv = 'Sem Referência!';
@@ -240,7 +240,7 @@ HTML;
 
 
 <script type="text/javascript">
-	function mostrar(descricao, valor, data_lancamento, data_venciemnto, data_pagamento, usuario_lancou, usuario_pagamento, foto, pessoa, link, telefone, func){
+	function mostrar(descricao, valor, data_lancamento, data_venciemnto, data_pagamento, usuario_lancou, usuario_pagamento, foto, pessoa, link, telefone, funcionario){
 
 		$('#nome_dados').text(descricao);
 		$('#valor_dados').text(valor);
@@ -251,7 +251,7 @@ HTML;
 		$('#usuario_baixa_dados').text(usuario_pagamento);
 		$('#pessoa_dados').text(pessoa);
 		$('#telefone_dados').text(telefone);
-		$('#nome_func_dados').text(func);
+		$('#nome_funcionario_dados').text(funcionario);
 		
 		$('#link_mostrar').attr('href','img/contas/' + link);
 		$('#target_mostrar').attr('src','img/contas/' + foto);

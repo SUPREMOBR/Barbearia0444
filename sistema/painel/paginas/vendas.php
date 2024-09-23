@@ -183,7 +183,28 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 							<div class="form-group">
 								<label for="exampleInputEmail1">Pago Em</label>
 								<input type="date" class="form-control" id="data_pagamento" name="data_pagamento"  >    
-							</div> 	
+							</div>
+
+							<div class="col-md-3">						
+							<div class="form-group"> 
+								<label>Forma PGTO</label> 
+								<select class="form-control" id="pagamento" name="pagamento" style="width:100%;" required> 
+
+									<?php 
+									$query = $pdo->query("SELECT * FROM formas_pagamento");
+									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+									$total_registro = @count($resultado);
+									if($total_registro > 0){
+										for($i=0; $i < $total_registro; $i++){
+											foreach ($resultado[$i] as $key => $value){}
+												echo '<option value="'.$resultado[$i]['nome'].'">'.$resultado[$i]['nome'].'</option>';
+										}
+									}
+									?>
+
+
+								</select>    
+							</div>		
 						</div>
 
 						

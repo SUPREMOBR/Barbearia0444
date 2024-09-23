@@ -1,11 +1,11 @@
-<?php 
+<?php
 require_once("../../../conexao.php");
 $tabela = 'receber';
 $data_hoje = date('Y-m-d');
 
 $dataInicial = @$_POST['dataInicial'];
 $dataFinal = @$_POST['dataFinal'];
-$status = '%'.@$_POST['status'].'%';
+$status = '%' . @$_POST['status'] . '%';
 
 
 $total_pago = 0;
@@ -14,7 +14,7 @@ $total_a_pagar = 0;
 $query = $pdo->query("SELECT * FROM $tabela where data_lancamento >= '$dataInicial' and data_lancamento <= '$dataFinal' and pago LIKE '$status' and tipo = 'Serviço' ORDER BY pago asc, data_vencimento asc");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
-if($total_registro > 0){
+if ($total_registro > 0) {
 
 	echo <<<HTML
 	<small>
@@ -33,106 +33,110 @@ if($total_registro > 0){
 	<tbody>	
 HTML;
 
-	
 
 
-for($i=0; $i < $total_registro; $i++){
-	foreach ($resultado[$i] as $key => $value){}
-	$id = $resultado[$i]['id'];	
-	$descricao = $resultado[$i]['descricao'];
-	$tipo = $resultado[$i]['tipo'];
-	$valor = $resultado[$i]['valor'];
-	$data_lancamento = $resultado[$i]['data_lancamento'];
-	$data_pagamento = $resultado[$i]['data_pagamento'];
-	$data_vencimento = $resultado[$i]['data_vencimento'];
-	$usuario_lancou = $resultado[$i]['usuario_lancou'];
-	$usuario_baixa = $resultado[$i]['usuario_baixa'];
-	$foto = $resultado[$i]['foto'];
-	$pessoa = $resultado[$i]['pessoa'];
-	$funcionario = $resultado[$i]['funcionario'];
-	$pago = $resultado[$i]['pago'];
-	$servico = $resultado[$i]['servico'];
-	
-	$valorFormatado = number_format($valor, 2, ',', '.');
-	
-	$data_lancamentoFormatado = implode('/', array_reverse(explode('-', $data_lancamento)));
-	$data_pagamentoFormatado = implode('/', array_reverse(explode('-', $data_pagamento)));
-	$data_vencimentoFormatado = implode('/', array_reverse(explode('-', $data_vencimento)));
+
+	for ($i = 0; $i < $total_registro; $i++) {
+		foreach ($resultado[$i] as $key => $value) {
+		}
+		$id = $resultado[$i]['id'];
+		$descricao = $resultado[$i]['descricao'];
+		$tipo = $resultado[$i]['tipo'];
+		$valor = $resultado[$i]['valor'];
+		$data_lancamento = $resultado[$i]['data_lancamento'];
+		$data_pagamento = $resultado[$i]['data_pagamento'];
+		$data_vencimento = $resultado[$i]['data_vencimento'];
+		$usuario_lancou = $resultado[$i]['usuario_lancou'];
+		$usuario_baixa = $resultado[$i]['usuario_baixa'];
+		$foto = $resultado[$i]['foto'];
+		$pessoa = $resultado[$i]['pessoa'];
+		$funcionario = $resultado[$i]['funcionario'];
+		$pago = $resultado[$i]['pago'];
+		$servico = $resultado[$i]['servico'];
+		$obs = $resultado[$i]['obs'];
+
+		$valorFormatado = number_format($valor, 2, ',', '.');
+
+		$data_lancamentoFormatado = implode('/', array_reverse(explode('-', $data_lancamento)));
+		$data_pagamentoFormatado = implode('/', array_reverse(explode('-', $data_pagamento)));
+		$data_vencimentoFormatado = implode('/', array_reverse(explode('-', $data_vencimento)));
 
 
-	$query2 = $pdo->query("SELECT * FROM clientes where id = '$pessoa'");
+		$query2 = $pdo->query("SELECT * FROM clientes where id = '$pessoa'");
 		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 		$total_registro2 = @count($resultado2);
-		if($total_registro2 > 0){
+		if ($total_registro2 > 0) {
 			$nome_pessoa = $resultado2[0]['nome'];
 			$telefone_pessoa  = $resultado2[0]['nome'];
-		}else{
+		} else {
 			$nome_pessoa = 'Sem Referência!';
 			$telefone_pessoa = '';
 		}
 
 
-	$query2 = $pdo->query("SELECT * FROM usuarios01 where id = '$usuario_baixa'");
-	    $resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-	    $total_registro2 = @count($resultado2);
-	    if($total_registro2 > 0){
-		    $nome_usuario_pagamento = $resultado2[0]['nome'];
-	    }else{
+		$query2 = $pdo->query("SELECT * FROM usuarios01 where id = '$usuario_baixa'");
+		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+		$total_registro2 = @count($resultado2);
+		if ($total_registro2 > 0) {
+			$nome_usuario_pagamento = $resultado2[0]['nome'];
+		} else {
 			$nome_usuario_pagamento = 'Nenhum!';
 		}
-	
 
-	$query2 = $pdo->query("SELECT * FROM usuarios01 where id = '$$usuario_lancou'");
-	    $resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-	    $total_registro2 = @count($resultado2);
-	    if($total_registro2 > 0){
-		    $nome_usuario_lancou = $resultado2[0]['nome'];
-	    }else{
+
+		$query2 = $pdo->query("SELECT * FROM usuarios01 where id = '$$usuario_lancou'");
+		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+		$total_registro2 = @count($resultado2);
+		if ($total_registro2 > 0) {
+			$nome_usuario_lancou = $resultado2[0]['nome'];
+		} else {
 			$nome_usuario_lancou = 'Sem Referência!';
 		}
 
 
-	$query2 = $pdo->query("SELECT * FROM usuarios01 where id = '$$funcionario'");
-	    $resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-	    $total_registro2 = @count($resultado2);
-	    if($total_registro2 > 0){
-		    $nome_funcionario = $resultado2[0]['nome'];
-	    }else{
+		$query2 = $pdo->query("SELECT * FROM usuarios01 where id = '$$funcionario'");
+		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+		$total_registro2 = @count($resultado2);
+		if ($total_registro2 > 0) {
+			$nome_funcionario = $resultado2[0]['nome'];
+		} else {
 			$nome_funcionario = 'Sem Referência!';
 		}
 
 
 
-		if($data_pagamento == '0000-00-00'){
+		if ($data_pagamento == '0000-00-00') {
 			$classe_alerta = 'text-danger';
 			$data_pagamentoFormatado = 'Pendente';
 			$visivel = '';
 			$total_a_pagar += $valor;
-		}else{
+			$japago = 'ocultar';
+		} else {
 			$classe_alerta = 'verde';
 			$visivel = 'ocultar';
 			$total_pago += $valor;
+			$japago = '';
 		}
-		
-    //extensão do arquivo
-      $extencao = pathinfo($foto, PATHINFO_EXTENSION);
-        if($extencao == 'pdf'){
-	       $tumb_arquivo = 'pdf.png';
-        }else if($extencao == 'rar' || $extencao == 'zip'){
-	       $tumb_arquivo = 'rar.png';
-        }else{
-	       $tumb_arquivo = $foto;
-        }
-		
 
-if($data_vencimento < $data_hoje and $pago != 'Sim'){
-	$classe_debito = 'vermelho-escuro';
-}else{
-	$classe_debito = '';
-}
+		//extensão do arquivo
+		$extensao = pathinfo($foto, PATHINFO_EXTENSION);
+		if ($extensao == 'pdf') {
+			$tumb_arquivo = 'pdf.png';
+		} else if ($extensao == 'rar' || $extensao == 'zip') {
+			$tumb_arquivo = 'rar.png';
+		} else {
+			$tumb_arquivo = $foto;
+		}
 
 
-echo <<<HTML
+		if ($data_vencimento < $data_hoje and $pago != 'Sim') {
+			$classe_debito = 'vermelho-escuro';
+		} else {
+			$classe_debito = '';
+		}
+
+
+		echo <<<HTML
 <tr class="{$classe_debito}">
 <td><i class="fa fa-square {$classe_alerta}"></i> {$descricao}</td>
 <td class="esc">R$ {$valorFormatado}</td>
@@ -142,7 +146,7 @@ echo <<<HTML
 <td class="esc">{$nome_pessoa}</td>
 <td>
         
-<big><a href="#" onclick="mostrar('{$descricao}', '{$valorFormatado}', '{$data_lancimentoFormatado}', '{$data_vencimentoFormatado}',  '{$data_pagamentoFormatado}', '{$nome_usuario_lancou}', '{$nome_usuario_pagamento}', '{$tumb_arquivo}', '{$nome_pessoa}', '{$foto}', '{$telefone_pessoa}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
+<big><a href="#" onclick="mostrar('{$descricao}', '{$valorFormatado}', '{$data_lancimentoFormatado}', '{$data_vencimentoFormatado}',  '{$data_pagamentoFormatado}', '{$nome_usuario_lancou}', '{$nome_usuario_pagamento}', '{$tumb_arquivo}', '{$nome_pessoa}', '{$foto}', '{$telefone_pessoa}', '{$obs}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
 
 
 
@@ -171,18 +175,19 @@ echo <<<HTML
 		</ul>
 		</li>
 
+		<big><a class="{$japago}" href="#" onclick="gerarComprovante('{$id}')" title="Gerar Comprovante"><i class="fa fa-file-pdf-o text-primary"></i></a></big>
+
 
 		</td>
 </tr>
 HTML;
+	}
 
-}
 
+	$total_pagoFormatado = number_format($total_pago, 2, ',', '.');
+	$total_a_pagarFormatado = number_format($total_a_pagar, 2, ',', '.');
 
-$total_pagoFormatado = number_format($total_pago, 2, ',', '.');
-$total_a_pagarFormatado = number_format($total_a_pagar, 2, ',', '.');
-
-echo <<<HTML
+	echo <<<HTML
 </tbody>
 <small><div align="center" id="mensagem-excluir"></div></small>
 </table>
@@ -193,49 +198,48 @@ echo <<<HTML
 
 </small>
 HTML;
-
-}else{
+} else {
 	echo '<small>Não possui nenhum registro Cadastrado!</small>';
 }
 
 ?>
 
 <script type="text/javascript">
-	$(document).ready( function () {
-    $('#tabela').DataTable({
-    		"ordering": false,
+	$(document).ready(function() {
+		$('#tabela').DataTable({
+			"ordering": false,
 			"stateSave": true
-    	});
-    $('#tabela_filter label input').focus();
-} );
+		});
+		$('#tabela_filter label input').focus();
+	});
 </script>
 
 
 <script type="text/javascript">
-	function editar(id, descricao, pessoa, valor, data_vencimento, data_pagamento, foto){
+	function editar(id, descricao, pessoa, valor, data_vencimento, data_pagamento, foto) {
 		$('#id').val(id);
 		$('#descricao').val(descricao);
 		$('#pessoa').val(pessoa).change();
 		$('#valor').val(valor);
 		$('#data_vencimento').val(data_vencimento);
 		$('#data_pagamento').val(data_pagamento);
-								
+
 		$('#titulo_inserir').text('Editar Registro');
 		$('#modalform').modal('show');
 
-		$('#target').attr('src','img/contas/' + foto);
+		$('#target').attr('src', 'img/contas/' + foto);
 	}
 
-	function limparCampos(){
+	function limparCampos() {
 		$('#id').val('');
 		$('#valor').val('');
-		$('#data_pagamento').val('<?=$data_hoje?>');
+		$('#data_pagamento').val('<?= $data_hoje ?>');
 
 	}
 </script>
 
 <script type="text/javascript">
-	function mostrar(descricao, valor, data_lancamento, data_vencimento, data_pagamento, usuario_lancou, usuario_pagamento, foto, pessoa, link, telefone){
+	function mostrar(descricao, valor, data_lancamento, data_vencimento, data_pagamento, usuario_lancou, usuario_pagamento, foto, pessoa, link, telefone, obs) {
 
 		$('#nome_dados').text(descricao);
 		$('#valor_dados').text(valor);
@@ -246,20 +250,18 @@ HTML;
 		$('#usuario_baixa_dados').text(usuario_pagamento);
 		$('#pessoa_dados').text(pessoa);
 		$('#telefone_dados').text(telefone);
-		
-		$('#link_mostrar').attr('href','img/contas/' + link);
-		$('#target_mostrar').attr('src','img/contas/' + foto);
+		$('#obs_dados').text(obs);
 
 		$('#modalDados').modal('show');
 	}
 </script>
 
 <script type="text/javascript">
-	function saida(id, nome, estoque){
+	function saida(id, nome, estoque) {
 
 		$('#nome_saida').text(nome);
 		$('#estoque_saida').val(estoque);
-		$('#id_saida').val(id);		
+		$('#id_saida').val(id);
 
 		$('#modalSaida').modal('show');
 	}
@@ -267,15 +269,22 @@ HTML;
 
 
 <script type="text/javascript">
-	function entrada(id, nome, estoque){
+	function entrada(id, nome, estoque) {
 
 		$('#nome_entrada').text(nome);
 		$('#estoque_entrada').val(estoque);
-		$('#id_entrada').val(id);		
+		$('#id_entrada').val(id);
 
 		$('#modalEntrada').modal('show');
 	}
 </script>
 
 
-
+<script type="text/javascript">
+	function gerarComprovante(id) {
+		let a = document.createElement('a');
+		a.target = '_blank';
+		a.href = 'relatorio/comprovante.php?id=' + id;
+		a.click();
+	}
+</script>

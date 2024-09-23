@@ -5,6 +5,7 @@ $id_usuario = $_SESSION['id'];
 
 
 $home = 'ocultar';
+$configuracoes = 'ocultar';
 
 //grupo pessoas
 $usuarios = 'ocultar';
@@ -19,6 +20,7 @@ $cargos = 'ocultar';
 $categoria_servicos = 'ocultar';
 $grupos = 'ocultar';
 $acessos = 'ocultar';
+$pagamento = 'ocultar';
 
 
 //grupo produtos
@@ -41,7 +43,18 @@ $comissoes = 'comissoes';
 $agendamentos = 'ocultar';
 $servicos_agenda = 'ocultar';
 
+//relatorios
+$relatorio_produtos = 'ocultar';
+$relatorio_entradas = 'ocultar';
+$relatorio_saidas = 'ocultar';
+$relatorio_comissoes = 'ocultar';
+$relatorio_contas = 'ocultar';
+$relatorio_lucro = 'ocultar';
+$relatorio_servicos = 'ocultar';
 
+//dados site
+$textos_index = 'ocultar';
+$comentarios = 'ocultar';
 
 
 
@@ -105,6 +118,10 @@ if($total_registro > 0){
 			$acessos = '';
 		}
 
+		if($chave == 'pagamento'){
+			$pagamento = '';
+		}
+
 
 
 
@@ -162,6 +179,45 @@ if($total_registro > 0){
 		if($chave == 'servicos_agenda'){
 			$servicos_agenda = '';
 		}
+		
+		if($chave == 'relatorio_produtos'){
+			$relatorio_produtos = '';
+		}
+
+		if($chave == 'relatorio_entradas'){
+			$relatorio_entradas = '';
+		}
+
+		if($chave == 'relatorio_saidas'){
+			$relatorio_saidas = '';
+		}
+
+		if($chave == 'relatorio_comissoes'){
+			$relatorio_comissoes = '';
+		}
+
+		if($chave == 'relatorio_contas'){
+			$relatorio_contas = '';
+		}
+
+		if($chave == 'relatorio_lucro'){
+			$relatorio_lucro = '';
+		}
+
+		if($chave == 'relatorio_servicos'){
+			$relatorio_servicos = '';
+		}
+
+
+
+
+		if($chave == 'textos_index'){
+			$textos_index = '';
+		}
+
+		if($chave == 'comentarios'){
+			$comentarios = '';
+		}
 
 
 
@@ -199,7 +255,7 @@ if($usuarios == 'ocultar' and $funcionarios == 'ocultar' and $clientes == 'ocult
 
 
 
-if($servicos == 'ocultar' and $cargos == 'ocultar' and $categoria_servicos == 'ocultar' and $grupos == 'ocultar' and $acessos == 'ocultar'){
+if($servicos == 'ocultar' and $cargos == 'ocultar' and $categoria_servicos == 'ocultar' and $grupos == 'ocultar' and $acessos == 'ocultar' and $pagamento == 'ocultar'){
 	$menu_cadastros = 'ocultar';
 }else{
 	$menu_cadastros = '';
@@ -228,5 +284,20 @@ if($agendamentos == 'ocultar' and $servicos_agenda == 'ocultar' ){
 }else{
 	$menu_agendamentos = '';
 }
+
+
+if($relatorio_produtos == 'ocultar' and $relatorio_lucro == 'ocultar'  and $relatorio_contas == 'ocultar' and $relatorio_comissoes == 'ocultar' and $relatorio_saidas == 'ocultar' and $relatorio_entradas == 'ocultar' and $relatorio_servicos == 'ocultar'){
+	$menu_relatorio = 'ocultar';
+}else{
+	$menu_relatorio = '';
+}
+
+
+if($textos_index == 'ocultar' and $comentarios == 'ocultar' ){
+	$menu_site = 'ocultar';
+}else{
+	$menu_site = '';
+}
+
 
  ?>

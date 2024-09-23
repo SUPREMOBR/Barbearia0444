@@ -6,6 +6,8 @@ $id = $_POST['id'];
 $nome = $_POST['nome'];
 $telefone = $_POST['telefone'];
 $endereco = $_POST['endereco'];
+$tipo_chave = $_POST['tipo_chave'];
+$chave_pix = $_POST['chave_pix'];
 
 //validar telefone
 $query = $pdo->query("SELECT * from $tabela where telefone = '$telefone'");
@@ -17,14 +19,15 @@ if(@count($resultado) > 0 and $id != $resultado[0]['id']){
 
 
 if($id == ""){
-	$query = $pdo->prepare("INSERT INTO $tabela SET nome = :nome, telefone = :telefone, data_cadastro = curDate(), endereco = :endereco");
+	$query = $pdo->prepare("INSERT INTO $tabela SET nome = :nome, telefone = :telefone, data_cadastro = curDate(), endereco = :endereco, tipo_chave = '$tipo_chave', chave_pix = :chave_pix");
 }else{
-	$query = $pdo->prepare("UPDATE $tabela SET nome = :nome, telefone = :telefone, endereco = :endereco WHERE id = '$id'");
+	$query = $pdo->prepare("UPDATE $tabela SET nome = :nome, telefone = :telefone, endereco = :endereco, tipo_chave = '$tipo_chave', chave_pix = :chave_pix WHERE id = '$id'");
 }
 
 $query->bindValue(":nome", "$nome");
 $query->bindValue(":telefone", "$telefone");
 $query->bindValue(":endereco", "$endereco");
+$query->bindValue(":chave_pix", "$chave_pix");
 $query->execute();
 
 echo 'Salvo com Sucesso';

@@ -87,14 +87,20 @@ $data_atual = date('Y-m-d');
 								<select class="form-control sel3" id="servico" name="servico" style="width:100%;" required> 
 
 									<?php 
-									$query = $pdo->query("SELECT * FROM servicos ORDER BY nome asc");
+									$query = $pdo->query("SELECT * FROM servicos_funcionarios where funcionario = '$id_usuario' ");  //func
 									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
-									$total_registro = @count($resultado);
-									if($total_registro > 0){
-										for($i=0; $i < $total_registro; $i++){
-											foreach ($resultado[$i] as $key => $value){}
-												echo '<option value="'.$resultado[$i]['id'].'">'.$resultado[$i]['nome'].'</option>';
-										}
+									if(@count($resultado) > 0){
+										for($i=0; $i < @count($resultado); $i++){
+											$serv = $resultado[$i]['servico'];
+									
+											$query2 = $pdo->query("SELECT * FROM servicos where id = '$serv' and ativo = 'Sim' ");
+											$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);	
+											$nome_funcionario = $resultado2[0]['nome'];
+									
+											echo '<option value="'.$serv.'">'.$nome_funcionario.'</option>';
+										}		
+									}else{
+										echo '<option value="">Nenhum Serviço</option>';
 									}
 									?>
 
@@ -104,10 +110,10 @@ $data_atual = date('Y-m-d');
 						</div>
 
 
-						<div class="col-md-3" id="nasc">						
+						<div class="col-md-4" id="nasc">						
 							<div class="form-group"> 
 								<label>Data </label> 
-								<input type="date" class="form-control" name="data" id="data-modal"> 
+								<input type="date" class="form-control" name="data" id="data-modal" onchange="mudarData()"> 
 							</div>						
 						</div>
 
@@ -213,6 +219,13 @@ $data_atual = date('Y-m-d');
 								<input type="date" class="form-control" name="data_pagamento" id="data_pagamento" value="<?php echo $data_atual ?>"> 
 							</div>						
 						</div>	
+						
+						<div class="col-md-8">						
+							<div class="form-group"> 
+								<label>Observações </label> 
+								<input maxlength="1000" type="text" class="form-control" name="obs" id="obs2"> 
+							</div>						
+						</div>
 					
 
 					</div>
@@ -322,6 +335,7 @@ $data_atual = date('Y-m-d');
 <script>
 
 	$("#form-text").submit(function () {
+		$('#mensagem').text('Carregando...');
 		event.preventDefault();
 		
 		var formData = new FormData(this);
@@ -331,10 +345,10 @@ $data_atual = date('Y-m-d');
 			type: 'POST',
 			data: formData,
 
-			success: function (mensagem) {
+			success: function (mensagem) {				
 				$('#mensagem').text('');
 				$('#mensagem').removeClass()
-				if (mensagem.trim() == "Salvo com Sucesso") {                    
+				if (mensagem.trim() == "Salvo com Sucesso") {                   
 					$('#btn-fechar').click();
 					listar();
 					listarHorarios();
@@ -354,7 +368,6 @@ $data_atual = date('Y-m-d');
 	});
 
 </script>
-
 
 
 
@@ -380,9 +393,6 @@ $data_atual = date('Y-m-d');
 	}
 </script>
 
-
-
-
 <script type="text/javascript">
 	
 	function limparCampos(){
@@ -405,7 +415,17 @@ $data_atual = date('Y-m-d');
 	}
 </script>
 
+<script type="text/javascript">
+	
+	function mudarData(){
+		var data = $('#data-modal').val();			
+		$('#data_agenda').val(data).change();
 
+		listar();	
+		listarHorarios();
+
+	}
+</script>
 
 
 <script type="text/javascript">
@@ -426,6 +446,41 @@ $data_atual = date('Y-m-d');
 			}
 		});
 	}
+</script>
+
+<script>
+
+	$("#form-servico").submit(function () {
+		event.preventDefault();
+		
+		var formData = new FormData(this);
+
+		$.ajax({
+			url: 'paginas/' + pag +  "/inserir-servico.php",
+			type: 'POST',
+			data: formData,
+
+			success: function (mensagem) {
+				$('#mensagem-servico').text('');
+				$('#mensagem-servico').removeClass()
+				if (mensagem.trim() == "Salvo com Sucesso") {                    
+					$('#btn-fechar-servico').click();
+					listar();
+				} else {
+					$('#mensagem-servico').addClass('text-danger')
+					$('#mensagem-servico').text(mensagem)
+				}
+
+			},
+
+			cache: false,
+			contentType: false,
+			processData: false,
+
+		});
+
+	});
+
 </script>
 
 	

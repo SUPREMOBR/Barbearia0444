@@ -31,6 +31,7 @@ if(@count($resultado) == 0){
 			foreach ($resultado[$i] as $key => $value){}
 				$hora = $resultado[$i]['horario'];
 				$horaFormatada = date("H:i", strtotime($hora));
+				$dataHora = $resultado[$i]['data'];
 
 
 //validar horario
@@ -45,7 +46,10 @@ if(@count($resultado) == 0){
 	$hora_agendada = '';
 	$texto_hora = '';
     }
-
+     
+	if(strtotime($dataHora) != strtotime($data) and $dataHora != "" and $dataHora != "null"){
+		continue;
+	}
 
 				?>
 

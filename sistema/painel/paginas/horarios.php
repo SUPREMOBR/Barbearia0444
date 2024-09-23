@@ -16,6 +16,13 @@ $pag = 'funcionarios';
 							<input type="time" class="form-control" id="horario" name="horario" required>    
 						</div> 	
 					</div>
+                
+                    <div class="col-md-2">                      
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Data <small>(Encaixado)</small></label>
+                            <input type="date" class="form-control" id="data" name="data">    
+                        </div>  
+                    </div>
 
 					<div class="col-md-4">						
 						<button type="submit" class="btn btn-primary" style="margin-top:20px">Salvar</button>

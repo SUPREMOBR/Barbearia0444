@@ -48,9 +48,9 @@ $caminho = '../../img/contas/' .$nome_img;
 $imagem_temporaria = @$_FILES['foto']['tmp_name']; 
 
 if(@$_FILES['foto']['name'] != ""){
-	$extencao = pathinfo($nome_img, PATHINFO_EXTENSION);   
-	if($extencao == 'png' or $extencao == 'jpg' or $extencao == 'jpeg' or $extencao == 'gif'
-	or $extencao == 'pdf' or $extencao == 'rar' or $extencao == 'zip'){ 
+	$extensao = pathinfo($nome_img, PATHINFO_EXTENSION);   
+	if($extensao == 'png' or $extensao == 'jpg' or $extensao == 'jpeg' or $extensao == 'gif'
+	or $extensao == 'pdf' or $extensao == 'rar' or $extensao == 'zip'){ 
 	
 			//EXCLUO A FOTO ANTERIOR
 			if($foto != "sem-foto.jpg"){

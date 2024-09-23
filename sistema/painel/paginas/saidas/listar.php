@@ -47,7 +47,7 @@ for($i=0; $i < $total_registro; $i++){
 			$foto_produto = 'sem-foto.jpg';
 		}
     
-	$query2 = $pdo->query("SELECT * FROM usuarios where id = '$usuarios'");
+	$query2 = $pdo->query("SELECT * FROM usuarios01 where id = '$usuarios'");
 	$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 	$total_registro2 = @count($resultado2);
 	if($total_registro2 > 0){

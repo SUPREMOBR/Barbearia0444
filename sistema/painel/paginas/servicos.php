@@ -70,7 +70,7 @@ exit();
 								<select class="form-control sel2" id="categoria" name="categoria" style="width:100%;" > 
 
 									<?php 
-									$query = $pdo->query("SELECT * FROM categoria_servicos ORDER BY id desc");
+									$query = $pdo->query("SELECT * FROM categoria_servicos ORDER BY id asc");
 									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 									$total_registro = @count($resultado);
 									if($total_registro > 0){
@@ -197,7 +197,7 @@ exit();
 <script type="text/javascript">
 	$(document).ready(function() {
     $('.sel2').select2({
-    	dropdownParent: $('#modalForm')
+    	dropdownParent: $('#modalform')
     });
 
 

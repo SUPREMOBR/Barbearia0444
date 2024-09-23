@@ -9,7 +9,8 @@ $query = $pdo->query("SELECT * from usuarios01 where nivel = 'administrador'");
 $resultado = $query->fetchALL(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
 if($total_registro == 0){
-	$pdo->query("INSERT INTO usuarios01 SET nome = 'Sousa Lima', email = '$email_sistema', cpf = '000.000.000-00', senha = '$senha', senha_crip = '$senha_crip', nivel = 'Administrador', data = curDate(), ativo = 'Sim', foto = 'sem-foto.jpg'");
+	$pdo->query("INSERT INTO usuarios01 SET nome = 'Sousa Lima', email = '$email_sistema', cpf = '000.000.000-00', senha = '$senha',
+	 senha_crip = '$senha_crip', nivel = 'Administrador', data = curDate(), ativo = 'Sim', foto = 'sem-foto.jpg'");
 }
 
 $query = $pdo->query("SELECT * from cargos");
@@ -17,6 +18,24 @@ $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
 if($total_registro == 0){
 	$pdo->query("INSERT INTO cargos SET nome = 'Administrador'");
+}
+
+//EXCLUIR HORÁRIOS TEMPORÁRIOS
+$pdo->query("DELETE FROM horarios where data < curDate() and data != 'null' and data != '' ");
+
+//APAGAR AGENDAMENTOS ANTERIORES
+$data_atual = date('Y-m-d');
+$data_anterior = date('Y-m-d', strtotime("-$agendamento_dias days",strtotime($data_atual)));
+
+$query = $pdo->query("SELECT * FROM agendamentos WHERE data < '$data_anterior'");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+$total_registro = @count($resultado);
+if($total_registro > 0){
+ for($i=0; $i < $total_registro; $i++){
+    foreach ($resultado[$i] as $key => $value){}
+        $id = $resultado[$i]['id'];
+    	$pdo->query("DELETE FROM agendamentos WHERE id = '$id'");
+}
 }
 
  ?>

@@ -30,6 +30,8 @@ for($i=0; $i < $total_registro; $i++){
 	$data_cadastro = $resultado[$i]['data_cadastro'];	
 	$telefone = $resultado[$i]['telefone'];
 	$endereco = $resultado[$i]['endereco'];
+	$tipo_chave = $resultado[$i]['tipo_chave'];
+	$chave_pix = $resultado[$i]['chave_pix'];
 	
 	
 	$data_cadastroFormatada = implode('/', array_reverse(explode('-', $data_cadastro)));
@@ -42,9 +44,9 @@ for($i=0; $i < $total_registro; $i++){
 	<td class="esc">{$telefone}</td>
 	<td class="esc">{$data_cadastroFormatada}</td>
 	<td>
-	<big><a href="#" onclick="editar('{$id}','{$nome}', '{$telefone}', '{$endereco}' )" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
+	<big><a href="#" onclick="editar('{$id}','{$nome}', '{$telefone}', '{$endereco}', '{$tipo_chave}', '{$chave_pix}' )" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
 
-    <big><a href="#" onclick="mostrar('{$nome}', '{$telefone}','{$data_cadastroFormatada}', '{$endereco}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
+    <big><a href="#" onclick="mostrar('{$nome}', '{$telefone}','{$data_cadastroFormatada}', '{$endereco}', '{$tipo_chave}', '{$chave_pix}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
 
 
 
@@ -96,11 +98,13 @@ HTML;
 
 
 <script type="text/javascript">
-	function editar(id, nome, telefone, endereco){
+	function editar(id, nome, telefone, endereco, tipo_chave, chave_pix){
 		$('#id').val(id);
 		$('#nome').val(nome);		
 		$('#telefone').val(telefone);		
 		$('#endereco').val(endereco);
+		$('#chave_pix').val(chave_pix);
+		$('#tipo_chave').val(tipo_chave).change();
 
 		
 		$('#titulo_inserir').text('Editar Registro');
@@ -113,19 +117,22 @@ HTML;
 		$('#nome').val('');
 		$('#telefone').val('');
 		$('#endereco').val('');
+		$('#chave_pix').val('');
 	}
 </script>
 
 
 
 <script type="text/javascript">
-	function mostrar(nome, telefone,data_cadastro, endereco){
+	function mostrar(nome, telefone,data_cadastro, endereco, tipo_chave, chave_pix){
 
 		$('#nome_dados').text(nome);		
 		$('#data_cadastro_dados').text(data_cadastro);
 		
 		$('#telefone_dados').text(telefone);
-		$('#endereco_dados').text(endereco);		
+		$('#endereco_dados').text(endereco);
+		$('#tipo_chave_dados').text(tipo_chave);
+		$('#chave_pix_dados').text(chave_pix);		
 
 		$('#modalDados').modal('show');
 	}

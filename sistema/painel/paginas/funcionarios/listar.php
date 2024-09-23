@@ -38,6 +38,8 @@ for($i=0; $i < $total_registro; $i++){
 	$endereco = $resultado[$i]['endereco'];
 	$foto = $resultado[$i]['foto'];
 	$atendimento = $resultado[$i]['atendimento'];
+	$tipo_chave = $resultado[$i]['tipo_chave'];
+	$chave_pix = $resultado[$i]['chave_pix'];
 
 	$dataFormatada = implode('/', array_reverse(explode('-', $data)));
 	
@@ -68,9 +70,9 @@ for($i=0; $i < $total_registro; $i++){
 		<td class="esc">{$nivel}</td>
 		<td class="esc">{$dataFormatada}</td>
 		<td>
-		<big><a href="#" onclick="editar('{$id}','{$nome}', '{$email}', '{$telefone}', '{$cpf}', '{$nivel}', '{$endereco}', '{$foto}', '{$atendimento}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
+		<big><a href="#" onclick="editar('{$id}','{$nome}', '{$email}', '{$telefone}', '{$cpf}', '{$nivel}', '{$endereco}', '{$foto}', '{$atendimento}', '{$tipo_chave}', '{$chave_pix}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
 
-		<big><a href="#" onclick="mostrar('{$nome}', '{$email}', '{$cpf}', '{$senha}', '{$nivel}', '{$dataFormatada}', '{$ativo}', '{$telefone}', '{$endereco}', '{$foto}', '{$atendimento}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
+		<big><a href="#" onclick="mostrar('{$nome}', '{$email}', '{$cpf}', '{$senha}', '{$nivel}', '{$dataFormatada}', '{$ativo}', '{$telefone}', '{$endereco}', '{$foto}', '{$atendimento}', '{$tipo_chave}', '{$chave_pix}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
 
 
 
@@ -95,6 +97,9 @@ for($i=0; $i < $total_registro; $i++){
 		<a href="#" onclick="dias('{$id}', '{$nome}')" title="Lançar Dias"><i class="fa fa-calendar text-danger"></i></a>
 
 		<big><a href="http://api.whatsapp.com/send?1=pt_BR&phone=$whats&text=" target="_blank" title="Abrir Whatsapp"><i class="fa fa-whatsapp verde"></i></a></big>
+
+		<a href="#" onclick="servico('{$id}', '{$nome}')" title="Definir Serviços"><i class="fa fa-briefcase" style="color:#a60f4b"></i></a>
+
 
 		</td>
 </tr>
@@ -128,7 +133,7 @@ HTML;
 
 
 <script type="text/javascript">
-	function editar(id, nome, email, telefone, cpf, nivel, endereco, foto, atendimento){
+	function editar(id, nome, email, telefone, cpf, nivel, endereco, foto, atendimento, tipo_chave, chave_pix){
 		$('#id').val(id);
 		$('#nome').val(nome);
 		$('#email').val(email);
@@ -137,9 +142,12 @@ HTML;
 		$('#cargo').val(nivel).change();
 		$('#endereco').val(endereco);
         $('#atendimento').val(atendimento).change();
+		$('#chave_pix').val(chave_pix);
+		$('#tipo_chave').val(tipo_chave).change();
 		
 		$('#titulo_inserir').text('Editar Registro');
 		$('#modalform').modal('show');
+		$('#foto').val('');
 
 		$('#target').attr('src','img/perfil/' + foto);
 	}
@@ -152,6 +160,7 @@ HTML;
 		$('#cpf').val('');
 		$('#endereco').val('');
 		$('#foto').val('');
+		$('#chave_pix').val('');
 		$('#target').attr('src','img/perfil/sem-foto.jpg');
 	}
 </script>
@@ -159,7 +168,7 @@ HTML;
 
 
 <script type="text/javascript">
-	function mostrar(nome, email, cpf, senha, nivel, data, ativo, telefone, endereco, foto, atendimento){
+	function mostrar(nome, email, cpf, senha, nivel, data, ativo, telefone, endereco, foto, atendimento, tipo_chave, chave_pix){
 
 		$('#nome_dados').text(nome);
 		$('#email_dados').text(email);
@@ -171,6 +180,8 @@ HTML;
 		$('#telefone_dados').text(telefone);
 		$('#endereco_dados').text(endereco);
 		$('#atendimento_dados').text(atendimento);
+		$('#tipo_chave_dados').text(tipo_chave);
+		$('#chave_pix_dados').text(chave_pix);
 
 		$('#target_mostrar').attr('src','img/perfil/' + foto);
 
@@ -199,5 +210,17 @@ HTML;
 
 		$('#modalDias').modal('show');
 		listarDias(id);
+	}
+</script>
+
+
+<script type="text/javascript">
+	function servico(id, nome){
+
+		$('#nome_servico').text(nome);		
+		$('#id_servico').val(id);		
+
+		$('#modalServicos').modal('show');
+		listarServicos(id);
 	}
 </script>

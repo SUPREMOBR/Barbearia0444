@@ -226,6 +226,7 @@ HTML;
 								
 		$('#titulo_inserir').text('Editar Registro');
 		$('#modalform').modal('show');
+		$('#foto').val('');
 
 		$('#target').attr('src','img/contas/' + foto);
 	}

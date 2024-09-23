@@ -8465,11 +8465,27 @@ h4.asd label {
 	}
 }
 /*--//responsive-design---*/
+.stat2{
+  margin-left: -15px;
 
-@media only screen and (max-width: 700px) 
+}
+
+
+
+@media only screen and (max-width: 700px) {
   .esc{
     display:none;
   }
+
+  .float-esq{
+    float:left;
+  }
+
+  .top-50{
+    margin-top: -50px;
+  }
+
+}
 
 .verde{
   color:#035419;
@@ -8504,4 +8520,21 @@ h4.asd label {
   font-weight: 500;
   font-size:15px;
   font-style: italic;
+}
+
+.link-botao{  
+  display:inline;
+  background:transparent;   
+  border: none;
+  cursor: pointer;
+  
+}
+
+.link-botao:hover{
+ text-decoration: underline;
+}
+
+.textareag{
+  width:865px;
+  height:550px;
 }

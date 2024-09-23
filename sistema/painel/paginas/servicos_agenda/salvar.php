@@ -1,4 +1,4 @@
-<?php 
+<?php
 $tabela = 'receber';
 require_once("../../../conexao.php");
 $data_atual = date('Y-m-d');
@@ -12,6 +12,7 @@ $id = @$_POST['id'];
 $valor_serv = $_POST['valor_serv'];
 $funcionario = $_POST['funcionario'];
 $servico = $_POST['servico'];
+$obs = $_POST['obs'];
 
 
 $query = $pdo->query("SELECT * FROM servicos where id = '$servico'");
@@ -19,32 +20,34 @@ $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $valor = $resultado[0]['valor'];
 $comissao = $resultado[0]['comissao'];
 $descricao = $resultado[0]['nome'];
-$descricao2 = 'Comissão - '.$resultado[0]['nome'];
+$descricao2 = 'Comissão - ' . $resultado[0]['nome'];
 
-if($tipo_comissao == 'Porcentagem'){
+if ($tipo_comissao == 'Porcentagem') {
 	$valor_comissao = ($comissao * $valor) / 100;
-}else{
+} else {
 	$valor_comissao = $comissao;
 }
 
 
-if(strtotime($data_pagamento) <=  strtotime($data_atual)){
+if (strtotime($data_pagamento) <=  strtotime($data_atual)) {
 	$pago = 'Sim';
 	$data_pagamento2 = $data_pagamento;
 	$usuario_baixa = $usuario_logado;
 
-  //lançar a conta a pagar para a comissão do funcionário
-	$pdo->query("INSERT INTO pagar SET descricao = '$descricao2', tipo = 'Comissão', valor = '$valor_comissao', data_lancamento = '$data_pagamento', data_vencimento = '$data_pagamento', usuario_lancou = '$usuario_logado', foto = 'sem-foto.jpg', pago = 'Não', funcionario = '$funcionario', servico = '$servico', cliente = '$cliente'");
-
-}else{
+	//lançar a conta a pagar para a comissão do funcionário
+	$pdo->query("INSERT INTO pagar SET descricao = '$descricao2', tipo = 'Comissão', valor = '$valor_comissao', data_lancamento = '$data_pagamento',
+data_vencimento = '$data_pagamento', usuario_lancou = '$usuario_logado', foto = 'sem-foto.jpg', pago = 'Não', funcionario = '$funcionario',
+servico = '$servico', cliente = '$cliente'");
+} else {
 	$pago = 'Não';
 	$data_pagamento2 = '';
 	$usuario_baixa = 0;
 }
 
 
-$pdo->query("INSERT INTO $tabela SET descricao = '$nome_servico', tipo = 'Serviço', valor = '$valor_serv', data_lancamento = curDate(), data_vencimento = '$data_pagamento', data_pagamento = '$data_pagamento2', usuario_lancou = '$usuario_logado', usuario_baixa = '$usuario_baixa', foto = 'sem-foto.jpg', pessoa = '$cliente', pago = '$pago', servico = '$servico', funcionario = '$funcionario'");
+$pdo->query("INSERT INTO $tabela SET descricao = '$nome_servico', tipo = 'Serviço', valor = '$valor_serv', data_lancamento = curDate(),
+data_vencimento = '$data_pagamento', data_pagamento = '$data_pagamento2', usuario_lancou = '$usuario_logado', usuario_baixa = '$usuario_baixa', 
+foto = 'sem-foto.jpg', pessoa = '$cliente', pago = '$pago', servico = '$servico', funcionario = '$funcionario', obs = '$obs'");
 
 
 echo 'Salvo com Sucesso';
- ?>

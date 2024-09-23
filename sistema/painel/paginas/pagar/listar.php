@@ -67,11 +67,15 @@ for($i=0; $i < $total_registro; $i++){
 		if($total_registro2 > 0){
 			$nome_pessoa = $resultado2[0]['nome'];
 			$telefone_pessoa  = $resultado2[0]['nome'];
+			$chave_pix_fornecedor = $resultado2[0]['chave_pix'];
+			$tipo_chave_fornecedor = $resultado2[0]['tipo_chave'];
 			$classe_whats = '';
 		}else{
 			$nome_pessoa = 'Sem Referência!';
 			$telefone_pessoa = '';
 			$classe_whats = 'ocultar';
+			$chave_pix_fornecedor = '';
+			$tipo_chave_fornecedor = '';
 		}
 
 	$query2 = $pdo->query("SELECT * FROM usuarios01 where id = '$Funcionario'");
@@ -81,9 +85,13 @@ for($i=0; $i < $total_registro; $i++){
 	 if($total_registro2 > 0){
 		    $nome_funcionario = $resultado2[0]['nome'];
 			$telefone_funcionario = $resultado2[0]['telefone'];
+			$chave_pix_funcionario = $resultado2[0]['chave_pix'];
+			$tipo_chave_funcionario = $resultado2[0]['tipo_chave'];
 	    }else{
 			$nome_funcionario = 'Nenhum';
 			$telefone_funcionario = '';
+			$chave_pix_funcionario = '';
+			$tipo_chave_funcionario = '';
 		}	
 		
 	$query2 = $pdo->query("SELECT * FROM usuarios01 where id = '$usuario_baixa'");
@@ -137,6 +145,14 @@ if($data_vencimento < $data_hoje and $pago != 'Sim'){
 
 		$whats = '55'.preg_replace('/[ ()-]+/' , '' , $telefone_pessoa);
 
+		if($nome_pessoa == 'Nenhum!' and $nome_funcionario != 'Nenhum!'){
+			$chave = 'Pix Funcionário : Tipo '.$tipo_chave_funcionario.' - Chave '.$chave_pix_funcionario;
+		}else if($nome_funcionario == 'Nenhum!' and $nome_pessoa != 'Nenhum!'){
+			$chave = 'Pix Fornecedor : Tipo '.$tipo_chave_fornecedor.' - Chave '.$chave_pix_fornecedor;
+		}else{
+			$chave = 'Nenhuma!';
+		}
+
 
 		echo <<<HTML
 		<tr class="{$classe_debito}">
@@ -150,7 +166,7 @@ if($data_vencimento < $data_hoje and $pago != 'Sim'){
 		<td>
         <big><a href="#" onclick="editar('{$id}','{$descricao}', '{$pessoa}', '{$valor}', '{$data_vencimento}', '{$data_pagamento}', '{$tumb_arquivo}', '{$funcionario}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
 
-		<big><a href="#" onclick="mostrar('{$descricao}', '{$valorFormatado}', '{$data_lancamentoFormatado}', '{$data_vencimentoFormatado}',  '{$data_pagamentoFormatado}', '{$nome_usuario_lancou}', '{$nome_usuario_pagamento}', '{$tumb_arquivo}', '{$nome_pessoa}', '{$foto}','{$nome_funcionario}', '{$telefone_funcionario}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
+		<big><a href="#" onclick="mostrar('{$descricao}', '{$valorFormatado}', '{$data_lancamentoFormatado}', '{$data_vencimentoFormatado}',  '{$data_pagamentoFormatado}', '{$nome_usuario_lancou}', '{$nome_usuario_pagamento}', '{$tumb_arquivo}', '{$nome_pessoa}', '{$foto}','{$nome_funcionario}', '{$telefone_funcionario}', '{$chave}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
 
 
 
@@ -233,6 +249,7 @@ HTML;
 								
 		$('#titulo_inserir').text('Editar Registro');
 		$('#modalform').modal('show');
+		$('#foto').val('');
 
 		$('#target').attr('src','img/contas/' + foto);
 	}
@@ -250,7 +267,7 @@ HTML;
 </script>
 
 <script type="text/javascript">
-	function mostrar(descricao, valor, data_lancamento, data_vencimento, data_pagamento, usuario_lancou, usuario_pagamento, foto, pessoa, link, nome_funcionario, telefone_funcionario){
+	function mostrar(descricao, valor, data_lancamento, data_vencimento, data_pagamento, usuario_lancou, usuario_pagamento, foto, pessoa, link, nome_funcionario, telefone_funcionario, chave){
 
 		$('#nome_dados').text(descricao);
 		$('#valor_dados').text(valor);
@@ -262,6 +279,7 @@ HTML;
 		$('#pessoa_dados').text(pessoa);
 		$('#nome_funcionario_dados').text(nome_funcionario);
 		$('#telefone_funcionario_dados').text(telefone_funcionario);
+		$('#chave_dados').text(chave);
 		
 		$('#link_mostrar').attr('href','img/contas/' + link);
 		$('#target_mostrar').attr('src','img/contas/' + foto);

@@ -118,9 +118,13 @@ for($i=0; $i < $total_registro; $i++){
 		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 		$total_registro2 = @count($resultado2);
 		if($total_registro2 > 0){
-			$nome_func = $resultado2[0]['nome'];
+			$nome_funcionario = $resultado2[0]['nome'];
+			$chave_pix_funcionario = $resultado2[0]['chave_pix'];
+			$tipo_chave_funcionario = $resultado2[0]['tipo_chave'];
 		}else{
-			$nome_func = 'Sem Referência!';
+			$nome_funcionario = 'Sem Referência!';
+			$chave_pix_funcionario = '';
+			$tipo_chave_funcionario = '';
 		}
 
 
@@ -177,7 +181,7 @@ echo <<<HTML
 <td>
 		
 
-		<big><a href="#" onclick="mostrar('{$descricao}', '{$valorFormatado}', '{$data_lancamentoFormatado}', '{$data_vencimentoFormatado}',  '{$data_pagamentoFormatado}', '{$nome_usuario_lancou}', '{$nome_usuario_pagamento}', '{$tumb_arquivo}', '{$nome_pessoa}', '{$foto}', '{$telefone_pessoa}', '{$nome_funcionario}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
+		<big><a href="#" onclick="mostrar('{$descricao}', '{$valorFormatado}', '{$data_lancamentoFormatado}', '{$data_vencimentoFormatado}',  '{$data_pagamentoFormatado}', '{$nome_usuario_lancou}', '{$nome_usuario_pagamento}', '{$tumb_arquivo}', '{$nome_pessoa}', '{$foto}', '{$telefone_pessoa}', '{$nome_funcionario}', '{$tipo_chave_funcionario}', '{$chave_pix_funcionario}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
 
 
 
@@ -242,7 +246,7 @@ HTML;
 	$(document).ready( function () {
 
 	var funcionario = '<?=$nome_funcionario2?>';	
-		$('#titulo_inserir').text(func);
+		$('#titulo_inserir').text(funcionario);
 		$('#total_pagamento').text('<?=$total_a_pagarFormatado?>');	
 		$('#total_comissoes').text('<?=$total_pendente?>');	
 
@@ -263,7 +267,7 @@ HTML;
 
 
 <script type="text/javascript">
-	function mostrar(descricao, valor, data_lancamento, data_vencimento, data_pagamento, usuario_lancamento, usuario_pagamento, foto, pessoa, link, telefone, funcionario){
+	function mostrar(descricao, valor, data_lancamento, data_vencimento, data_pagamento, usuario_lancamento, usuario_pagamento, foto, pessoa, link, telefone, funcionario, tipo_chave, chave_pix){
 
 		$('#nome_dados').text(descricao);
 		$('#valor_dados').text(valor);
@@ -275,6 +279,8 @@ HTML;
 		$('#pessoa_dados').text(pessoa);
 		$('#telefone_dados').text(telefone);
 		$('#nome_funcionario_dados').text(funcionario);
+		$('#tipo_chave_dados').text(tipo_chave);
+		$('#chave_pix_dados').text(chave_pix);
 		
 		$('#link_mostrar').attr('href','img/contas/' + link);
 		$('#target_mostrar').attr('src','img/contas/' + foto);

@@ -13,6 +13,8 @@ $valor_serv = $_POST['valor_serv_agd'];
 $descricao = $_POST['descricao_serv_agd'];
 $funcionario = $_POST['funcionario_agd'];
 $servico = $_POST['servico_agd'];
+$obs = $_POST['obs'];
+$pagamento = $_POST['pagamento'];
 
 $query = $pdo->query("SELECT * FROM servicos where id = '$servico'");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -27,7 +29,9 @@ if(strtotime($data_pagamento) <=  strtotime($data_atual)){
 	$usuario_baixa = $usuario_logado;
 
     //lançar a conta a pagar para a comissão do funcionário
-	$pdo->query("INSERT INTO pagar SET descricao = '$descricao2', tipo = 'Comissão', valor = '$valor_comissao', data_lancamento = '$data_pagamento', data_vencimento = '$data_pagamento', usuario_lancou = '$usuario_logado', foto = 'sem-foto.jpg', pago = 'Não', funcionario = '$funcionario', servico = '$servico', cliente = '$cliente'");
+	$pdo->query("INSERT INTO pagar SET descricao = '$descricao2', tipo = 'Comissão', valor = '$valor_comissao', data_lancamento = '$data_pagamento',
+	 data_vencimento = '$data_pagamento', usuario_lancou = '$usuario_logado', foto = 'sem-foto.jpg', pago = 'Não', funcionario = '$funcionario',
+	  servico = '$servico', cliente = '$cliente'");
 
 }else{
 	$pago = 'Não';
@@ -35,7 +39,9 @@ if(strtotime($data_pagamento) <=  strtotime($data_atual)){
 	$usuario_baixa = 0;
 }
 
-$pdo->query("INSERT INTO $tabela SET descricao = '$descricao', tipo = 'Serviço', valor = '$valor_serv', data_lancamento = curDate(), data_vencimento = '$data_pagamento', data_pagamento = '$data_pagamento2', usuario_lancou = '$usuario_logado', usuario_baixa = '$usuario_baixa', foto = 'sem-foto.jpg', pessoa = '$cliente', pago = '$pago', servico = '$servico', funcionario = '$funcionario'");
+$pdo->query("INSERT INTO $tabela SET descricao = '$descricao', tipo = 'Serviço', valor = '$valor_serv', data_lancamento = curDate(),
+ data_vencimento = '$data_pagamento', data_pagamento = '$data_pagamento2', usuario_lancou = '$usuario_logado', usuario_baixa = '$usuario_baixa',
+foto = 'sem-foto.jpg', pessoa = '$cliente', pago = '$pago', servico = '$servico', funcionario = '$funcionario', obs = '$obs', pagamento = '$pagamento'");
 
 echo 'Salvo com Sucesso'; 
 

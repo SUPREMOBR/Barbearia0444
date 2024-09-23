@@ -82,7 +82,7 @@ HTML;
 		$('#id').val(id);
 		$('#nome').val(nome);
 		$('#titulo_inserir').text('Editar Registro');
-		$('#modalForm').modal('show');
+		$('#modalform').modal('show');
 	}
 
 	function limparCampos(){

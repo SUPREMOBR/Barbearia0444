@@ -122,7 +122,7 @@ echo <<<HTML
         			 <img class="icon-rounded-vermelho" src="img/{$imagem}" width="45px" height="45px">
         		</div>
         		<div class="col-md-9">
-        			<h5><strong>{$horaF}</strong> <a href="#" onclick="fecharServico('{$id}', '{$cliente}', '{$servico}', '{$valor_serv}', '{$funcionario}', '{$nome_serv}')" title="Finalizar Serviço" class="{$classe_status}"> <img class="icon-rounded-vermelho" src="img/check-square.png" width="15px" height="15px"></a></h5>
+        			<h5><strong>{$horaFormatada}</strong> <a href="#" onclick="fecharServico('{$id}', '{$cliente}', '{$servico}', '{$valor_serv}', '{$funcionario}', '{$nome_serv}')" title="Finalizar Serviço" class="{$classe_status}"> <img class="icon-rounded-vermelho" src="img/check-square.png" width="15px" height="15px"></a></h5>
 
         			
         		</div>
@@ -155,7 +155,8 @@ HTML;
 		$('#valor_serv_agd').val(valor_servico);	
 		$('#funcionario_agd').val(funcionario).change();	
 		$('#titulo_servico').text(nome_serv);	
-		$('#descricao_serv_agd').val(nome_serv);	
+		$('#descricao_serv_agd').val(nome_serv);
+		$('#obs2').val('');	
 
 		$('#modalServico').modal('show');
 	}

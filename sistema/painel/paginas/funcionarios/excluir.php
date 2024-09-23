@@ -14,5 +14,8 @@ if($foto != "sem-foto.jpg"){
 }
 
 $pdo->query("DELETE from $tabela where id = '$id'");
+
+$pdo->query("DELETE from servicos_funcionarios where funcionario = '$id'");
+
 echo 'Excluído com Sucesso';
  ?>

@@ -10,6 +10,8 @@ $cpf = $_POST['cpf'];
 $cargo = $_POST['cargo'];
 $endereco = $_POST['endereco'];
 $atendimento = $_POST['atendimento'];
+$tipo_chave = $_POST['tipo_chave'];
+$chave_pix = $_POST['chave_pix'];
 $senha = '123';
 $senha_crip = md5($senha);
 
@@ -77,9 +79,9 @@ if(@$_FILES['foto']['name'] != ""){
 
 
 if($id == ""){
-	$query = $pdo->prepare("INSERT INTO $tabela SET nome = :nome, email = :email, cpf = :cpf, senha = '$senha', senha_crip = '$senha_crip', nivel = '$cargo', data = curDate(), ativo = 'Sim', telefone = :telefone, endereco = :endereco, foto = '$foto', atendimento = '$atendimento'");
+	$query = $pdo->prepare("INSERT INTO $tabela SET nome = :nome, email = :email, cpf = :cpf, senha = '$senha', senha_crip = '$senha_crip', nivel = '$cargo', data = curDate(), ativo = 'Sim', telefone = :telefone, endereco = :endereco, foto = '$foto', atendimento = '$atendimento', tipo_chave = '$tipo_chave', chave_pix = :chave_pix");
 }else{
-	$query = $pdo->prepare("UPDATE $tabela SET nome = :nome, email = :email, cpf = :cpf, nivel = '$cargo', telefone = :telefone, endereco = :endereco, foto = '$foto', atendimento = '$atendimento' WHERE id = '$id'");
+	$query = $pdo->prepare("UPDATE $tabela SET nome = :nome, email = :email, cpf = :cpf, nivel = '$cargo', telefone = :telefone, endereco = :endereco, foto = '$foto', atendimento = '$atendimento', tipo_chave = '$tipo_chave', chave_pix = :chave_pix WHERE id = '$id'");
 }
 
 $query->bindValue(":nome", "$nome");
@@ -87,6 +89,7 @@ $query->bindValue(":email", "$email");
 $query->bindValue(":cpf", "$cpf");
 $query->bindValue(":telefone", "$telefone");
 $query->bindValue(":endereco", "$endereco");
+$query->bindValue(":chave_pix", "$chave_pix");
 $query->execute();
 
 echo 'Salvo com Sucesso';

@@ -230,17 +230,23 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 				</div>
 
 				<div class="row" style="border-bottom: 1px solid #cac7c7;">
-					
-					<div class="col-md-6">							
-						<span><b>Fornecedor: </b></span>
-						<span id="pessoa_dados"></span>							
-					</div>
 
 					<div class="col-md-6">							
 						<span><b>Funcionário: </b></span>
 						<span id="nome_funcionario_dados"></span>							
 					</div>
+					
+					<div class="row" style="border-bottom: 1px solid #cac7c7;">
+					
+					<div class="col-md-6">							
+						<span><b>Tipo Chave: </b></span>
+						<span id="tipo_chave_dados"></span>
+					</div>	
 
+					<div class="col-md-6">							
+						<span><b>Chave Pix: </b></span>
+						<span id="chave_pix_dados"></span>
+					</div>			
 
 				</div>
 

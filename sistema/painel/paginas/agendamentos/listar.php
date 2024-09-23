@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once("../../../conexao.php");
 @session_start();
 $usuario = @$_SESSION['id'];
@@ -6,12 +6,11 @@ $usuario = @$_SESSION['id'];
 $funcionario = @$_POST['funcionario'];
 $data = @$_POST['data'];
 
-if($data == ""){
+if ($data == "") {
 	$data = date('Y-m-d');
 }
 
-
-if($funcionario == ""){
+if ($funcionario == "") {
 	echo '<small>Selecione um Funcionário</small>';
 	exit();
 }
@@ -23,72 +22,73 @@ HTML;
 $query = $pdo->query("SELECT * FROM agendamentos where funcionario = '$funcionario' and data = '$data' ORDER BY hora asc");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
-if($total_registro > 0){
-for($i=0; $i < $total_registro; $i++){
-	foreach ($resultado[$i] as $key => $value){}
-$id = $resultado[$i]['id'];
-$funcionario = $resultado[$i]['funcionario'];
-$cliente = $resultado[$i]['cliente'];
-$hora = $resultado[$i]['hora'];
-$data = $resultado[$i]['data'];
-$usuario = $resultado[$i]['usuario'];
-$data_lancamento = $resultado[$i]['data_lancamento'];
-$obs = $resultado[$i]['obs'];
-$status = $resultado[$i]['status'];
-$servico = $resultado[$i]['servico'];
+if ($total_registro > 0) {
+	for ($i = 0; $i < $total_registro; $i++) {
+		foreach ($resultado[$i] as $key => $value) {
+		}
+		$id = $resultado[$i]['id'];
+		$funcionario = $resultado[$i]['funcionario'];
+		$cliente = $resultado[$i]['cliente'];
+		$hora = $resultado[$i]['hora'];
+		$data = $resultado[$i]['data'];
+		$usuario = $resultado[$i]['usuario'];
+		$data_lancamento = $resultado[$i]['data_lancamento'];
+		$obs = $resultado[$i]['obs'];
+		$status = $resultado[$i]['status'];
+		$servico = $resultado[$i]['servico'];
 
-$dataFormatada = implode('/', array_reverse(explode('-', $data)));
-$horaFormatada = date("H:i", strtotime($hora));
-
-
-if($status == 'Concluído'){		
-	$classe_linha = '';
-}else{		
-	$classe_linha = 'text-muted';
-}
+		$dataFormatada = implode('/', array_reverse(explode('-', $data)));
+		$horaFormatada = date("H:i", strtotime($hora));
 
 
-
-if($status == 'Agendado'){
-	$imagem = 'icone-relogio.png';
-	$classe_status = '';	
-}else{
-	$imagem = 'icone-relogio-verde.png';
-	$classe_status = 'ocultar';
-}
-
-$query2 = $pdo->query("SELECT * FROM usuarios01 where id = '$usuario'");
-$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-if(@count($resultado2) > 0){
-	$nome_usu = $resultado2[0]['nome'];
-}else{
-	$nome_usu = 'Sem Usuário';
-}
+		if ($status == 'Concluído') {
+			$classe_linha = '';
+		} else {
+			$classe_linha = 'text-muted';
+		}
 
 
-$query2 = $pdo->query("SELECT * FROM servicos where id = '$servico'");
-$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-if(@count($resultado2) > 0){
-	$nome_serv = $resultado2[0]['nome'];
-	$valor_serv = $resultado2[0]['valor'];
-}else{
-	$nome_serv = 'Não Lançado';
-	$valor_serv = '';
-}
+
+		if ($status == 'Agendado') {
+			$imagem = 'icone-relogio.png';
+			$classe_status = '';
+		} else {
+			$imagem = 'icone-relogio-verde.png';
+			$classe_status = 'ocultar';
+		}
+
+		$query2 = $pdo->query("SELECT * FROM usuarios01 where id = '$usuario'");
+		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+		if (@count($resultado2) > 0) {
+			$nome_usuario = $resultado2[0]['nome'];
+		} else {
+			$nome_usuario = 'Sem Usuário';
+		}
 
 
-$query2 = $pdo->query("SELECT * FROM clientes where id = '$cliente'");
-$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-if(@count($resultado2) > 0){
-	$nome_cliente = $resultado2[0]['nome'];
-}else{
-	$nome_cliente = 'Sem Cliente';
-}
+		$query2 = $pdo->query("SELECT * FROM servicos where id = '$servico'");
+		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+		if (@count($resultado2) > 0) {
+			$nome_serv = $resultado2[0]['nome'];
+			$valor_serv = $resultado2[0]['valor'];
+		} else {
+			$nome_serv = 'Não Lançado';
+			$valor_serv = '';
+		}
 
-//retirar aspas do texto do obs
-$obs = str_replace('"', "**", $obs);
 
-echo <<<HTML
+		$query2 = $pdo->query("SELECT * FROM clientes where id = '$cliente'");
+		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+		if (@count($resultado2) > 0) {
+			$nome_cliente = $resultado2[0]['nome'];
+		} else {
+			$nome_cliente = 'Sem Cliente';
+		}
+
+		//retirar aspas do texto do obs
+		$obs = str_replace('"', "**", $obs);
+
+		echo <<<HTML
 			<div class="col-xs-12 col-md-4 widget cardTarefas">
         		<div class="r3_counter_box">     		
         		
@@ -132,8 +132,8 @@ echo <<<HTML
                 </div>
         	</div>
 HTML;
-}
-}else{
+	}
+} else {
 	echo 'Nenhum horário para essa Data';
 }
 
@@ -141,21 +141,17 @@ HTML;
 
 
 <script type="text/javascript">
-	function fecharServico(id, cliente, servico, valor_servico, funcionario, nome_serv){
-	
+	function fecharServico(id, cliente, servico, valor_servico, funcionario, nome_serv) {
+
 		$('#id_agd').val(id);
-		$('#cliente_agd').val(cliente);		
-		$('#servico_agd').val(servico);	
-		$('#valor_serv_agd').val(valor_servico);	
-		$('#funcionario_agd').val(funcionario).change();	
-		$('#titulo_servico').text(nome_serv);	
-		$('#descricao_serv_agd').val(nome_serv);	
+		$('#cliente_agd').val(cliente);
+		$('#servico_agd').val(servico);
+		$('#valor_serv_agd').val(valor_servico);
+		$('#funcionario_agd').val(funcionario).change();
+		$('#titulo_servico').text(nome_serv);
+		$('#descricao_serv_agd').val(nome_serv);
+		$('#obs2').val('');
 
 		$('#modalServico').modal('show');
 	}
 </script>
-
-
-
-
-

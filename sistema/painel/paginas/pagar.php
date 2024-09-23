@@ -305,13 +305,24 @@ $data_final_mes = $ano_atual."-".$mes_atual."-".$dia_final_mes;
 
 				</div>
 
+				<div class="row" style="border-bottom: 1px solid #cac7c7;">
+					
+					<div class="col-md-12">							
+						<span><b>Chave Pix: </b></span>
+						<span id="chave_dados"></span>							
+					</div>
+
+					
+
+				</div>
+
 
 
 
 				<div class="row">
 					<div class="col-md-12" align="center">	
 						<a id="link_mostrar" target="_blank" title="Clique para abrir o arquivo!">	
-							<img width="250px" id="target_mostrar">
+							<img width="150px" id="target_mostrar">
 						</a>	
 					</div>					
 				</div>

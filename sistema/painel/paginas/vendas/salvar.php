@@ -12,7 +12,7 @@ $pessoa = $_POST['pessoa'];
 $data_vencimento = $_POST['data_vencimento'];
 $data_pagamento = $_POST['data_pagamento'];
 $quantidade = $_POST['quantidade'];
-
+$pagamento = $_POST['pagamento'];
 
 if($produto == 0){
 	echo 'Cadastre um Produto e Depois selecione!';
@@ -86,7 +86,7 @@ if(@$_FILES['foto']['name'] != ""){
 
 
 if($id == ""){
-	$query = $pdo->prepare("INSERT INTO $tabela SET descricao = :descricao, tipo = 'Venda', valor = :valor, data_lancamento = curDate(), data_vencimento = '$data_vencimento', data_pagamento = '$data_pagamento', usuario_lancou = '$id_usuario', usuario_baixa = '$usuario_pagamento', foto = '$foto', pessoa = '$pessoa', pago = '$pago', produto = '$produto', quantidade = '$quantidade'");
+	$query = $pdo->prepare("INSERT INTO $tabela SET descricao = :descricao, tipo = 'Venda', valor = :valor, data_lancamento = curDate(), data_vencimento = '$data_vencimento', data_pagamento = '$data_pagamento', usuario_lancou = '$id_usuario', usuario_baixa = '$usuario_pagamento', foto = '$foto', pessoa = '$pessoa', pago = '$pago', produto = '$produto', quantidade = '$quantidade', pgto = '$pgto'");
 }else{
 	$query = $pdo->prepare("UPDATE $tabela SET descricao = :descricao, valor = :valor, data_vencimento = '$data_vencimento', data_pagamento = '$data_pagamento', foto = '$foto', pessoa = $pessoa, produto = '$produto', quantidade = '$quantidade' WHERE id = '$id'");
 }

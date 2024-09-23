@@ -54,6 +54,8 @@ for($i=0; $i < $total_registro; $i++){
 	$foto = $resultado[$i]['foto'];
 	$pessoa = $resultado[$i]['pessoa'];
 	$funcionario = $resultado[$i]['funcionario'];
+	$obs = $resultado[$i]['obs'];
+
 	$pago = $resultado[$i]['pago'];
 	$servico = $resultado[$i]['servico'];
 	
@@ -112,10 +114,12 @@ for($i=0; $i < $total_registro; $i++){
 			$data_pagamentoFormatado = 'Pendente';
 			$visivel = '';
 			$total_a_pagar += $valor;
+			$japago = 'ocultar';
 		}else{
 			$classe_alerta = 'verde';
 			$visivel = 'ocultar';
 			$total_pago += $valor;
+			$japago = '';
 		}
 		
     //extensão do arquivo
@@ -146,7 +150,7 @@ echo <<<HTML
 <td class="esc">{$nome_pessoa}</td>
 <td>
         
-<big><a href="#" onclick="mostrar('{$descricao}', '{$valorFormatado}', '{$data_lancamentoFormatado}', '{$data_vencimentoFormatado}',  '{$data_pagamentoFormatado}', '{$nome_usuario_lancou}', '{$nome_usuario_pagamento}', '{$tumb_arquivo}', '{$nome_pessoa}', '{$foto}', '{$telefone_pessoa}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
+<big><a href="#" onclick="mostrar('{$descricao}', '{$valorFormatado}', '{$data_lancamentoFormatado}', '{$data_vencimentoFormatado}',  '{$data_pagamentoFormatado}', '{$nome_usuario_lancou}', '{$nome_usuario_pagamento}', '{$tumb_arquivo}', '{$nome_pessoa}', '{$foto}', '{$telefone_pessoa}', '{$obs}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
 
 
 
@@ -175,6 +179,7 @@ echo <<<HTML
 		</ul>
 		</li>
 
+		<big><a class="{$japago}" href="#" onclick="gerarComprovante('{$id}')" title="Gerar Comprovante"><i class="fa fa-file-pdf-o text-primary"></i></a></big>
 
 		</td>
 </tr>
@@ -239,7 +244,7 @@ HTML;
 </script>
 
 <script type="text/javascript">
-	function mostrar(descricao, valor, data_lancamento, data_vencimento, data_pagamento, usuario_lancou, usuario_pagamento, foto, pessoa, link, telefone){
+	function mostrar(descricao, valor, data_lancamento, data_vencimento, data_pagamento, usuario_lancou, usuario_pagamento, foto, pessoa, link, telefone, obs){
 
 		$('#nome_dados').text(descricao);
 		$('#valor_dados').text(valor);
@@ -250,10 +255,8 @@ HTML;
 		$('#usuario_baixa_dados').text(usuario_pagamento);
 		$('#pessoa_dados').text(pessoa);
 		$('#telefone_dados').text(telefone);
-		
-		$('#link_mostrar').attr('href','img/contas/' + link);
-		$('#target_mostrar').attr('src','img/contas/' + foto);
-
+		$('#obs_dados').text(obs);
+	
 		$('#modalDados').modal('show');
 	}
 </script>
@@ -278,6 +281,16 @@ HTML;
 		$('#id_entrada').val(id);		
 
 		$('#modalEntrada').modal('show');
+	}
+</script>
+
+
+<script type="text/javascript">
+	function gerarComprovante(id){
+		let a= document.createElement('a');
+		                a.target= '_blank';
+		                a.href= 'relatorio/comprovante.php?id='+ id;
+		                a.click();
 	}
 </script>
 

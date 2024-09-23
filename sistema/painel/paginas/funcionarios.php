@@ -104,6 +104,33 @@ if(@$funcionarios == 'ocultar'){
 								<input type="text" class="form-control" id="endereco" name="endereco" placeholder="Rua X Número 1 Bairro xxx" >    
 							</div> 	
 						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Tipo Chave Pix</label>
+								<select class="form-control" name="tipo_chave" id="tipo_chave">
+									<option value="">Selecionar Chave</option>
+									<option value="CPF">CPF</option>
+									<option value="Telefone">Telefone</option>
+									<option value="Email">Email</option>
+									<option value="Código">Código</option>
+									<option value="CNPJ">CNPJ</option>
+								</select>  
+							</div> 	
+						</div>
+
+
+
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Chave Pix</label>
+								<input type="text" class="form-control" id="chave_pix" name="chave_pix" placeholder="Chave Pix" > 
+							</div> 	
+						</div>
+
+
+
+					</div>
+
 
 
 						<div class="col-md-3">
@@ -223,6 +250,20 @@ if(@$funcionarios == 'ocultar'){
 						<div class="col-md-6">							
 						<span><b>Atendimento: </b></span>
 						<span id="atendimento_dados"></span>
+					</div>				
+
+				</div>
+				
+				<div class="row" style="border-bottom: 1px solid #cac7c7;">
+						
+					<div class="col-md-6">							
+						<span><b>Tipo Chave: </b></span>
+						<span id="tipo_chave_dados"></span>
+					</div>	
+
+						<div class="col-md-6">							
+						<span><b>Chave Pix: </b></span>
+						<span id="chave_pix_dados"></span>
 					</div>				
 
 				</div>
@@ -352,6 +393,65 @@ if(@$funcionarios == 'ocultar'){
 				<small><div id="mensagem-dias"></div></small>
 
 			</div>
+<!-- Modal Servicos-->
+<div class="modal fade" id="modalServicos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="exampleModalLabel"><span id="nome_servico"></span></h4>
+				<button id="btn-fechar-servico" type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px">
+					<span aria-hidden="true" >&times;</span>
+				</button>
+			</div>
+			
+			<div class="modal-body">
+				<form id="form-servico">
+				<div class="row">
+					<div class="col-md-6">						
+						<div class="form-group">
+							<label for="exampleInputEmail1">Serviço</label>
+							<select class="form-control sel3" id="servico" name="servico" style="width:100%;" required> 
+
+									<?php 
+									$query = $pdo->query("SELECT * FROM servicos ORDER BY nome asc");
+									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+									$total_registro = @count($resultado);
+									if($total_registro > 0){
+										for($i=0; $i < $total_registro; $i++){
+											foreach ($resultado[$i] as $key => $value){}
+												echo '<option value="'.$resultado[$i]['id'].'">'.$resultado[$i]['nome'].'</option>';
+										}
+									}
+									?>
+
+
+								</select>        
+						</div> 	
+					</div>
+
+					<div class="col-md-4">						
+						<button type="submit" class="btn btn-success" style="margin-top:20px">Salvar</button>
+					</div>
+
+					<input type="hidden" name="id" id="id_servico">
+
+				</div>
+				</form>
+
+				<hr>
+				<div class="" id="listar-servicos">
+					
+				</div>
+
+				<br>
+				<small><div id="mensagem-servicos"></div></small>
+
+			</div>
+
+			
+		</div>
+	</div>
+</div>
 
 			
 		</div>
@@ -404,7 +504,7 @@ if(@$funcionarios == 'ocultar'){
 
 $("#form-horarios").submit(function () {
 
-	var func = $("#id_horarios").val();
+	var funcionario = $("#id_horarios").val();  // var func
     event.preventDefault();
     var formData = new FormData(this);
 
@@ -419,7 +519,7 @@ $("#form-horarios").submit(function () {
             if (mensagem.trim() == "Salvo com Sucesso") {
 
                 //$('#btn-fechar-horarios').click();
-                listarHorarios(func);          
+                listarHorarios(funcionario);        //  func
 
             } else {
 
@@ -516,6 +616,68 @@ $("#form-dias").submit(function () {
         success:function(result){
             $("#listar-dias").html(result);
             $('#mensagem-dias-excluir').text('');
+        }
+    });
+}
+
+</script>
+
+
+<script type="text/javascript">
+	
+
+$("#form-servico").submit(function () {
+
+	var funcionario = $("#id_servico").val();
+    event.preventDefault();
+    var formData = new FormData(this);
+
+    $.ajax({
+        url: 'paginas/' + pag + "/inserir-servico.php",
+        type: 'POST',
+        data: formData,
+
+        success: function (mensagem) {
+            $('#mensagem-servicos').text('');
+            $('#mensagem-servicos').removeClass()
+            if (mensagem.trim() == "Salvo com Sucesso") {
+
+                //$('#btn-fechar-horarios').click();
+                listarServicos(funcionario);          
+
+            } else {
+
+                $('#mensagem-servicos').addClass('text-danger')
+                $('#mensagem-servicos').text(mensagem)
+            }
+
+
+        },
+
+        cache: false,
+        contentType: false,
+        processData: false,
+
+    });
+
+});
+
+
+</script>
+
+
+<script type="text/javascript">
+	function listarServicos(funcionario){
+		
+    $.ajax({
+        url: 'paginas/' + pag + "/listar-servicos.php",
+        method: 'POST',
+        data: {funcionario},
+        dataType: "html",
+
+        success:function(result){
+            $("#listar-servicos").html(result);
+            $('#mensagem-servico-excluir').text('');
         }
     });
 }

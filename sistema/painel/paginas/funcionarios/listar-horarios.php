@@ -2,9 +2,9 @@
 require_once("../../../conexao.php");
 $tabela = 'horarios';
 
-$id_func = $_POST['func'];
+$id_funcionario = $_POST['funcionario']; //func
 
-$query = $pdo->query("SELECT * FROM $tabela where funcionario = '$id_func' ORDER BY horario asc");
+$query = $pdo->query("SELECT * FROM $tabela where funcionario = '$id_funcionario' ORDER BY horario asc"); //func id
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
 if($total_registro > 0){
@@ -27,12 +27,19 @@ for($i=0; $i < $total_registro; $i++){
 	$id = $resultado[$i]['id'];
 	$horario = $resultado[$i]['horario'];
 	$horarioFormatado = date("H:i", strtotime($horario));
+    $data = $resultado[$i]['data'];
+	$dataFormatada = implode('/', array_reverse(explode('-', $data)));
 
+	if($data != ""){
+		$temporario = '<span class="text-danger"><small>(Temporário Data: '.$dataFormatada.'</small></span>';
+	}else{
+		$temporario = '';
+	}
 	
 
     echo <<<HTML
     <tr class="">
-    <td class="">{$horarioFormatado}</td>
+    <td class="">{$horarioFormatado} {$temporario}</td>
     <td>
     
     
@@ -81,8 +88,8 @@ for($i=0; $i < $total_registro; $i++){
     
             success: function (mensagem) {            
                 if (mensagem.trim() == "Excluído com Sucesso") {   
-                    var func = $("#id_horarios").val();             
-                    listarHorarios(func);                
+                    var funcionario = $("#id_horarios").val();  //func            
+                    listarHorarios(funcionario);         //func        
                 } else {
                     $('#mensagem-horario-excluir').addClass('text-danger')
                     $('#mensagem-horario-excluir').text(mensagem)

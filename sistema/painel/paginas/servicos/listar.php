@@ -1,17 +1,17 @@
-<?php 
+<?php
 require_once("../../../conexao.php");
 $tabela = 'servicos';
 
 $query = $pdo->query("SELECT * FROM $tabela ORDER BY id desc");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
-if($total_registro > 0){
- 
-	if($tipo_comissao == 'Porcentagem'){
+if ($total_registro > 0) {
+
+	if ($tipo_comissao == 'Porcentagem') {
 		$tipo_comissao = '%';
 	}
 
-echo <<<HTML
+	echo <<<HTML
 	<small>
 	<table class="table table-hover" id="tabela">
 	<thead> 
@@ -26,50 +26,50 @@ echo <<<HTML
 	<tbody>	
 HTML;
 
-for($i=0; $i < $total_registro; $i++){
-	foreach ($resultado[$i] as $key => $value){}
-	$id = $resultado[$i]['id'];
-	$nome = $resultado[$i]['nome'];
-	$ativo = $resultado[$i]['ativo'];
-	$foto = $resultado[$i]['foto'];
-	$valor = $resultado[$i]['valor'];
-	$categoria = $resultado[$i]['categoria'];
-	$comissao = $resultado[$i]['comissao'];
+	for ($i = 0; $i < $total_registro; $i++) {
+		foreach ($resultado[$i] as $key => $value) {
+		}
+		$id = $resultado[$i]['id'];
+		$nome = $resultado[$i]['nome'];
+		$ativo = $resultado[$i]['ativo'];
+		$foto = $resultado[$i]['foto'];
+		$valor = $resultado[$i]['valor'];
+		$categoria = $resultado[$i]['categoria'];
+		$comissao = $resultado[$i]['comissao'];
 
-	$valorFormatado = number_format($valor, 2, ',', '.');
-	
-	if($ativo == 'Sim'){
-		$icone = 'fa-check-square';
-		$titulo_link = 'Desativar Item';
-		$acao = 'Não';
-		$classe_linha = '';
-	}else{
-		$icone = 'fa-square-o';
-		$titulo_link = 'Ativar Item';
-		$acao = 'Sim';
-		$classe_linha = 'text-muted';
-	}
+		$valorFormatado = number_format($valor, 2, ',', '.');
 
-	$query2 = $pdo->query("SELECT * FROM categoria_servicos where id = '$categoria'");
+		if ($ativo == 'Sim') {
+			$icone = 'fa-check-square';
+			$titulo_link = 'Desativar Item';
+			$acao = 'Não';
+			$classe_linha = '';
+		} else {
+			$icone = 'fa-square-o';
+			$titulo_link = 'Ativar Item';
+			$acao = 'Sim';
+			$classe_linha = 'text-muted';
+		}
+
+		$query2 = $pdo->query("SELECT * FROM categoria_servicos where id = '$categoria'");
 		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 		$total_registro2 = @count($resultado2);
-		if($total_registro2 > 0){
+		if ($total_registro2 > 0) {
 			$nome_categoria = $resultado2[0]['nome'];
-		}else{
+		} else {
 			$nome_categoria = 'Sem Referência!';
 		}
 
 
-		if($tipo_comissao == '%'){
-			$comissaoFormatada = number_format($comissao, 0, ',', '.').'%';
-			
-			}else{
-				$comissaoFormatada = 'R$ '.number_format($comissao, 2, ',', '.');
-			}
+		if ($tipo_comissao == '%') {
+			$comissaoFormatada = number_format($comissao, 0, ',', '.') . '%';
+		} else {
+			$comissaoFormatada = 'R$ ' . number_format($comissao, 2, ',', '.');
+		}
 
 
 
-echo <<<HTML
+		echo <<<HTML
 <tr class="{$classe_linha}">
 <td>
 <img src="img/servicos/{$foto}" width="27px" class="mr-2">
@@ -105,71 +105,69 @@ echo <<<HTML
 		</td>
 </tr>
 HTML;
+	}
 
-}
-
-echo <<<HTML
+	echo <<<HTML
 </tbody>
 <small><div align="center" id="mensagem-excluir"></div></small>
 </table>
 </small>
 HTML;
-
-
-}else{
+} else {
 	echo '<small>Não possui nenhum registro Cadastrado!</small>';
 }
 
 ?>
 
 <script type="text/javascript">
-	$(document).ready( function () {
-    $('#tabela').DataTable({
-    		"ordering": false,
+	$(document).ready(function() {
+		$('#tabela').DataTable({
+			"ordering": false,
 			"stateSave": true
-    	});
-    $('#tabela_filter label input').focus();
-} );
+		});
+		$('#tabela_filter label input').focus();
+	});
 </script>
 
 
 <script type="text/javascript">
-	function editar(id, nome, valor, categoria, foto, comissao){
+	function editar(id, nome, valor, categoria, foto, comissao) {
 		$('#id').val(id);
 		$('#nome').val(nome);
 		$('#valor').val(valor);
 		$('#categoria').val(categoria).change();
 		$('#comissao').val(comissao);
-				
-		$('#titulo_inserir').text('Editar Registro');
-		$('#modalForm').modal('show');
 
-		$('#target').attr('src','img/servicos/' + foto);
+		$('#titulo_inserir').text('Editar Registro');
+		$('#modalform').modal('show');
+		$('#foto').val('');
+
+		$('#target').attr('src', 'img/servicos/' + foto);
 	}
 
-	function limparCampos(){
+	function limparCampos() {
 		$('#id').val('');
 		$('#nome').val('');
-		$('#valor').val('');		
+		$('#valor').val('');
 		$('#comissao').val('');
 		$('#foto').val('');
-		$('#target').attr('src','img/servicos/sem-foto.jpg');
+		$('#target').attr('src', 'img/servicos/sem-foto.jpg');
 	}
 </script>
 
 
 
 <script type="text/javascript">
-	function mostrar(nome, valor, categoria, ativo, foto, comissao){
+	function mostrar(nome, valor, categoria, ativo, foto, comissao) {
 
-$('#nome_dados').text(nome);
-$('#valor_dados').text(valor);
-$('#categoria_dados').text(categoria);
-$('#ativo_dados').text(ativo);
-$('#comissao_dados').text(comissao);
+		$('#nome_dados').text(nome);
+		$('#valor_dados').text(valor);
+		$('#categoria_dados').text(categoria);
+		$('#ativo_dados').text(ativo);
+		$('#comissao_dados').text(comissao);
 
-$('#target_mostrar').attr('src','img/servicos/' + foto);
+		$('#target_mostrar').attr('src', 'img/servicos/' + foto);
 
-$('#modalDados').modal('show');
-}
+		$('#modalDados').modal('show');
+	}
 </script>

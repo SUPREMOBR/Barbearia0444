@@ -98,10 +98,12 @@ for($i=0; $i < $total_registro; $i++){
 			$data_pagamentoFormatado = 'Pendente';
 			$visivel = '';
 			$total_a_pagar += $valor;
+			$japago = 'ocultar';
 		}else{
 			$classe_alerta = 'verde';
 			$visivel = 'ocultar';
 			$total_pago += $valor;
+			$japago = '';
 		}
 		
     //extensão do arquivo
@@ -161,6 +163,7 @@ if($data_vencimento < $data_hoje and $pago != 'Sim'){
 		</ul>
 		</li>
 
+		<big><a class="{$japago}" href="#" onclick="gerarComprovante('{$id}')" title="Gerar Comprovante"><i class="fa fa-file-pdf-o text-primary"></i></a></big>
 
 		</td>
 </tr>
@@ -273,5 +276,13 @@ HTML;
 	}
 </script>
 
+<script type="text/javascript">
+	function gerarComprovante(id){
+		let a= document.createElement('a');
+		                a.target= '_blank';
+		                a.href= 'relatorio/comprovante_venda.php?id='+ id;
+		                a.click();
+	}
+</script>
 
 
