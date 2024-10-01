@@ -20,6 +20,9 @@ $itens_pag = $_POST['itens_pag'];
 $minutos_aviso = $_POST['minutos_aviso'];
 $token = $_POST['token'];
 $instancia = $_POST['instancia'];
+$instagram = $_POST['instagram_sistema']; 
+$taxa_sistema = $_POST['taxa_sistema']; 
+
 
 if ($minutos_aviso == "") {
 	$minutos_aviso = 0;
@@ -139,7 +142,7 @@ tipo_relatorio = '$tipo_relatorio', tipo_comissao = '$tipo_comissao', texto_roda
 icone_site = 'favicon.png', imagem_sobre = '$img_sobre', texto_sobre = :texto_sobre, mapa = :mapa, 
 texto_agendamento = :texto_agendamento, msg_agendamento = :msg_agendamento, texto_agendamento = :texto_agendamento, 
 msg_agendamento = :msg_agendamento, cnpj = :cnpj, cidade = :cidade, agendamento_dias = '$agendamento_dias', itens_pag = '$itens_pag',
- minutos_aviso = '$minutos_aviso', token = :token, instancia = :instancia ");
+ minutos_aviso = '$minutos_aviso', token = :token, instancia = :instancia, instagram = :instagram, taxa_sistema = :taxa_sistema "); 
 
 $query->bindValue(":nome", "$nome");
 $query->bindValue(":email", "$email");
@@ -155,7 +158,8 @@ $query->bindValue(":cnpj", "$cnpj_sistema");
 $query->bindValue(":cidade", "$cidade_sistema");
 $query->bindValue(":token", "$token");
 $query->bindValue(":instancia", "$instancia");
-
+$query->bindValue(":instagram", "$instagram");
+$query->bindValue(":taxa_sistema", "$taxa_sistema");
 
 $query->execute();
 

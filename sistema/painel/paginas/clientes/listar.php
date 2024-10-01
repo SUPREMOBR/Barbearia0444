@@ -14,7 +14,8 @@ $pagina = intval(@$_POST['pagina']);
 $limite = $pagina * $itens_pag;
 
 
-$query = $pdo->query("SELECT * FROM $tabela where nome LIKE '$busca' or telefone LIKE '$busca' or cpf LIKE '$busca' ORDER BY id desc LIMIT $limite, $itens_pag");
+$query = $pdo->query("SELECT * FROM $tabela where nome LIKE '$busca' or telefone LIKE '$busca' or cpf LIKE '$busca' ORDER BY id desc LIMIT $limite,
+ $itens_pag");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
 if($total_registro > 0){
@@ -105,7 +106,7 @@ for($i=0; $i < $total_registro; $i++){
 	<td>
 	<big><a href="#" onclick="editar('{$id}','{$nome}', '{$telefone}', '{$endereco}','{$data_nascimento}','{$cpf}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
 
-    <big><a href="#" onclick="mostrar('{$nome}', '{$telefone}', '{$data_nascimentoFormatada}', '{$data_cadastroFormatada}', '{$endereco}', '{$obs_servico}', '{$valor_servico}', '{$data_servico}', '{$nome_servico}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
+    <big><a href="#" onclick="mostrar('{$id}','{$nome}', '{$telefone}', '{$data_nascimentoFormatada}', '{$data_cadastroFormatada}', '{$endereco}', '{$obs_servico}', '{$valor_servico}', '{$data_servico}', '{$nome_servico}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
 
 
 
@@ -125,6 +126,8 @@ for($i=0; $i < $total_registro; $i++){
 		<big><a href="http://api.whatsapp.com/send?1=pt_BR&phone=$whats&text=" target="_blank" title="Abrir Whatsapp"><i class="fa fa-whatsapp verde"></i></a></big>
 
 		<big><a class="" href="#" onclick="contrato('{$id}','{$nome}')" title="Contrato de Serviço"><i class="fa fa-file-pdf-o text-primary"></i></a></big>
+           
+		<big><a class="" href="relatorio/relatorio_servicos_clientes_class.php?id={$id}" target="_blank" title="Últimos Serviços"><i class="fa fa-file-pdf-o text-danger"></i></a></big>
 
 
 		</td>
@@ -212,7 +215,7 @@ HTML;
 
 
 <script type="text/javascript">
-	function editar(id, nome, telefone, endereco,data_nascimento, cpf){
+	function editar(id, nome, telefone, endereco, data_nascimento, cpf){
 		$('#id').val(id);
 		$('#nome').val(nome);		
 		$('#telefone').val(telefone);		
@@ -239,7 +242,7 @@ HTML;
 
 
 <script type="text/javascript">
-	function mostrar(nome, telefone, data_nascimento, data_cadastro, endereco, servico, obs, valor, data){
+	function mostrar(id, nome, telefone, data_nascimento, data_cadastro, endereco, servico, obs, valor, data){
 
 		$('#nome_dados').text(nome);		
 		$('#data_cadastro_dados').text(data_cadastro);
@@ -253,6 +256,7 @@ HTML;
 		$('#valor_dados_tab').text(valor);	
 
 		$('#modalDados').modal('show');
+		listarDebitos(id)
 	}
 </script>
 

@@ -76,7 +76,7 @@ $data_atual = date('Y-m-d');
 						<input maxlength="100" type="text" class="form-control" name="obs" id="obs" placeholder="Observações caso exista alguma.">
 					</div>
 
-					<button onclick="salvar()" class="botao-verde" type="submit" style="width:100%;">
+					<button onclick="salvar()" class="botao-verde" type="submit" style="width:100%;" id="btn_agendar">
 						<span id='botao_salvar'>Confirmar Agendamento</span>
 
 					</button>
@@ -312,7 +312,9 @@ $data_atual = date('Y-m-d');
 	$("#form-agenda").submit(function() {
 		event.preventDefault();
 
-
+        $('#btn_agendar').hide();
+		$('#mensagem').text('Carregando!');
+         
 		var formData = new FormData(this);
 
 		$.ajax({
@@ -366,6 +368,8 @@ $data_atual = date('Y-m-d');
 					//$('#mensagem').addClass('text-danger')
 					$('#mensagem').text(mensagem)
 				}
+
+				$('#btn_agendar').show();
 
 			},
 

@@ -4,7 +4,7 @@ $tabela = 'servicos_funcionarios';
 
 $id = $_POST['id'];
 $servico = $_POST['servico'];
-$funcionario = $_POST['id'];
+$funcionario = $_POST['id']; //func
 
 $query = $pdo->query("SELECT * FROM $tabela where funcionario = '$funcionario' and servico = '$servico'"); //  var func
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -14,7 +14,7 @@ if($total_registro > 0){
 	exit();
 }
 
-$pdo->query("INSERT INTO $tabela SET servico = '$servico', funcionario = '$funcionario'");
+$pdo->query("INSERT INTO $tabela SET servico = '$servico', funcionario = '$funcionario'");  //func
 
 echo 'Salvo com Sucesso';
  ?>

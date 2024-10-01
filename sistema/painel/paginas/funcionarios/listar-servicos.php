@@ -2,9 +2,9 @@
 require_once("../../../conexao.php");
 $tabela = 'servicos_funcionarios';
 
-$id_funcionario = $_POST['funcionario'];
+$id_funcionario = $_POST['funcionario']; //func
 
-$query = $pdo->query("SELECT * FROM $tabela where funcionario = '$id_funcionario'");
+$query = $pdo->query("SELECT * FROM $tabela where funcionario = '$id_funcionario'"); //id func
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
 if($total_registro > 0){
@@ -73,7 +73,7 @@ HTML;
 
 
 <script type="text/javascript">
-	function excluirServico(id, funcionario){
+	function excluirServico(id, funcionario){ //func
     $.ajax({
         url: 'paginas/' + pag + "/excluir-servico.php",
         method: 'POST',
@@ -83,7 +83,7 @@ HTML;
         success: function (mensagem) {            
             if (mensagem.trim() == "Excluído com Sucesso") {   
             	            
-                listarServicos(funcionario);                   
+                listarServicos(funcionario);   //func                
             } else {
                 $('#mensagem-servico-excluir').addClass('text-danger')
                 $('#mensagem-servico-excluir').text(mensagem)

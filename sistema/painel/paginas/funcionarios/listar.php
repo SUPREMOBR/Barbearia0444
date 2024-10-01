@@ -1,11 +1,15 @@
-<?php 
+<?php
 require_once("../../../conexao.php");
 $tabela = 'usuarios01';
+
+if ($tipo_comissao == 'Porcentagem') {
+	$tipo_comissao = '%';
+}
 
 $query = $pdo->query("SELECT * FROM $tabela where nivel != 'Administrador' ORDER BY id desc");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
-if($total_registro > 0){
+if ($total_registro > 0) {
 
 	echo <<<HTML
 	<small>
@@ -17,6 +21,7 @@ if($total_registro > 0){
 	<th class="esc">CPF</th> 	
 	<th class="esc">Cargo</th> 	
 	<th class="esc">Cadastro</th>
+	<th class="esc">Comissão <small>({$tipo_comissao})</small></th>
 	<th>Ações</th>
 	</tr> 
 	</thead> 
@@ -24,41 +29,54 @@ if($total_registro > 0){
 HTML;
 
 
-for($i=0; $i < $total_registro; $i++){
-	foreach ($resultado[$i] as $key => $value){}
-	$id = $resultado[$i]['id'];
-	$nome = $resultado[$i]['nome'];
-	$email = $resultado[$i]['email'];
-	$cpf = $resultado[$i]['cpf'];
-	$senha = $resultado[$i]['senha'];
-	$nivel = $resultado[$i]['nivel'];
-	$data = $resultado[$i]['data'];
-	$ativo = $resultado[$i]['ativo'];
-	$telefone = $resultado[$i]['telefone'];
-	$endereco = $resultado[$i]['endereco'];
-	$foto = $resultado[$i]['foto'];
-	$atendimento = $resultado[$i]['atendimento'];
-	$tipo_chave = $resultado[$i]['tipo_chave'];
-	$chave_pix = $resultado[$i]['chave_pix'];
+	for ($i = 0; $i < $total_registro; $i++) {
+		foreach ($resultado[$i] as $key => $value) {
+		}
+		$id = $resultado[$i]['id'];
+		$nome = $resultado[$i]['nome'];
+		$email = $resultado[$i]['email'];
+		$cpf = $resultado[$i]['cpf'];
+		$senha = $resultado[$i]['senha'];
+		$nivel = $resultado[$i]['nivel'];
+		$data = $resultado[$i]['data'];
+		$ativo = $resultado[$i]['ativo'];
+		$telefone = $resultado[$i]['telefone'];
+		$endereco = $resultado[$i]['endereco'];
+		$foto = $resultado[$i]['foto'];
+		$atendimento = $resultado[$i]['atendimento'];
+		$tipo_chave = $resultado[$i]['tipo_chave'];
+		$chave_pix = $resultado[$i]['chave_pix'];
+		$intervalo = $resultado[$i]['intervalo'];
+		$comissao = $resultado[$i]['comissao'];
 
-	$dataFormatada = implode('/', array_reverse(explode('-', $data)));
-	
-	$senha = '*******';
+		$dataFormatada = implode('/', array_reverse(explode('-', $data)));
 
-	if($ativo == 'Sim'){
+		$senha = '*******';
+
+		if ($ativo == 'Sim') {
 			$icone = 'fa-check-square';
 			$titulo_link = 'Desativar Item';
 			$acao = 'Não';
 			$classe_linha = '';
-		}else{
+		} else {
 			$icone = 'fa-square-o';
 			$titulo_link = 'Ativar Item';
 			$acao = 'Sim';
 			$classe_linha = 'text-muted';
 		}
 
-		$whats = '55'.preg_replace('/[ ()-]+/' , '' , $telefone);
-		
+		$whats = '55' . preg_replace('/[ ()-]+/', '', $telefone);
+
+		if ($tipo_comissao == '%') {
+			$comissaoFormatada = number_format($comissao, 0, ',', '.') . '%';
+		} else {
+			$comissaoFormatada = 'R$ ' . number_format($comissao, 2, ',', '.');
+		}
+
+		if ($comissao == "") {
+			$comissaoFormatada = "";
+		}
+
 		echo <<<HTML
 		<tr class="{$classe_linha}">
 		<td>
@@ -69,8 +87,9 @@ for($i=0; $i < $total_registro; $i++){
 		<td class="esc">{$cpf}</td>
 		<td class="esc">{$nivel}</td>
 		<td class="esc">{$dataFormatada}</td>
+		<td class="esc">{$comissaoFormatada}</td>
 		<td>
-		<big><a href="#" onclick="editar('{$id}','{$nome}', '{$email}', '{$telefone}', '{$cpf}', '{$nivel}', '{$endereco}', '{$foto}', '{$atendimento}', '{$tipo_chave}', '{$chave_pix}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
+		<big><a href="#" onclick="editar('{$id}','{$nome}', '{$email}', '{$telefone}', '{$cpf}', '{$nivel}', '{$endereco}', '{$foto}', '{$atendimento}', '{$tipo_chave}', '{$chave_pix}', '{$comissao}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
 
 		<big><a href="#" onclick="mostrar('{$nome}', '{$email}', '{$cpf}', '{$senha}', '{$nivel}', '{$dataFormatada}', '{$ativo}', '{$telefone}', '{$endereco}', '{$foto}', '{$atendimento}', '{$tipo_chave}', '{$chave_pix}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
 
@@ -92,9 +111,7 @@ for($i=0; $i < $total_registro; $i++){
 
 		<big><a href="#" onclick="ativar('{$id}', '{$acao}')" title="{$titulo_link}"><i class="fa {$icone} text-success"></i></a></big>
         
-		<a href="#" onclick="horarios('{$id}', '{$nome}')" title="Lançar Horários}"><i class="fa fa-calendar text-secondary"></i></a>
-
-		<a href="#" onclick="dias('{$id}', '{$nome}')" title="Lançar Dias"><i class="fa fa-calendar text-danger"></i></a>
+		<a href="#" onclick="dias('{$id}', '{$nome}')" title="Ver Dias"><i class="fa fa-calendar text-danger"></i></a>
 
 		<big><a href="http://api.whatsapp.com/send?1=pt_BR&phone=$whats&text=" target="_blank" title="Abrir Whatsapp"><i class="fa fa-whatsapp verde"></i></a></big>
 
@@ -104,36 +121,33 @@ for($i=0; $i < $total_registro; $i++){
 		</td>
 </tr>
 HTML;
+	}
 
-}
-
-echo <<<HTML
+	echo <<<HTML
 </tbody>
 <small><div align="center" id="mensagem-excluir"></div></small>
 </table>
 </small>
 HTML;
-
-
-}else{
+} else {
 	echo '<small>Não possui nenhum registro Cadastrado!</small>';
 }
 
 ?>
 
 <script type="text/javascript">
-	$(document).ready( function () {
-    $('#tabela').DataTable({
-    		"ordering": false,
+	$(document).ready(function() {
+		$('#tabela').DataTable({
+			"ordering": false,
 			"stateSave": true
-    	});
-    $('#tabela_filter label input').focus();
-} );
+		});
+		$('#tabela_filter label input').focus();
+	});
 </script>
 
 
 <script type="text/javascript">
-	function editar(id, nome, email, telefone, cpf, nivel, endereco, foto, atendimento, tipo_chave, chave_pix){
+	function editar(id, nome, email, telefone, cpf, nivel, endereco, foto, atendimento, tipo_chave, chave_pix, intervalo, comissao) {
 		$('#id').val(id);
 		$('#nome').val(nome);
 		$('#email').val(email);
@@ -141,18 +155,20 @@ HTML;
 		$('#cpf').val(cpf);
 		$('#cargo').val(nivel).change();
 		$('#endereco').val(endereco);
-        $('#atendimento').val(atendimento).change();
+		$('#atendimento').val(atendimento).change();
 		$('#chave_pix').val(chave_pix);
 		$('#tipo_chave').val(tipo_chave).change();
-		
+		$('#intervalo').val(intervalo);
+		$('#comissao').val(comissao);
+
 		$('#titulo_inserir').text('Editar Registro');
 		$('#modalform').modal('show');
 		$('#foto').val('');
 
-		$('#target').attr('src','img/perfil/' + foto);
+		$('#target').attr('src', 'img/perfil/' + foto);
 	}
 
-	function limparCampos(){
+	function limparCampos() {
 		$('#id').val('');
 		$('#nome').val('');
 		$('#telefone').val('');
@@ -161,14 +177,16 @@ HTML;
 		$('#endereco').val('');
 		$('#foto').val('');
 		$('#chave_pix').val('');
-		$('#target').attr('src','img/perfil/sem-foto.jpg');
+		$('#target').attr('src', 'img/perfil/sem-foto.jpg');
+		$('#intervalo').val('');
+		$('#comissao').val('');
 	}
 </script>
 
 
 
 <script type="text/javascript">
-	function mostrar(nome, email, cpf, senha, nivel, data, ativo, telefone, endereco, foto, atendimento, tipo_chave, chave_pix){
+	function mostrar(nome, email, cpf, senha, nivel, data, ativo, telefone, endereco, foto, atendimento, tipo_chave, chave_pix) {
 
 		$('#nome_dados').text(nome);
 		$('#email_dados').text(email);
@@ -183,7 +201,7 @@ HTML;
 		$('#tipo_chave_dados').text(tipo_chave);
 		$('#chave_pix_dados').text(chave_pix);
 
-		$('#target_mostrar').attr('src','img/perfil/' + foto);
+		$('#target_mostrar').attr('src', 'img/perfil/' + foto);
 
 		$('#modalDados').modal('show');
 	}
@@ -191,10 +209,10 @@ HTML;
 
 
 <script type="text/javascript">
-	function horarios(id, nome){
+	function horarios(id, nome) {
 
-		$('#nome_horarios').text(nome);		
-		$('#id_horarios').val(id);		
+		$('#nome_horarios').text(nome);
+		$('#id_horarios').val(id);
 
 		$('#modalHorarios').modal('show');
 		listarHorarios(id);
@@ -203,10 +221,10 @@ HTML;
 
 
 <script type="text/javascript">
-	function dias(id, nome){
+	function dias(id, nome) {
 
-		$('#nome_dias').text(nome);		
-		$('#id_dias').val(id);		
+		$('#nome_dias').text(nome);
+		$('#id_dias').val(id);
 
 		$('#modalDias').modal('show');
 		listarDias(id);
@@ -215,10 +233,10 @@ HTML;
 
 
 <script type="text/javascript">
-	function servico(id, nome){
+	function servico(id, nome) {
 
-		$('#nome_servico').text(nome);		
-		$('#id_servico').val(id);		
+		$('#nome_servico').text(nome);
+		$('#id_servico').val(id);
 
 		$('#modalServicos').modal('show');
 		listarServicos(id);

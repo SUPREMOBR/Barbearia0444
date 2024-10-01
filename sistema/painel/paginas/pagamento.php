@@ -14,7 +14,7 @@ if(@$pagamento == 'ocultar'){
 ?>
 
 <div class="">      
-	<a class="btn btn-primary" onclick="inserir()" class="btn btn-primary btn-flat btn-pri"><i class="fa fa-plus" aria-hidden="true"></i> Nova Forma pagamento</a>
+	<a class="btn btn-primary" onclick="inserir()" class="btn btn-primary btn-flat btn-pri"><i class="fa fa-plus" aria-hidden="true"></i> Nova Forma Pagamento</a>
 </div>
 
 <div class="bs-example widget-shadow" style="padding:15px" id="listar">
@@ -41,14 +41,20 @@ if(@$pagamento == 'ocultar'){
 			<div class="modal-body">
 
 					<div class="row">
-						<div class="col-md-9">
+						<div class="col-md-5">
 							<div class="form-group">
 								
 								<input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o Nome" required>    
 							</div> 	
 						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								
+								<input type="number" class="form-control" id="taxa" name="taxa" placeholder="Taxa % se houver">    
+							</div> 	
+						</div>
 						<div class="col-md-3">
-							<button type="submit" class="btn btn-primary">Salvar</button>
+							<button type="submit" class="btn btn-success">Salvar</button>
 						
 						</div>
 					</div>

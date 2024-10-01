@@ -20,6 +20,7 @@ $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $nome_cliente = $resultado[0]['nome'];
 
 $pdo->query("DELETE FROM $tabela where id = '$id'");
+$pdo->query("DELETE FROM horarios_agd where agendamento = '$id'");
 
 echo 'Excluído com Sucesso';
 

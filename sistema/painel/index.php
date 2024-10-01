@@ -20,6 +20,7 @@ if ($total_registro > 0) {
 	$endereco_usuario = $resultado[0]['endereco'];
 	$foto_usuario = $resultado[0]['foto'];
 	$atendimento = $resultado[0]['atendimento'];
+	$intervalo_horarios = $resultado[0]['intervalo'];
 }
 
 if (@$_SESSION['nivel'] != 'Administrador') {
@@ -77,7 +78,7 @@ $dataMesInicial = $partesInicial[1];
 	<!-- side nav css file -->
 	<link href='css/SidebarNav.min.css' media='all' rel='stylesheet' type='text/css' />
 	<!-- //side nav css file -->
-    <link rel="stylesheet" href="css/monthly.css">
+	<link rel="stylesheet" href="css/monthly.css">
 	<!-- js-->
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/modernizr.custom.js"></script>
@@ -281,17 +282,17 @@ $dataMesInicial = $partesInicial[1];
 
 									<li class="<?php echo @$relatorio_produtos ?>"><a href="relatorio/relatorio_produtos_class.php" target="_blank"><i class="fa fa-angle-right"></i>Relatório de Produtos</a></li>
 
-									<li class="<?php echo @$relatorio_entradas ?>"><a href="#" data-toggle="modal" data-target="#relatorioEntradas"><i class="fa fa-angle-right"></i>Entradas / Ganhos</a></li>
+									<li class="<?php echo @$relatorio_entradas ?>"><a href="#" data-toggle="modal" data-target="#RelatorioEntradas"><i class="fa fa-angle-right"></i>Entradas / Ganhos</a></li>
 
-									<li class="<?php echo @$relatorio_saidas ?>"><a href="#" data-toggle="modal" data-target="#relatorioSaidas"><i class="fa fa-angle-right"></i>Saídas / Despesas</a></li>
+									<li class="<?php echo @$relatorio_saidas ?>"><a href="#" data-toggle="modal" data-target="#RelatorioSaidas"><i class="fa fa-angle-right"></i>Saídas / Despesas</a></li>
 
-									<li class="<?php echo @$relatorio_comissoes ?>"><a href="#" data-toggle="modal" data-target="#relatorioComissoes"><i class="fa fa-angle-right"></i>Relatório de Comissões</a></li>
+									<li class="<?php echo @$relatorio_comissoes ?>"><a href="#" data-toggle="modal" data-target="#RelatorioComissoes"><i class="fa fa-angle-right"></i>Relatório de Comissões</a></li>
 
-									<li class="<?php echo @$relatorio_contas ?>"><a href="#" data-toggle="modal" data-target="#relatorioCon"><i class="fa fa-angle-right"></i>Relatório de Contas</a></li>
+									<li class="<?php echo @$relatorio_contas ?>"><a href="#" data-toggle="modal" data-target="#RelatorioContas"><i class="fa fa-angle-right"></i>Relatório de Contas</a></li>
 
-									<li class="<?php echo @$relatorio_servicos ?>"><a href="#" data-toggle="modal" data-target="#relatorioServicos"><i class="fa fa-angle-right"></i>Relatório de Serviços</a></li>
+									<li class="<?php echo @$relatorio_servicos ?>"><a href="#" data-toggle="modal" data-target="#RelatorioServicos"><i class="fa fa-angle-right"></i>Relatório de Serviços</a></li>
 
-									<li class="<?php echo @$relatorio_lucro ?>"><a href="#" data-toggle="modal" data-target="#relatorioLucro"><i class="fa fa-angle-right"></i>Demonstrativo de Lucro</a></li>
+									<li class="<?php echo @$relatorio_lucro ?>"><a href="#" data-toggle="modal" data-target="#RelatorioLucro"><i class="fa fa-angle-right"></i>Demonstrativo de Lucro</a></li>
 
 
 
@@ -349,9 +350,7 @@ $dataMesInicial = $partesInicial[1];
 								</a>
 								<ul class="treeview-menu">
 
-									<li><a href="index.php?pag=horarios"><i class="fa fa-angle-right"></i>Meus Horários</a></li>
-
-									<li><a href="index.php?pag=dias"><i class="fa fa-angle-right"></i>Dias Semana</a></li>
+									<li><a href="index.php?pag=dias"><i class="fa fa-angle-right"></i>Horários / Dias</a></li>
 
 									<li><a href="index.php?pag=servicos_funcionarios"><i class="fa fa-angle-right"></i>Lançar Serviços</a></li>
 
@@ -444,7 +443,7 @@ $dataMesInicial = $partesInicial[1];
 
 									<li>
 										<div class="notification_bottom" style="background: #ffe8e6">
-											<a href="index.php?pagina=agenda">Ver Agendamentos</a>
+											<a href="index.php?pag=agenda">Ver Agendamentos</a>
 										</div>
 									</li>
 								</ul>
@@ -493,7 +492,7 @@ $dataMesInicial = $partesInicial[1];
 
 									<li>
 										<div class="notification_bottom" style="background: #d8d4fc">
-											<a href="index.php?pagina=comentarios">Ver Depoimentos</a>
+											<a href="index.php?pag=comentarios">Ver Depoimentos</a>
 										</div>
 									</li>
 								</ul>
@@ -569,7 +568,7 @@ $dataMesInicial = $partesInicial[1];
 
 		<!--footer-->
 		<div class="footer">
-			<p>Apenas um Trabalho ^^</p>
+			<p> //adicionar comentário </p>
 		</div>
 		<!--//footer-->
 	</div>
@@ -725,41 +724,47 @@ $dataMesInicial = $partesInicial[1];
 								<label for="exampleInputEmail1">Endereço</label>
 								<input type="text" class="form-control" id="endereco-perfil" name="endereco" placeholder="Rua, Número, Bairro" value="<?php echo $endereco_usuario ?>">
 							</div>
-						</div>
 
-					</div>
-
-
-
-
-
-					<div class="row">
-						<div class="col-md-8">
-							<div class="form-group">
-								<label>Foto</label>
-								<input class="form-control" type="file" name="foto" onChange="carregarImgPerfil();" id="foto-usu">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="exampleInputEmail1">Intervalo Minutos</label>
+									<input type="number" class="form-control" id="intervalo_perfil" name="intervalo" placeholder="Intervalo Horários" value="<?php echo $intervalo_horarios ?>" required>
+								</div>
 							</div>
+
 						</div>
-						<div class="col-md-4">
-							<div id="divImg">
-								<img src="img/perfil/<?php echo $foto_usuario ?>" width="80px" id="target-usu">
+
+
+
+
+
+						<div class="row">
+							<div class="col-md-8">
+								<div class="form-group">
+									<label>Foto</label>
+									<input class="form-control" type="file" name="foto" onChange="carregarImgPerfil();" id="foto-usu">
+								</div>
 							</div>
+							<div class="col-md-4">
+								<div id="divImg">
+									<img src="img/perfil/<?php echo $foto_usuario ?>" width="80px" id="target-usu">
+								</div>
+							</div>
+
 						</div>
 
+
+
+						<input type="hidden" name="id" value="<?php echo $id_usuario ?>">
+
+						<br>
+						<small>
+							<div id="mensagem-perfil" align="center"></div>
+						</small>
 					</div>
-
-
-
-					<input type="hidden" name="id" value="<?php echo $id_usuario ?>">
-
-					<br>
-					<small>
-						<div id="mensagem-perfil" align="center"></div>
-					</small>
-				</div>
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-success">Editar Perfil</button>
-				</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">Editar Perfil</button>
+					</div>
 			</form>
 		</div>
 	</div>
@@ -809,7 +814,7 @@ $dataMesInicial = $partesInicial[1];
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form method="post" action="Relatorio/Relatorio_entradas_class.php" target="_blank">
+			<form method="post" action="relatorio/relatorio_entradas_class.php" target="_blank">
 				<div class="modal-body">
 
 					<div class="row">
@@ -883,7 +888,7 @@ $dataMesInicial = $partesInicial[1];
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form method="post" action="Relatorio/Relatorio_saidas_class.php" target="_blank">
+			<form method="post" action="relatorio/relatorio_saidas_class.php" target="_blank">
 				<div class="modal-body">
 
 					<div class="row">
@@ -957,7 +962,7 @@ $dataMesInicial = $partesInicial[1];
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form method="post" action="Relatorio/Relatorio_comissoes_class.php" target="_blank">
+			<form method="post" action="relatorio/relatorio_comissoes_class.php" target="_blank">
 				<div class="modal-body">
 
 					<div class="row">
@@ -1026,7 +1031,7 @@ $dataMesInicial = $partesInicial[1];
 </div>
 
 <!-- Modal Relatorio Contas -->
-<div class="modal fade" id="RelatorioCon" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="RelatorioContas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -1053,7 +1058,7 @@ $dataMesInicial = $partesInicial[1];
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form method="post" action="Relatorio/Relatorio_contas_class.php" target="_blank">
+			<form method="post" action="relatorio/relatorio_contas_class.php" target="_blank">
 				<div class="modal-body">
 
 					<div class="row">
@@ -1154,7 +1159,7 @@ $dataMesInicial = $partesInicial[1];
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form method="post" action="Relatorio/Relatorio_lucro_class.php" target="_blank">
+			<form method="post" action="relatorio/relatorio_lucro_class.php" target="_blank">
 				<div class="modal-body">
 
 					<div class="row">

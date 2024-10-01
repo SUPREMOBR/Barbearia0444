@@ -184,217 +184,263 @@ if (@$clientes == 'ocultar') {
 					</table>
 				</small>
 
+				<hr>
+
+				<div id="listar-debitos">
 
 
+
+
+
+				</div>
 
 
 			</div>
-
-
 		</div>
 	</div>
-</div>
 
 
-<!-- Modal Contrato-->
-<div class="modal fade" id="modalContrato" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title" id="exampleModalLabel"><span id="titulo_contrato"></span></h4>
-				<button id="btn-fechar-conta" type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -25px">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<form id="form-contrato">
-				<div class="modal-body">
+	<!-- Modal Contrato-->
+	<div class="modal fade" id="modalContrato" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="exampleModalLabel"><span id="titulo_contrato"></span></h4>
+					<button id="btn-fechar-conta" type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -25px">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form id="form-contrato">
+					<div class="modal-body">
 
-					<div>
-						<textarea name="contrato" id="contrato" class="textareag"> </textarea>
+						<div>
+							<textarea name="contrato" id="contrato" class="textareag"> </textarea>
+						</div>
+						<input type="hidden" name="id" id="id_contrato">
+
+						<small>
+							<div id="mensagem-contrato" align="center"></div>
+						</small>
+
 					</div>
-					<input type="hidden" name="id" id="id_contrato">
-
-					<small>
-						<div id="mensagem-contrato" align="center"></div>
-					</small>
-
-				</div>
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary">Gerar Relatório</button>
-				</div>
-			</form>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary">Gerar Relatório</button>
+					</div>
+				</form>
 
 
 
+			</div>
 		</div>
 	</div>
-</div>
 
 
 
-<script type="text/javascript">
-	var pag = "<?= $pag ?>"
-</script>
-<script src="js/ajax.js"></script>
+	<script type="text/javascript">
+		var pag = "<?= $pag ?>"
+	</script>
+	<script src="js/ajax.js"></script>
 
-<script src="//js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
-<script type="text/javascript">
-	bkLib.onDomLoaded(nicEditors.allTextAreas);
-</script>
+	<script src="//js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		bkLib.onDomLoaded(nicEditors.allTextAreas);
+	</script>
 
-<script type="text/javascript">
-	$(document).ready(function() {
-		listarClientes()
-	});
-</script>
-
-
-<script type="text/javascript">
-	function listarClientes(pagina) {
-
-		$("#pagina").val(pagina);
-
-		var busca = $("#buscar").val();
-		$.ajax({
-			url: 'paginas/' + pag + "/listar.php",
-			method: 'POST',
-			data: {
-				busca,
-				pagina
-			},
-			dataType: "html",
-
-			success: function(result) {
-				$("#listar").html(result);
-
-			}
+	<script type="text/javascript">
+		$(document).ready(function() {
+			listarClientes()
 		});
-	}
-</script>
+	</script>
 
 
-<script type="text/javascript">
-	$("#form").submit(function() {
+	<script type="text/javascript">
+		function listarClientes(pagina) {
 
-		event.preventDefault();
-		var formData = new FormData(this);
+			$("#pagina").val(pagina);
 
-		$.ajax({
-			url: 'paginas/' + pag + "/salvar.php",
-			type: 'POST',
-			data: formData,
+			var busca = $("#buscar").val();
+			$.ajax({
+				url: 'paginas/' + pag + "/listar.php",
+				method: 'POST',
+				data: {
+					busca,
+					pagina
+				},
+				dataType: "html",
 
-			success: function(mensagem) {
-				$('#mensagem').text('');
-				$('#mensagem').removeClass()
-				if (mensagem.trim() == "Salvo com Sucesso") {
+				success: function(result) {
+					$("#listar").html(result);
 
-					$('#btn-fechar').click();
-
-					var pagina = $("#pagina").val();
-					listarClientes(pagina)
-
-				} else {
-
-					$('#mensagem').addClass('text-danger')
-					$('#mensagem').text(mensagem)
 				}
+			});
+		}
 
+		function listarDebitos(id) {
 
-			},
+			$.ajax({
+				url: 'paginas/' + pag + "/listar-debitos.php",
+				method: 'POST',
+				data: {
+					id
+				},
+				dataType: "html",
 
-			cache: false,
-			contentType: false,
-			processData: false,
+				success: function(result) {
+					$("#listar-debitos").html(result);
 
-		});
-
-	});
-
-
-
-
-
-	function excluir(id) {
-		$.ajax({
-			url: 'paginas/' + pag + "/excluir.php",
-			method: 'POST',
-			data: {
-				id
-			},
-			dataType: "text",
-
-			success: function(mensagem) {
-				if (mensagem.trim() == "Excluído com Sucesso") {
-					var pagina = $("#pagina").val();
-					listarClientes(pagina)
-				} else {
-					$('#mensagem-excluir').addClass('text-danger')
-					$('#mensagem-excluir').text(mensagem)
 				}
+			});
+		}
+	</script>
 
-			},
+
+	<script type="text/javascript">
+		$("#form").submit(function() {
+          
+			event.preventDefault();
+			var formData = new FormData(this);
+
+			$.ajax({
+				url: 'paginas/' + pag + "/salvar.php",
+				type: 'POST',
+				data: formData,
+
+				success: function(mensagem) {
+					$('#mensagem').text('');
+					$('#mensagem').removeClass()
+					if (mensagem.trim() == "Salvo com Sucesso") {
+
+						$('#btn-fechar').click();
+
+						var pagina = $("#pagina").val();
+						listarClientes(pagina)
+
+					} else {
+
+						$('#mensagem').addClass('text-danger')
+						$('#mensagem').text(mensagem)
+					}
+
+
+				},
+
+				cache: false,
+				contentType: false,
+				processData: false,
+
+			});
 
 		});
-	}
-
-
-	function listarTextoContrato(id) {
-
-		$.ajax({
-			url: 'paginas/' + pag + "/texto-contrato.php",
-			method: 'POST',
-			data: {
-				id
-			},
-			dataType: "html",
-
-			success: function(result) {
-				nicEditors.findEditor("contrato").setContent(result);
-			}
-		});
-	}
 
 
 
 
-	$("#form-contrato").submit(function() {
-		var id_emp = $('#id_contrato').val();
-		event.preventDefault();
-		nicEditors.findEditor('contrato').saveContent();
-		var formData = new FormData(this);
 
-		$.ajax({
-			url: 'paginas/' + pag + "/salvar-contrato.php",
-			type: 'POST',
-			data: formData,
+		function excluir(id) {
+			$.ajax({
+				url: 'paginas/' + pag + "/excluir.php",
+				method: 'POST',
+				data: {
+					id
+				},
+				dataType: "text",
 
-			success: function(mensagem) {
-				$('#mensagem-contrato').text('');
-				$('#mensagem-contrato').removeClass()
-				if (mensagem.trim() == "Salvo com Sucesso") {
+				success: function(mensagem) {
+					if (mensagem.trim() == "Excluído com Sucesso") {
+						var pagina = $("#pagina").val();
+						listarClientes(pagina)
+					} else {
+						$('#mensagem-excluir').addClass('text-danger')
+						$('#mensagem-excluir').text(mensagem)
+					}
 
-					let a = document.createElement('a');
-					a.target = '_blank';
-					a.href = 'relatorio/contrato_servicos_class.php?id=' + id_emp;
-					a.click();
+				},
 
-				} else {
+			});
+		}
 
-					$('#mensagem-contrato').addClass('text-danger')
-					$('#mensagem-contrato').text(mensagem)
+
+
+		function listarTextoContrato(id) {
+
+			$.ajax({
+				url: 'paginas/' + pag + "/texto-contrato.php",
+				method: 'POST',
+				data: {
+					id
+				},
+				dataType: "html",
+
+				success: function(result) {
+					nicEditors.findEditor("contrato").setContent(result);
 				}
+			});
+		}
 
 
-			},
 
-			cache: false,
-			contentType: false,
-			processData: false,
+
+		$("#form-contrato").submit(function() {
+			var id_emp = $('#id_contrato').val();
+			event.preventDefault();
+			nicEditors.findEditor('contrato').saveContent();
+			var formData = new FormData(this);
+
+			$.ajax({
+				url: 'paginas/' + pag + "/salvar-contrato.php",
+				type: 'POST',
+				data: formData,
+
+				success: function(mensagem) {
+					$('#mensagem-contrato').text('');
+					$('#mensagem-contrato').removeClass()
+					if (mensagem.trim() == "Salvo com Sucesso") {
+
+						let a = document.createElement('a');
+						a.target = '_blank';
+						a.href = 'relatorio/contrato_servico_class.php?id=' + id_emp;
+						a.click();
+
+					} else {
+
+						$('#mensagem-contrato').addClass('text-danger')
+						$('#mensagem-contrato').text(mensagem)
+					}
+
+
+				},
+
+				cache: false,
+				contentType: false,
+				processData: false,
+
+			});
 
 		});
+	</script>
 
-	});
-</script>
 
-</script>
+
+	<script type="text/javascript">
+		function baixar(id, cliente) {
+			$.ajax({
+				url: 'paginas/receber/baixar.php',
+				method: 'POST',
+				data: {
+					id
+				},
+				dataType: "text",
+
+				success: function(mensagem) {
+					if (mensagem.trim() == "Baixado com Sucesso") {
+						listarDebitos(cliente);
+					} else {
+						$('#mensagem-excluir-baixar').addClass('text-danger')
+						$('#mensagem-excluir-baixar').text(mensagem)
+					}
+
+				},
+
+			});
+		}
+	</script>

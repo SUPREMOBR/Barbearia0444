@@ -13,6 +13,7 @@ echo <<<HTML
 	<thead> 
 	<tr> 
 	<th>Nome</th>		
+	<th>Taxa</th>		
 	<th>Ações</th>
 	</tr> 
 	</thead> 
@@ -23,13 +24,18 @@ for($i=0; $i < $total_registro; $i++){
 	foreach ($resultado[$i] as $key => $value){}
 	$id = $resultado[$i]['id'];
 	$nome = $resultado[$i]['nome'];
-		
+	$taxa = $resultado[$i]['taxa'];
+
+	if($taxa == ""){
+		$taxa = 0;
+	}
 	
 echo <<<HTML
 <tr class="">
 <td>{$nome}</td>
+<td>{$taxa}%</td>
 <td>
-		<big><a href="#" onclick="editar('{$id}','{$nome}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
+		<big><a href="#" onclick="editar('{$id}','{$nome}','{$taxa}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
 
 		
 		<li class="dropdown head-dpdn2" style="display: inline-block;">
@@ -78,14 +84,16 @@ HTML;
 
 
 <script type="text/javascript">
-	function editar(id, nome){
+	function editar(id, nome, taxa){
 		$('#id').val(id);
 		$('#nome').val(nome);
+		$('#taxa').val(taxa);
 		$('#titulo_inserir').text('Editar Registro');
 		$('#modalform').modal('show');
 	}
 
 	function limparCampos(){
 		$('#nome').val('');
+		$('#taxa').val('');
 	}
 </script>

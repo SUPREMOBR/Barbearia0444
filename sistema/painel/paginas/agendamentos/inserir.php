@@ -20,6 +20,23 @@ if (@$hora == "") {
 	exit();
 }
 
+
+$query = $pdo->query("SELECT * FROM usuarios01 where id = '$funcionario'");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+$intervalo = $resultado[0]['intervalo'];
+
+$query = $pdo->query("SELECT * FROM servicos where id = '$servico'");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+$tempo = $resultado[0]['tempo'];
+
+
+$hora_minutos = strtotime("+$tempo minutes", strtotime($hora));
+$hora_final_servico = date('H:i:s', $hora_minutos);
+
+$nova_hora = $hora;
+
+
+
 $diasemana = array("Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sabado");
 $diasemana_numero = date('w', strtotime($data));
 $dia_procurado = $diasemana[$diasemana_numero];
@@ -30,12 +47,57 @@ $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 if (@count($resultado) == 0) {
 	echo 'Este Funcionário não trabalha neste Dia!';
 	exit();
+} else {
+	$inicio = $resultado[0]['inicio'];
+	$final = $resultado[0]['final'];
+	$inicio_almoco = $resultado[0]['inicio_almoco'];
+	$final_almoco = $resultado[0]['final_almoco'];
 }
 
 
 
 $dataFormatada = implode('/', array_reverse(explode('-', $data)));
 $horaFormatada = date("H:i", strtotime($hora));
+
+
+
+
+while (strtotime($nova_hora) < strtotime($hora_final_servico)) {
+
+	$hora_minutos = strtotime("+$intervalo minutes", strtotime($nova_hora));
+	$nova_hora = date('H:i:s', $hora_minutos);
+
+	//VERIFICAR NA TABELA HORARIOS AGD SE TEM O HORARIO NESSA DATA
+	$query_agd = $pdo->query("SELECT * FROM horarios_agd where data = '$data' and funcionario = '$funcionario' and horario = '$nova_hora'");
+	$resultado_agd = $query_agd->fetchAll(PDO::FETCH_ASSOC);
+	if (@count($resultado_agd) > 0) {
+		echo 'Este serviço demora cerca de ' . $tempo . ' minutos, precisa escolher outro horário, pois neste horários não temos disponibilidade devido a outros agendamentos!';
+		exit();
+	}
+
+
+
+	//VERIFICAR NA TABELA AGENDAMENTOS SE TEM O HORARIO NESSA DATA e se tem um intervalo entre o horario marcado e o proximo agendado nessa tabela
+	$query_agd = $pdo->query("SELECT * FROM agendamentos where data = '$data' and funcionario = '$funcionario' and hora = '$nova_hora'");
+	$resultado_agd = $query_agd->fetchAll(PDO::FETCH_ASSOC);
+	if (@count($resultado_agd) > 0) {
+		if ($tempo <= $intervalo) {
+		} else {
+			if ($hora_final_servico == $resultado_agd[0]['hora']) {
+			} else {
+				echo 'Este serviço demora cerca de ' . $tempo . ' minutos, precisa escolher outro horário, pois neste horários não temos disponibilidade devido a outros agendamentos!';
+				exit();
+			}
+		}
+	}
+
+
+	if (strtotime($nova_hora) > strtotime($inicio_almoco) and strtotime($nova_hora) < strtotime($final_almoco)) {
+		echo 'Este serviço demora cerca de ' . $tempo . ' minutos, precisa escolher outro horário, pois neste horários não temos disponibilidade devido ao horário de almoço!';
+		exit();
+	}
+}
+
 
 //validar horario
 $query = $pdo->query("SELECT * FROM $tabela where data = '$data' and hora = '$hora' and funcionario = '$funcionario'");
@@ -66,8 +128,6 @@ if ($not_sistema == 'Sim') {
 
 if ($msg_agendamento == 'Api') {
 
-
-
 	//agendar o alerta de confirmação
 	$hora_atual = date('H:i:s');
 	$data_atual = date('Y-m-d');
@@ -88,11 +148,23 @@ if ($msg_agendamento == 'Api') {
 }
 
 
-$query = $pdo->prepare("INSERT INTO $tabela SET funcionario = '$funcionario', cliente = '$cliente', hora = '$hora', data = '$data_agd',
- usuario = '$usuario_logado', status = 'Agendado', obs = :obs, data_lancamento = curDate(), servico = '$servico', hash = '$hash'");
+$query = $pdo->prepare("INSERT INTO $tabela SET funcionario = '$funcionario', cliente = '$cliente', hora = '$hora', data = '$data_agd', usuario = '$usuario_logado', status = 'Agendado', obs = :obs, data_lancamento = curDate(), servico = '$servico', hash = '$hash'");
 
 $query->bindValue(":obs", "$obs");
 $query->execute();
+
+
+$ult_id = $pdo->lastInsertId();
+
+while (strtotime($hora) < strtotime($hora_final_servico)) {
+
+	$hora_minutos = strtotime("+$intervalo minutes", strtotime($hora));
+	$hora = date('H:i:s', $hora_minutos);
+
+	if (strtotime($hora) < strtotime($hora_final_servico)) {
+		$query = $pdo->query("INSERT INTO horarios_agd SET agendamento = '$ult_id', horario = '$hora', funcionario = '$funcionario', data = '$data_agd'");
+	}
+}
 
 
 echo 'Salvo com Sucesso';

@@ -25,6 +25,7 @@ echo 'Não conectado ao Banco de Dados! <br><br>'  .$erro;
 $nome_sistema = 'Barbearia Lima';
 $email_sistema = 'nagatabrisa.05@gmail.com';
 $whatsapp_sistema = '(96) 99182-7077';
+$not_sistema = 'Sim';
 
 
 
@@ -62,6 +63,9 @@ if($total_registro == 0){
 	$minutos_aviso = $resultado[0]['minutos_aviso'];
 	$token = $resultado[0]['token'];
 	$instancia = $resultado[0]['instancia'];
+	$instagram_sistema = $resultado[0]['instagram']; 
+	$taxa_sistema = $resultado[0]['taxa_sistema'];
+
 
 
 

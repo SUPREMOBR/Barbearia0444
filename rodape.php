@@ -90,8 +90,9 @@
 
 
 <script type="text/javascript">
-  
+  /// cadastro feito no site
 $("#form_cadastro").submit(function () {
+ //alert("test");
 
     event.preventDefault();
     var formData = new FormData(this);

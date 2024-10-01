@@ -1,4 +1,7 @@
 <?php 
+
+// cadastro feito no site
+
 require_once("../sistema/conexao.php");
 $tabela = 'clientes';
 

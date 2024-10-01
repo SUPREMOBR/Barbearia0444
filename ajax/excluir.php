@@ -21,6 +21,7 @@ $nome_cliente = $resultado[0]['nome'];
 $telefone = $resultado[0]['telefone'];
 
 $pdo->query("DELETE FROM agendamentos where id = '$id'");
+$pdo->query("DELETE FROM horarios_agd where agendamento = '$id'");
 
 echo 'Cancelado com Sucesso';
 
@@ -38,6 +39,7 @@ if($msg_agendamento == 'Api'){
 $query = $pdo->query("SELECT * FROM usuarios01 where id = '$usuario' ");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $nome_funcionario = $resultado[0]['nome'];
+$telefone_funcionario = $resultado[0]['telefone']; //tel_func
 
 $query = $pdo->query("SELECT * FROM servicos where id = '$servico' ");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -55,9 +57,15 @@ $telefone = '55'.preg_replace('/[ ()-]+/' , '' , $telefone);
 
 require('api-texto.php');
 
+if($telefone_funcionario != $whatsapp_sistema){  //tel_func
+	$telefone = '55'.preg_replace('/[ ()-]+/' , '' , $telefone_funcionario);  //tel_func
+	require('api-texto.php');	
+}
+
 if($hash != ""){
 	require('api-excluir.php');
 }
 }
+
 
 ?>

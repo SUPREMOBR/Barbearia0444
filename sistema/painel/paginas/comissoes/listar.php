@@ -6,7 +6,7 @@ $data_hoje = date('Y-m-d');
 $dataInicial = @$_POST['dataInicial'];
 $dataFinal = @$_POST['dataFinal'];
 $status = '%'.@$_POST['status'].'%';
-$funcionario = '%'.@$_POST['funcionario'].'%';
+$funcionario = @$_POST['funcionario'];
 
 $funcionario2 = $_POST['funcionario'];
 $query2 = $pdo->query("SELECT * FROM usuarios01 where id = '$funcionario2'");
@@ -22,7 +22,13 @@ $total_pago = 0;
 $total_a_pagar = 0;
 $total_pendente = 0;
 
-$query = $pdo->query("SELECT * FROM $tabela where data_lancamento >= '$dataInicial' and data_lancamento <= '$dataFinal' and pago LIKE '$status' and funcionario LIKE '$funcionario' and tipo = 'Comissão' ORDER BY pago asc, data_vencimento asc");
+if($funcionario == ""){
+	$query = $pdo->query("SELECT * FROM $tabela where data_lancamento >= '$dataInicial' and data_lancamento <= '$dataFinal' and pago LIKE '$status' and
+	 tipo = 'Comissão' ORDER BY pago asc, data_vencimento asc");
+}else{
+	$query = $pdo->query("SELECT * FROM $tabela where data_lancamento >= '$dataInicial' and data_lancamento <= '$dataFinal' and pago LIKE '$status' and
+	 funcionario = '$funcionario' and tipo = 'Comissão' ORDER BY pago asc, data_vencimento asc");
+}
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
 if($total_registro > 0){

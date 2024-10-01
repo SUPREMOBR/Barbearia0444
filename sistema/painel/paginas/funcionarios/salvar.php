@@ -14,8 +14,10 @@ $tipo_chave = $_POST['tipo_chave'];
 $chave_pix = $_POST['chave_pix'];
 $senha = '123';
 $senha_crip = md5($senha);
+$intervalo = $_POST['intervalo'];
+$comissao = $_POST['comissao'];
 
-if($cargo == 0){
+if($cargo == "0"){
 	echo 'Cadastre um Cargo para o Usuário';
 	exit();
 }
@@ -58,8 +60,8 @@ $caminho = '../../img/perfil/' .$nome_img;
 $imagem_temporaria = @$_FILES['foto']['tmp_name']; 
 
 if(@$_FILES['foto']['name'] != ""){
-	$extencao = pathinfo($nome_img, PATHINFO_EXTENSION);   
-	if($extencao == 'png' or $extencao == 'jpg' or $extencao == 'jpeg' or $extencao == 'gif'){ 
+	$extensao = pathinfo($nome_img, PATHINFO_EXTENSION);   
+	if($extensao == 'png' or $extensao == 'jpg' or $extensao == 'jpeg' or $extensao == 'gif'){ 
 	
 			//EXCLUO A FOTO ANTERIOR
 			if($foto != "sem-foto.jpg"){
@@ -79,9 +81,13 @@ if(@$_FILES['foto']['name'] != ""){
 
 
 if($id == ""){
-	$query = $pdo->prepare("INSERT INTO $tabela SET nome = :nome, email = :email, cpf = :cpf, senha = '$senha', senha_crip = '$senha_crip', nivel = '$cargo', data = curDate(), ativo = 'Sim', telefone = :telefone, endereco = :endereco, foto = '$foto', atendimento = '$atendimento', tipo_chave = '$tipo_chave', chave_pix = :chave_pix");
+	$query = $pdo->prepare("INSERT INTO $tabela SET nome = :nome, email = :email, cpf = :cpf, senha = '$senha', senha_crip = '$senha_crip',
+	 nivel = '$cargo', data = curDate(), ativo = 'Sim', telefone = :telefone, endereco = :endereco, foto = '$foto',
+	  atendimento = '$atendimento', tipo_chave = '$tipo_chave', chave_pix = :chave_pix, intervalo = '$intervalo', comissao = '$comissao'");
 }else{
-	$query = $pdo->prepare("UPDATE $tabela SET nome = :nome, email = :email, cpf = :cpf, nivel = '$cargo', telefone = :telefone, endereco = :endereco, foto = '$foto', atendimento = '$atendimento', tipo_chave = '$tipo_chave', chave_pix = :chave_pix WHERE id = '$id'");
+	$query = $pdo->prepare("UPDATE $tabela SET nome = :nome, email = :email, cpf = :cpf, nivel = '$cargo', telefone = :telefone,
+	 endereco = :endereco, foto = '$foto', atendimento = '$atendimento', tipo_chave = '$tipo_chave', chave_pix = :chave_pix,
+	  intervalo = '$intervalo', comissao = '$comissao' WHERE id = '$id'");
 }
 
 $query->bindValue(":nome", "$nome");

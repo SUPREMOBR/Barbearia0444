@@ -20,6 +20,7 @@ if ($total_registro > 0) {
 	<th class="esc">Categoria</th> 	
 	<th class="esc">Valor</th> 	
 	<th class="esc">Comissão <small>({$tipo_comissao})</small></th>	
+	<th class="esc">Tempo</th>
 	<th>Ações</th>
 	</tr> 
 	</thead> 
@@ -36,6 +37,7 @@ HTML;
 		$valor = $resultado[$i]['valor'];
 		$categoria = $resultado[$i]['categoria'];
 		$comissao = $resultado[$i]['comissao'];
+		$tempo = $resultado[$i]['tempo'];
 
 		$valorFormatado = number_format($valor, 2, ',', '.');
 
@@ -78,8 +80,9 @@ HTML;
 <td class="esc">{$nome_categoria}</td>
 <td class="esc">R$ {$valorFormatado}</td>
 <td class="esc">{$comissaoFormatada}</td>
+<td class="esc">{$tempo} Minutos</td>
 <td>
-        <big><a href="#" onclick="editar('{$id}','{$nome}', '{$valor}', '{$categoria}', '{$foto}', '{$comissao}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
+        <big><a href="#" onclick="editar('{$id}','{$nome}', '{$valor}', '{$categoria}', '{$foto}', '{$comissao}', '{$tempo}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
 
 		<big><a href="#" onclick="mostrar('{$nome}', '{$valorFormatado}', '{$nome_categoria}', '{$ativo}', '{$foto}', '{$comissaoFormatada}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
 
@@ -131,12 +134,13 @@ HTML;
 
 
 <script type="text/javascript">
-	function editar(id, nome, valor, categoria, foto, comissao) {
+	function editar(id, nome, valor, categoria, foto, comissao, tempo) {
 		$('#id').val(id);
 		$('#nome').val(nome);
 		$('#valor').val(valor);
 		$('#categoria').val(categoria).change();
 		$('#comissao').val(comissao);
+		$('#tempo').val(tempo);
 
 		$('#titulo_inserir').text('Editar Registro');
 		$('#modalform').modal('show');
@@ -152,6 +156,7 @@ HTML;
 		$('#comissao').val('');
 		$('#foto').val('');
 		$('#target').attr('src', 'img/servicos/sem-foto.jpg');
+		$('#tempo').val('');
 	}
 </script>
 

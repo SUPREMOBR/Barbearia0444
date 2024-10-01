@@ -9,6 +9,7 @@ $valor = str_replace(',', '.', $valor);
 $comissao = $_POST['comissao'];
 $comissao = str_replace(',', '.', $comissao);
 $comissao = str_replace('%', '', $comissao);
+$tempo = $_POST['tempo'];
 
 $categoria = $_POST['categoria'];
 
@@ -68,14 +69,17 @@ if(@$_FILES['foto']['name'] != ""){
 
 
 if($id == ""){
-	$query = $pdo->prepare("INSERT INTO $tabela SET nome = :nome, categoria = '$categoria', valor = :valor, ativo = 'Sim', foto = '$foto', comissao = :comissao");
+	$query = $pdo->prepare("INSERT INTO $tabela SET nome = :nome, categoria = '$categoria', valor = :valor, ativo = 'Sim', foto = '$foto',
+	 comissao = :comissao, tempo = :tempo");
 }else{
-	$query = $pdo->prepare("UPDATE $tabela SET nome = :nome, categoria = '$categoria', valor = :valor, foto = '$foto', comissao = :comissao WHERE id = '$id'");
+	$query = $pdo->prepare("UPDATE $tabela SET nome = :nome, categoria = '$categoria', valor = :valor, foto = '$foto',
+	 comissao = :comissao, tempo = :tempo WHERE id = '$id'");
 }
 
 $query->bindValue(":nome", "$nome");
 $query->bindValue(":valor", "$valor");
 $query->bindValue(":comissao", "$comissao");
+$query->bindValue(":tempo", "$tempo");
 $query->execute();
 
 echo 'Salvo com Sucesso'; 

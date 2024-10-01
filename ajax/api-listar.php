@@ -1,6 +1,6 @@
 <?php
  require_once("../sistema/conexao.php");
- $url = "http://api.enviame.com.br/agendar-list";
+ $url = "";
 
   $data = array('instance' => $instancia,
                 'token' => $token);

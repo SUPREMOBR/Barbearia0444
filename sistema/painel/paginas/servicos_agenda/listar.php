@@ -11,7 +11,8 @@ $status = '%' . @$_POST['status'] . '%';
 $total_pago = 0;
 $total_a_pagar = 0;
 
-$query = $pdo->query("SELECT * FROM $tabela where data_lancamento >= '$dataInicial' and data_lancamento <= '$dataFinal' and pago LIKE '$status' and tipo = 'Serviço' ORDER BY pago asc, data_vencimento asc");
+$query = $pdo->query("SELECT * FROM $tabela where data_lancamento >= '$dataInicial' and data_lancamento <= '$dataFinal' and pago 
+LIKE '$status' and tipo = 'Serviço' ORDER BY pago asc, data_vencimento asc");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
 if ($total_registro > 0) {

@@ -1,5 +1,5 @@
 <?php
-  $url = "http://api.enviame.com.br/agendar-text";
+  $url = "";
 
   $data = array('instance' => $instancia,
                 'to' => $telefone,

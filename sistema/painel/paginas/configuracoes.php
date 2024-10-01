@@ -68,11 +68,22 @@ if (@$configuracoes == 'ocultar') {
 						</select>
 					</div>
 				</div>
+				
 			</div>
 
 
-			<div class="row">
 
+			<div class="row">
+				<div class="col-md-2">
+					<div class="form-group">
+						<label for="exampleInputEmail1">Taxa Pagamento Serviço</label>
+						<select class="form-control" name="taxa_sistema" id="taxa_sistema">
+							<option value="Cliente" <?php if (@$taxa_sistema == 'Cliente') { ?> selected <?php } ?>>Cliente Paga</option>
+							<option value="Empresa" <?php if (@$taxa_sistema == 'Empresa') { ?> selected <?php } ?>>Salão Paga</option>
+
+						</select>
+					</div>
+				</div>
 
 
 				<div class="col-md-2">
@@ -86,8 +97,27 @@ if (@$configuracoes == 'ocultar') {
 				</div>
 
 
-				<div class="col-md-5">
 
+				<div class="col-md-3">
+					<div class="form-group">
+						<label for="exampleInputEmail1">Lançamento Comissão </label>
+						<select class="form-control" name="lancamento_comissao" id="lancamento_comissao">
+							<option value="Sempre" <?php if ($lancamento_comissao == 'Sempre') { ?> selected <?php } ?>>Serviço Pendente e Pago</option>
+							<option value="Pago" <?php if ($lancamento_comissao == 'Pago') { ?> selected <?php } ?>>Serviço Pago</option>
+						</select>
+					</div>
+				</div>
+
+
+			</div>
+
+			<div class="row">
+
+				<div class="col-md-5">
+					<div class="form-group">
+						<label for="exampleInputEmail1">Instagram</label>
+						<input type="text" class="form-control" id="instagram_sistema" name="instagram_sistema" placeholder="Link do Perfil no Instagram" value="<?php echo $instagram_sistema ?>">
+					</div>
 				</div>
 
 				<div class="col-md-5">
@@ -96,10 +126,6 @@ if (@$configuracoes == 'ocultar') {
 						<input type="text" class="form-control" id="mapa" name="mapa" placeholder="" value='<?php echo $mapa ?>'>
 					</div>
 				</div>
-
-
-
-
 
 			</div>
 
@@ -177,7 +203,12 @@ if (@$configuracoes == 'ocultar') {
 			<div class="row">
 
 
-
+				<div class="col-md-2">
+					<div class="form-group">
+						<label for="exampleInputEmail1">Horas Confirmação</label>
+						<input type="number" class="form-control" id="minutos_aviso" name="minutos_aviso" placeholder="Alerta Agendamento" value="<?php echo @$minutos_aviso ?>">
+					</div>
+				</div>
 
 				<div class="col-md-3">
 					<div class="form-group">
@@ -187,7 +218,7 @@ if (@$configuracoes == 'ocultar') {
 				</div>
 
 
-				<div class="col-md-3">
+				<div class="col-md-2">
 					<div class="form-group">
 						<label for="exampleInputEmail1">Cidade</label>
 						<input type="text" class="form-control" id="cidade_sistema" name="cidade_sistema" value="<?php echo $cidade_sistema ?>" placeholder="Cidade para o contrato">
@@ -203,7 +234,7 @@ if (@$configuracoes == 'ocultar') {
 				</div>
 
 
-				<div class="col-md-3">
+				<div class="col-md-2">
 					<div class="form-group">
 						<label for="exampleInputEmail1">Itens Paginação</label>
 						<input type="number" class="form-control" id="itens_pag" name="itens_pag" value="<?php echo $itens_pag ?>" placeholder="">
@@ -258,7 +289,7 @@ if (@$configuracoes == 'ocultar') {
 				</div>
 				<div class="col-md-2">
 					<div id="divImg">
-						<img src="../img/<?php echo $logo_rel ?>" width="80px" id="target-logo-rel">
+						<img src="../img/<?php echo $logo_relatorio ?>" width="80px" id="target-logo-rel">
 					</div>
 				</div>
 

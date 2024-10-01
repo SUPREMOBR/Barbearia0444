@@ -195,6 +195,29 @@ $data_final_mes = $ano_atual . "-" . $mes_atual . "-" . $dia_final_mes;
 							</div>
 						</div>
 
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Forma pagamento</label>
+								<select class="form-control" id="pagamento" name="pagamento" style="width:100%;" required>
+
+									<?php
+									$query = $pdo->query("SELECT * FROM formas_pagamento");
+									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+									$total_registro = @count($resultado);
+									if ($total_registro > 0) {
+										for ($i = 0; $i < $total_registro; $i++) {
+											foreach ($resultado[$i] as $key => $value) {
+											}
+											echo '<option value="' . $resultado[$i]['nome'] . '">' . $resultado[$i]['nome'] . '</option>';
+										}
+									}
+									?>
+
+
+								</select>
+							</div>
+						</div>
+
 						<div class="col-md-12">
 							<div class="form-group">
 								<label>Observações </label>

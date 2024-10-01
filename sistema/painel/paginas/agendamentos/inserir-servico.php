@@ -1,4 +1,4 @@
-<?php
+<?php 
 $tabela = 'receber';
 require_once("../../../conexao.php");
 $data_atual = date('Y-m-d');
@@ -16,20 +16,67 @@ $servico = $_POST['servico_agd'];
 $obs = $_POST['obs'];
 $pagamento = $_POST['pagamento'];
 
+$valor_serv_restante = $_POST['valor_serv_agd_restante'];
+$pgto_restante = $_POST['pgto_restante'];
+$data_pgto_restante = $_POST['data_pgto_restante'];
+
+if($valor_serv_restante == ""){
+	$valor_serv_restante = 0;
+}
+
+$valor_total_servico = $valor_serv + $valor_serv_restante;
+
 $query = $pdo->query("SELECT * FROM servicos where id = '$servico'");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $valor = $resultado[0]['valor'];
 $comissao = $resultado[0]['comissao'];
 $descricao = $resultado[0]['nome'];
-$descricao2 = 'Comissão - ' . $resultado[0]['nome'];
+$descricao2 = 'Comissão - '.$resultado[0]['nome'];
 
-if ($tipo_comissao == 'Porcentagem') {
-	$valor_comissao = ($comissao * $valor) / 100;
-} else {
+$query = $pdo->query("SELECT * FROM usuarios01 where id = '$funcionario'");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+$comissao_funcionario = $resultado[0]['comissao'];
+
+if($comissao_funcionario > 0){
+	$comissao = $comissao_funcionario;
+}
+
+if($tipo_comissao == 'Porcentagem'){
+	$valor_comissao = ($comissao * $valor_total_servico) / 100;
+}else{
 	$valor_comissao = $comissao;
 }
 
-if (strtotime($data_pagamento) <=  strtotime($data_atual)) {
+
+
+$query = $pdo->query("SELECT * FROM formas_pagamento where nome = '$pagamento'");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+$valor_taxa = $resultado[0]['taxa'];
+
+if($valor_taxa > 0 and strtotime($data_pagamento) <=  strtotime($data_atual)){
+	if($taxa_sistema == 'Cliente'){
+		$valor_serv = $valor_serv + $valor_serv * ($valor_taxa / 100);
+	}else{
+		$valor_serv = $valor_serv - $valor_serv * ($valor_taxa / 100);
+	}
+	
+}
+
+$query = $pdo->query("SELECT * FROM formas_pagamento where nome = '$pagamento_restante'");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+$valor_taxa = @$resultado[0]['taxa'];
+
+if($valor_taxa > 0 and strtotime($data_pagamento_restante) <=  strtotime($data_atual)){
+	if($taxa_sistema == 'Cliente'){
+		$valor_serv_restante = $valor_serv_restante + $valor_serv_restante * ($valor_taxa / 100);
+	}else{
+		$valor_serv_restante = $valor_serv_restante - $valor_serv_restante * ($valor_taxa / 100);
+	}
+	
+}
+
+
+if(strtotime($data_pagamento) <=  strtotime($data_atual)){
 	$pago = 'Sim';
 	$data_pagamento2 = $data_pagamento;
 	$usuario_baixa = $usuario_logado;
@@ -38,15 +85,47 @@ if (strtotime($data_pagamento) <=  strtotime($data_atual)) {
 	$pdo->query("INSERT INTO pagar SET descricao = '$descricao2', tipo = 'Comissão', valor = '$valor_comissao', data_lancamento = '$data_pagamento',
 	 data_vencimento = '$data_pagamento', usuario_lancou = '$usuario_logado', foto = 'sem-foto.jpg', pago = 'Não', funcionario = '$funcionario',
 	  servico = '$servico', cliente = '$cliente'");
-} else {
+}else{
 	$pago = 'Não';
 	$data_pagamento2 = '';
 	$usuario_baixa = 0;
+
+	if($lancamento_comissao == 'Sempre'){
+		//lançar a conta a pagar para a comissão do funcionário
+	$pdo->query("INSERT INTO pagar SET descricao = '$descricao2', tipo = 'Comissão', valor = '$valor_comissao', data_lancamento = '$data_pagamento',
+	 data_vencimento = '$data_pagamento', usuario_lancou = '$usuario_logado', foto = 'sem-foto.jpg', pago = 'Não', funcionario = '$funcionario',
+	  servico = '$servico', cliente = '$cliente'");
+	}
 }
 
-$pdo->query("INSERT INTO $tabela SET descricao = '$descricao', tipo = 'Serviço', valor = '$valor_serv', data_lancamento = curDate(), data_vencimento = '$data_pagamento', 
-data_pagamento = '$data_pagamento2', usuario_lancou = '$usuario_logado', usuario_baixa = '$usuario_baixa', foto = 'sem-foto.jpg', pessoa = '$cliente',
-pago = '$pago', servico = '$servico', funcionario = '$funcionario', obs = '$obs', pgto = '$pagamento'");
+if($valor_serv_restante > 0){
+if(strtotime($data_pagamento_restante) <=  strtotime($data_atual)){
+	$pago_restante = 'Sim';
+	$data_pagamento2_restante = $data_pagamento;
+	$usuario_baixa_restante = $usuario_logado;
+}else{
+	$pago_restante = 'Não';
+	$data_pagamento2_restante = '';
+	$usuario_baixa_restante = 0;
+}
+
+//lançar o restante
+$pdo->query("INSERT INTO $tabela SET descricao = '$descricao', tipo = 'Serviço', valor = '$valor_serv_restante', data_lancamento = curDate(),
+ data_vencimento = '$data_pagamento_restante', data_pagamento = '$data_pagamento2_restante', usuario_lancou = '$usuario_logado', usuario_baixa = '$usuario_baixa',
+  foto = 'sem-foto.jpg', pessoa = '$cliente', pago = '$pago_restante', servico = '$servico', funcionario = '$funcionario', obs = '$obs',
+   pagamento = '$pagamento_restante'");	
+}
+
+
+
+$pdo->query("INSERT INTO $tabela SET descricao = '$descricao', tipo = 'Serviço', valor = '$valor_serv', data_lancamento = curDate(),
+ data_vencimento = '$data_pagamento', data_pagamento = '$data_pagamento2', usuario_lancou = '$usuario_logado',
+  usuario_baixa = '$usuario_baixa', foto = 'sem-foto.jpg', pessoa = '$cliente', pago = '$pago', servico = '$servico',
+   funcionario = '$funcionario', obs = '$obs', pagamento = '$pagamento'");
+
+
 $pdo->query("UPDATE agendamentos SET status = 'Concluído' where id = '$id_agd'");
 
-echo 'Salvo com Sucesso';
+echo 'Salvo com Sucesso'; 
+
+?>

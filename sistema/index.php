@@ -21,7 +21,7 @@ if($total_registro == 0){
 }
 
 //EXCLUIR HORÁRIOS TEMPORÁRIOS
-$pdo->query("DELETE FROM horarios where data < curDate() and data != 'null' and data != '' ");
+$pdo->query("DELETE FROM horarios where data < curDate() and data != '' ");
 
 //APAGAR AGENDAMENTOS ANTERIORES
 $data_atual = date('Y-m-d');

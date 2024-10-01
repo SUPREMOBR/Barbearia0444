@@ -4,21 +4,21 @@ $tabela = 'formas_pagamento';
 
 $id = $_POST['id'];
 $nome = $_POST['nome'];
-
+$taxa = $_POST['taxa'];
 
 //validar nome
 $query = $pdo->query("SELECT * from $tabela where nome = '$nome'");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
-if(@count($resultado) > 0 and $id != $resultado[0]['id']){
+if(@count($resultado) > 0 and $id != $res[0]['id']){
 	echo 'Nome já Cadastrado, escolha outro!!';
 	exit();
 }
 
 
 if($id == ""){
-	$query = $pdo->prepare("INSERT INTO $tabela SET nome = :nome");
+	$query = $pdo->prepare("INSERT INTO $tabela SET nome = :nome, taxa = '$taxa'");
 }else{
-	$query = $pdo->prepare("UPDATE $tabela SET nome = :nome WHERE id = '$id'");
+	$query = $pdo->prepare("UPDATE $tabela SET nome = :nome, taxa = '$taxa' WHERE id = '$id'");
 }
 
 $query->bindValue(":nome", "$nome");

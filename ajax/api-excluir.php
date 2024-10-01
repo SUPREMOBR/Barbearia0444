@@ -1,5 +1,5 @@
 <?php
- $url = "http://api.enviame.com.br/delete-agenda"; 
+ $url = ""; 
   
 
 $data = array('token' => $token,

@@ -19,9 +19,11 @@ if(@count($resultado) > 0 and $id != $resultado[0]['id']){
 
 
 if($id == ""){
-	$query = $pdo->prepare("INSERT INTO $tabela SET nome = :nome, telefone = :telefone, data_cadastro = curDate(), data_nascimento = '$data_nascimento', endereco = :endereco, alertado = 'Não', cpf = :cpf");
+	$query = $pdo->prepare("INSERT INTO $tabela SET nome = :nome, telefone = :telefone, data_cadastro = curDate(), data_nascimento = '$data_nascimento',
+	 endereco = :endereco, alertado = 'Não', cpf = :cpf");
 }else{
-	$query = $pdo->prepare("UPDATE $tabela SET nome = :nome, telefone = :telefone, data_nascimento = '$data_nascimento', endereco = :endereco, cpf = :cpf WHERE id = '$id'");
+	$query = $pdo->prepare("UPDATE $tabela SET nome = :nome, telefone = :telefone, data_nascimento = '$data_nascimento',
+	 endereco = :endereco, cpf = :cpf WHERE id = '$id'");
 }
 
 $query->bindValue(":nome", "$nome");
