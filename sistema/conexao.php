@@ -65,11 +65,34 @@ if($total_registro == 0){
 	$instancia = $resultado[0]['instancia'];
 	$instagram_sistema = $resultado[0]['instagram']; 
 	$taxa_sistema = $resultado[0]['taxa_sistema'];
+	$lancamento_comissao = $resultado[0]['lancamento_comissao'];
+	$ativo_sistema = $resultado[0]['ativo'];
+
+	$horas_confirmacaoFormatada = $minutos_aviso.':00:00';
+
 
 
 
 
 	$telefone_whatsapp = '55'.preg_replace('/[ ()-]+/' , '' , $whatsapp_sistema);
+	
+
+	if($ativo_sistema != 'Sim' and $ativo_sistema != ''){ ?>
+		<style type="text/css">
+			@media only screen and (max-width: 700px) {
+	  .imgsistema_mobile{
+		width:300px;
+	  }
+		
+	}
+		</style>
+		<div style="text-align: center; margin-top: 100px">
+		<img src="sistema/img/bloqueio.png" class="imgsistema_mobile">	
+		</div>
+	<?php 
+	exit();
+	} 
+		
 	
 	
 }

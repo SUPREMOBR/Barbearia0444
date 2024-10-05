@@ -236,6 +236,10 @@ HTML;
 		$('#valor').val('');
 		$('#data_pagamento').val('<?= $data_hoje ?>');
 
+		$('#valor_serv_agd_restante').val('');
+		$('#data_pagamento_restante').val('');
+		$('#pagamento_restante').val('').change();
+
 	}
 </script>
 

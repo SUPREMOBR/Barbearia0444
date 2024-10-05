@@ -17,8 +17,8 @@ $obs = $_POST['obs'];
 $pagamento = $_POST['pagamento'];
 
 $valor_serv_restante = $_POST['valor_serv_agd_restante'];
-$pgto_restante = $_POST['pgto_restante'];
-$data_pgto_restante = $_POST['data_pgto_restante'];
+$pagamento_restante = $_POST['pagamento_restante'];
+$data_pagamento_restante = $_POST['data_pagamento_restante'];
 
 if($valor_serv_restante == ""){
 	$valor_serv_restante = 0;

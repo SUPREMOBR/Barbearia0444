@@ -2,6 +2,7 @@
 require_once("../../../conexao.php");
 @session_start();
 $usuario = @$_SESSION['id'];
+$data_atual = date('Y-m-d');
 
 $funcionario = @$_POST['funcionario'];
 $data = @$_POST['data'];
@@ -88,6 +89,37 @@ if ($total_registro > 0) {
 		//retirar aspas do texto do obs
 		$obs = str_replace('"', "**", $obs);
 
+		$classe_deb = '#043308';
+		$total_debitos = 0;
+		$total_pagar = 0;
+		$total_vencido = 0;
+		$total_debitosFormatado = 0;
+		$total_pagarFormatado = 0;
+		$total_vencidoFormatado = 0;
+		$query2 = $pdo->query("SELECT * FROM receber where pessoa = '$cliente' and pago != 'Sim'");
+		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+		$total_registro2 = @count($resultado2);
+		if ($total_registro2 > 0) {
+			$classe_deb = '#661109';
+			for ($i2 = 0; $i2 < $total_registro2; $i2++) {
+				$valor_s = $resultado2[$i2]['valor'];
+				$data_vencimento = $resultado2[$i2]['data_vencimento'];
+
+				$total_debitos += $valor_s;
+				$total_debitosFormatado = number_format($total_debitos, 2, ',', '.');
+
+
+				if (strtotime($data_vencimento) < strtotime($data_atual)) {
+					$total_vencido += $valor_s;
+				} else {
+					$total_pagar += $valor_s;
+				}
+
+				$total_pagarFormatado = number_format($total_pagar, 2, ',', '.');
+				$total_vencidoFormatado = number_format($total_vencido, 2, ',', '.');
+			}
+		}
+
 		echo <<<HTML
 			<div class="col-xs-12 col-md-4 widget cardTarefas">
         		<div class="r3_counter_box">     		
@@ -110,6 +142,31 @@ if ($total_registro > 0) {
 		</ul>
 		</li>
 
+		<div class="row">
+        		<div class="col-md-3">
+
+
+				<li class="dropdown head-dpdn2" style="list-style-type: none;">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+		<img class="icon-rounded-vermelho" src="img/{$imagem}" width="45px" height="45px">
+				</a>
+
+		<ul class="dropdown-menu" style="margin-left:-30px;">
+		<li>
+		<div class="notification_desc2">
+		<p>
+		<span style="margin-right: 20px; ">Total Vencido <span style="color:red">R$ {$total_vencidoFormatado}</span></span><br>
+        <span style="margin-right: 20px; ">Total à Vencer <span style="color:blue">R$ {$total_pagarFormtado}</span></span><br>
+        <span >Total Pagar <span style="color:green">R$ {$total_debitosFormatado}</span></span>
+		</p>
+		<p>Observações: {$obs}</p>
+		</div>
+		</li>										
+		</ul>
+		</li>
+        			 
+        		</div>
+
 
 		<div class="row">
         		<div class="col-md-3">
@@ -126,8 +183,8 @@ if ($total_registro > 0) {
         		<hr style="margin-top:-2px; margin-bottom: 3px">                    
                     <div class="stats esc" align="center">
                       <span>
-                      
-                       <small>{$nome_cliente} (<i><span style="color:#061f9c">{$nome_serv}</span></i>)</small></span>
+					  <span style="color:{$classe_deb}; font-size:13px">{$nome_cliente}</span> 
+					  (<i><span style="color:#061f9c; font-size:12px">{$nome_serv}</span></i>)</small></span>
                     </div>
                 </div>
         	</div>
@@ -151,6 +208,10 @@ HTML;
 		$('#titulo_servico').text(nome_serv);
 		$('#descricao_serv_agd').val(nome_serv);
 		$('#obs2').val('');
+
+		$('#valor_serv_agd_restante').val('');
+		$('#data_pagamento_restante').val('');
+		$('#pagamento_restante').val('').change();
 
 		$('#modalServico').modal('show');
 	}

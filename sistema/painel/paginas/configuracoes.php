@@ -191,7 +191,7 @@ if (@$configuracoes == 'ocultar') {
 
 				<div class="col-md-2">
 					<div class="form-group">
-						<label for="exampleInputEmail1">Minutos Aviso</label>
+						<label for="exampleInputEmail1">Horas Confirmação</label>
 						<input type="number" class="form-control" id="minutos_aviso" name="minutos_aviso" placeholder="Alerta Agendamento" value="<?php echo @$minutos_aviso ?>">
 					</div>
 				</div>

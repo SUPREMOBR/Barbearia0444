@@ -133,11 +133,6 @@ $descricao = $resultado[0]['nome'];
 $descricao2 = 'Comissão - '.$resultado[0]['nome'];
 $nome_servico = $resultado[0]['nome'];
 
-//dados do cliente
-$query2 = $pdo->query("SELECT * FROM clientes where id = '$cliente' order by id desc limit 2");
-$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-$telefone = $resultado2[0]['telefone'];
-$nome_cliente = $resultado2[0]['nome'];
 
 $pdo->query("INSERT INTO $tabela SET descricao = '$nome_servico', tipo = 'Serviço', valor = '$valor_serv', data_lancamento = curDate(),
  data_vencimento = '$data_pagamento', data_pagamento = '$data_pagamento2', usuario_lancou = '$usuario_logado', usuario_baixa = '$usuario_baixa',

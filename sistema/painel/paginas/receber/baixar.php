@@ -14,6 +14,8 @@ $servico = $resultado[0]['servico'];
 $cliente = $resultado[0]['pessoa'];
 $descricao = 'Comissão - '.$resultado[0]['descricao'];
 $tipo = $resultado[0]['tipo'];
+$pagamento = $resultado[0]['pgto'];
+$valor_serv = $resultado[0]['valor'];
 
 if($tipo == 'Serviço'){
 	$query = $pdo->query("SELECT * FROM servicos where id = '$servico'");
@@ -28,12 +30,25 @@ if($tipo == 'Serviço'){
 	}
 
 	//lançar a conta a pagar para a comissão do funcionário
-$pdo->query("INSERT INTO pagar SET descricao = '$descricao', tipo = 'Comissão', valor = '$valor_comissao', data_lancamento = curDate(), data_vencimento = curDate(), usuario_lancou = '$id_usuario', foto = 'sem-foto.jpg', pago = 'Não', funcionario = '$funcionario', servico = '$servico', cliente = '$cliente'");
+$pdo->query("INSERT INTO pagar SET descricao = '$descricao', tipo = 'Comissão', valor = '$valor_comissao', data_lancamento = curDate(),
+ data_vencimento = curDate(), usuario_lancou = '$id_usuario', foto = 'sem-foto.jpg', pago = 'Não', funcionario = '$funcionario',
+  servico = '$servico', cliente = '$cliente'");
 }
 
+$query = $pdo->query("SELECT * FROM formas_pagamento where nome = '$pagamento'");
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+$valor_taxa = @$res[0]['taxa'];
 
+if($valor_taxa > 0){
+	if($taxa_sistema == 'Cliente'){
+		$valor_serv = $valor_serv + $valor_serv * ($valor_taxa / 100);
+	}else{
+		$valor_serv = $valor_serv - $valor_serv * ($valor_taxa / 100);
+	}
+	
+}
 
-$pdo->query("UPDATE $tabela SET pago = 'Sim', usuario_baixa = '$id_usuario', data_pgto = curDate() where id = '$id'");
+$pdo->query("UPDATE $tabela SET pago = 'Sim', usuario_baixa = '$id_usuario', data_pagamento = curDate() where id = '$id'");
 
 
 echo 'Baixado com Sucesso';

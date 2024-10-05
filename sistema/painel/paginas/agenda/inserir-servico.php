@@ -3,8 +3,13 @@ $tabela = 'receber';
 require_once("../../../conexao.php");
 $data_atual = date('Y-m-d');
 
-@session_start();
+if(@$_POST['id_usuario'] != ""){
+	$usuario_logado = $_POST['id_usuario'];
+}else{
+	@session_start();
 $usuario_logado = @$_SESSION['id'];
+}
+
 
 $cliente = $_POST['cliente_agd'];
 $data_pagamento = $_POST['data_pagamento'];

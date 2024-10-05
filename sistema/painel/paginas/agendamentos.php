@@ -206,7 +206,7 @@ if (@$agendamentos == 'ocultar') {
 
 
 
-<!-- Modal Serviço -->
+<!-- Modal -->
 <div class="modal fade" id="modalServico" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -220,101 +220,140 @@ if (@$agendamentos == 'ocultar') {
 				<div class="modal-body">
 
 					<div class="row">
-						<div class="col-md-5">
-							<div class="form-group">
-								<label>Funcionário</label>
-								<select class="form-control sel4" id="funcionario_agd" name="funcionario_agd" style="width:100%;" required>
+						<div class="col-md-12">						
+							<div class="form-group"> 
+								<label>Funcionário</label> 
+								<select class="form-control sel4" id="funcionario_agd" name="funcionario_agd" style="width:100%;" required> 
 
-									<?php
+									<?php 
 									$query = $pdo->query("SELECT * FROM usuarios01 where atendimento = 'Sim' ORDER BY nome asc");
 									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 									$total_registro = @count($resultado);
-									if ($total_registro > 0) {
-										for ($i = 0; $i < $total_registro; $i++) {
-											foreach ($resultado[$i] as $key => $value) {
-											}
-											echo '<option value="' . $resultado[$i]['id'] . '">' . $resultado[$i]['nome'] . '</option>';
+									if($total_registro > 0){
+										for($i=0; $i < $total_registro; $i++){
+											foreach ($resultado[$i] as $key => $value){}
+												echo '<option value="'.$resultado[$i]['id'].'">'.$resultado[$i]['nome'].'</option>';
 										}
 									}
 									?>
 
 
-								</select>
-							</div>
-						</div>
+								</select>    
+							</div>						
+						</div>					
 
-
-						<div class="col-md-3" id="nasc">
-							<div class="form-group">
-								<label>Valor </label>
-								<input type="text" class="form-control" name="valor_serv_agd" id="valor_serv_agd">
-							</div>
-						</div>
-
-
-						<div class="col-md-4" id="nasc">
-							<div class="form-group">
-								<label>Data Pagamento</label>
-								<input type="date" class="form-control" name="data_pagamento" id="data_pagamento" value="<?php echo $data_atual ?>">
-							</div>
-						</div>
 
 					</div>
 
 					<div class="row">
+						<div class="col-md-4" id="nasc">						
+							<div class="form-group"> 
+								<label>Valor </label> 
+								<input type="text" class="form-control" name="valor_serv_agd" id="valor_serv_agd"> 
+							</div>						
+						</div>
 
-						<div class="col-md-4">
-							<div class="form-group">
-								<label>Forma pagamento</label>
-								<select class="form-control" id="pagamento" name="pagamento" style="width:100%;" required>
 
-									<?php
+						<div class="col-md-4" id="nasc">						
+							<div class="form-group"> 
+								<label>Data pagamento</label> 
+								<input type="date" class="form-control" name="data_pagamento" id="data_pagamento" value="<?php echo $data_atual ?>"> 
+							</div>						
+						</div>
+
+						<div class="col-md-4">						
+							<div class="form-group"> 
+								<label>Forma pagamento</label> 
+								<select class="form-control" id="pagamento" name="pagamento" style="width:100%;" required> 
+
+									<?php 
 									$query = $pdo->query("SELECT * FROM formas_pagamento");
 									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
-									$total_registro = @count($resultado);
-									if ($total_registro > 0) {
-										for ($i = 0; $i < $total_registro; $i++) {
-											foreach ($resultado[$i] as $key => $value) {
-											}
-											echo '<option value="' . $resultado[$i]['nome'] . '">' . $resultado[$i]['nome'] . '</option>';
+									$total_registro = @count($res);
+									if($total_registro > 0){
+										for($i=0; $i < $total_registro; $i++){
+											foreach ($resultado[$i] as $key => $value){}
+												echo '<option value="'.$resultado[$i]['nome'].'">'.$resultado[$i]['nome'].'</option>';
 										}
 									}
 									?>
 
 
-								</select>
-							</div>
+								</select>    
+							</div>						
+						</div>	
+					</div>
+
+
+
+						<div class="row">
+						<div class="col-md-4" id="">						
+							<div class="form-group"> 
+								<label>Valor Restante </label> 
+								<input type="text" class="form-control" name="valor_serv_agd_restante" id="valor_serv_agd_restante"> 
+							</div>						
 						</div>
 
-						<div class="col-md-8">
-							<div class="form-group">
-								<label>Observações </label>
-								<input maxlength="1000" type="text" class="form-control" name="obs" id="obs2">
-							</div>
+
+						<div class="col-md-4" id="">						
+							<div class="form-group"> 
+								<label>Data Pagamento Restante</label> 
+								<input type="date" class="form-control" name="data_pagamento_restante" id="data_pagamento_restante" value=""> 
+							</div>						
+						</div>
+
+						<div class="col-md-4">						
+							<div class="form-group"> 
+								<label>Forma pagamento Restante</label> 
+								<select class="form-control" id="pagamento_restante" name="pagamento_restante" style="width:100%;" > 
+									<option value="">Selecionar pagamento</option>
+									<?php 
+									$query = $pdo->query("SELECT * FROM formas_pagamento");
+									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+									$total_registro = @count($resultado);
+									if($total_registro > 0){
+										for($i=0; $i < $total_registro; $i++){
+											foreach ($resultado[$i] as $key => $value){}
+												echo '<option value="'.$resultado[$i]['nome'].'">'.$resultado[$i]['nome'].'</option>';
+										}
+									}
+									?>
+
+
+								</select>    
+							</div>						
+						</div>	
+					</div>
+
+					<div class="row">
+
+						
+
+						<div class="col-md-12">						
+							<div class="form-group"> 
+								<label>Observações </label> 
+								<input maxlength="1000" type="text" class="form-control" name="obs" id="obs2"> 
+							</div>						
 						</div>
 
 					</div>
 
 
 
-
-
 					<br>
-
-					<input type="hidden" name="id_agd" id="id_agd">
-					<input type="hidden" name="cliente_agd" id="cliente_agd">
+					
+					<input type="hidden" name="id_agd" id="id_agd"> 
+					<input type="hidden" name="cliente_agd" id="cliente_agd"> 
 					<input type="hidden" name="servico_agd" id="servico_agd">
 					<input type="hidden" name="descricao_serv_agd" id="descricao_serv_agd">
-
-					<small>
-						<div id="mensagem-servico" align="center" class="mt-3"></div>
-					</small>
+					
+					<small><div id="mensagem-servico" align="center" class="mt-3"></div></small>					
 
 				</div>
 
 
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-success">Salvar</button>
+					<button type="submit" class="btn btn-primary">Salvar</button>
 				</div>
 
 

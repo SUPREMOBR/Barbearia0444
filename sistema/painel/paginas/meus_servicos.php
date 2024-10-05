@@ -198,6 +198,46 @@ $data_final_mes = $ano_atual . "-" . $mes_atual . "-" . $dia_final_mes;
 							</div>
 						</div>
 
+						<div class="row">
+						<div class="col-md-4" id="">
+							<div class="form-group">
+								<label>Valor Restante </label>
+								<input type="text" class="form-control" name="valor_serv_agd_restante" id="valor_serv_agd_restante">
+							</div>
+						</div>
+
+
+						<div class="col-md-4" id="">
+							<div class="form-group">
+								<label>Data PGTO Restante</label>
+								<input type="date" class="form-control" name="data_pagamento_restante" id="data_pagamento_restante" value="">
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Forma PGTO Restante</label>
+								<select class="form-control" id="pagamento_restante" name="pagamento_restante" style="width:100%;">
+									<option value="">Selecionar Pgto</option>
+									<?php
+									$query = $pdo->query("SELECT * FROM formas_pgto");
+									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+									$total_registro = @count($resultado);
+									if ($total_registro > 0) {
+										for ($i = 0; $i < $total_registro; $i++) {
+											foreach ($resultado[$i] as $key => $value) {
+											}
+											echo '<option value="' . $resultado[$i]['nome'] . '">' . $resultado[$i]['nome'] . '</option>';
+										}
+									}
+									?>
+
+
+								</select>
+							</div>
+						</div>
+					</div>
+
 						<div class="col-md-12">
 							<div class="form-group">
 								<label>Observações </label>

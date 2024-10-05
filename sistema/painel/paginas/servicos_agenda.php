@@ -89,7 +89,7 @@ $data_final_mes = $ano_atual . "-" . $mes_atual . "-" . $dia_final_mes;
 <!-- Modal Inserir-->
 <div class="modal fade" id="modalform" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
-		<div class="modal-content ">
+		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title"><span id="titulo_inserir"></span></h4>
 				<button id="btn-fechar" type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px">
@@ -100,17 +100,15 @@ $data_final_mes = $ano_atual . "-" . $mes_atual . "-" . $dia_final_mes;
 				<div class="modal-body">
 
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Funcionario</label>
-								<select onchange="calcular()" class="form-control sel2" id="funcionario" name="funcionario" style="width:100%;" required onchange="listarServicos()">
+								<label>Profissional</label>
+								<select class="form-control sel2" id="funcionario" name="funcionario" style="width:100%;" required onchange="listarServicos()">
 
 									<?php
-									$query = $pdo->query("SELECT * FROM usuarios01 where atendimento = 'sim' ORDER BY nome asc");
+									$query = $pdo->query("SELECT * FROM usuarios01 where atendimento = 'Sim' ORDER BY nome asc");
 									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 									$total_registro = @count($resultado);
-
-
 									if ($total_registro > 0) {
 										for ($i = 0; $i < $total_registro; $i++) {
 											foreach ($resultado[$i] as $key => $value) {
@@ -124,18 +122,22 @@ $data_final_mes = $ano_atual . "-" . $mes_atual . "-" . $dia_final_mes;
 								</select>
 							</div>
 						</div>
-						<div class="col-md-6">
 
+
+
+					</div>
+
+
+					<div class="row">
+						<div class="col-md-6">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Cliente</label>
-								<select class="form-control sel2" id="pessoa" name="pessoa" style="width:100%;">
+								<label>Clientes</label>
+								<select class="form-control sel2" id="cliente" name="cliente" style="width:100%;" required>
 
 									<?php
 									$query = $pdo->query("SELECT * FROM clientes ORDER BY nome asc");
 									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 									$total_registro = @count($resultado);
-
-
 									if ($total_registro > 0) {
 										for ($i = 0; $i < $total_registro; $i++) {
 											foreach ($resultado[$i] as $key => $value) {
@@ -149,12 +151,8 @@ $data_final_mes = $ano_atual . "-" . $mes_atual . "-" . $dia_final_mes;
 								</select>
 							</div>
 						</div>
-					</div>
 
-					<div class="row">
-
-						<div class="col-md-4">
-
+						<div class="col-md-6">
 							<div class="form-group">
 								<label>Serviço</label>
 								<select class="form-control sel2" id="servico" name="servico" style="width:100%;" required>
@@ -178,8 +176,15 @@ $data_final_mes = $ano_atual . "-" . $mes_atual . "-" . $dia_final_mes;
 						</div>
 
 
-						<div class="col-md-3">
+					</div>
 
+
+
+					<div class="row">
+
+
+
+						<div class="col-md-3" id="nasc">
 							<div class="form-group">
 								<label>Valor </label>
 								<input type="text" class="form-control" name="valor_serv" id="valor_serv" required>
@@ -187,17 +192,16 @@ $data_final_mes = $ano_atual . "-" . $mes_atual . "-" . $dia_final_mes;
 						</div>
 
 
-						<div class="col-md-4">
-
+						<div class="col-md-4" id="nasc">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Data Pagamento</label>
-								<input type="date" class="form-control" id="data_pagamento" name="data_pagamento" value="<?php echo date('Y-m-d') ?>">
+								<label>Data Pagamento</label>
+								<input type="date" class="form-control" name="data_pagamento" id="data_pagamento" value="<?php echo date('Y-m-d') ?>">
 							</div>
 						</div>
 
-						<div class="col-md-4">
+						<div class="col-md-5">
 							<div class="form-group">
-								<label>Forma pagamento</label>
+								<label>Forma Pagamento</label>
 								<select class="form-control" id="pagamento" name="pagamento" style="width:100%;" required>
 
 									<?php
@@ -218,16 +222,60 @@ $data_final_mes = $ano_atual . "-" . $mes_atual . "-" . $dia_final_mes;
 							</div>
 						</div>
 
-						<div class="col-md-12">
+					</div>
+
+
+
+					<div class="row">
+						<div class="col-md-3" id="">
 							<div class="form-group">
-								<label>Observações </label>
-								<input maxlength="1000" type="text" class="form-control" name="obs" id="obs2">
+								<label>Valor Restante </label>
+								<input type="text" class="form-control" name="valor_serv_agd_restante" id="valor_serv_agd_restante">
 							</div>
 						</div>
 
 
+						<div class="col-md-4" id="">
+							<div class="form-group">
+								<label>Data Pagamento Restante</label>
+								<input type="date" class="form-control" name="data_pagamento_restante" id="data_pagamento_restante" value="">
+							</div>
+						</div>
 
+						<div class="col-md-5">
+							<div class="form-group">
+								<label>Forma Pagamento Restante</label>
+								<select class="form-control" id="pagamento_restante" name="pagamento_restante" style="width:100%;">
+									<option value="">Selecionar Pagamento</option>
+									<?php
+									$query = $pdo->query("SELECT * FROM formas_pagamento");
+									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+									$total_registro = @count($resultado);
+									if ($total_registro > 0) {
+										for ($i = 0; $i < $total_registro; $i++) {
+											foreach ($resultado[$i] as $key => $value) {
+											}
+											echo '<option value="' . $resultado[$i]['nome'] . '">' . $resultado[$i]['nome'] . '</option>';
+										}
+									}
+									?>
+
+
+								</select>
+							</div>
+						</div>
 					</div>
+
+
+
+					<div class="col-md-12">
+						<div class="form-group">
+							<label>Observações </label>
+							<input maxlength="1000" type="text" class="form-control" name="obs" id="obs2">
+						</div>
+					</div>
+
+
 
 
 					<input type="hidden" name="id" id="id">
@@ -239,7 +287,7 @@ $data_final_mes = $ano_atual . "-" . $mes_atual . "-" . $dia_final_mes;
 				</div>
 
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-success">Salvar</button>
+					<button type="submit" class="btn btn-primary">Salvar</button>
 				</div>
 			</form>
 
