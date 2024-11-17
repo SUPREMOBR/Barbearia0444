@@ -1,8 +1,9 @@
 <?php
-@session_start();
-require_once("verificar.php");
-require_once("../conexao.php");
+@session_start(); // Inicia a sessão para manter informações do usuário durante a navegação.
+require_once("verificar.php"); // Inclui o arquivo "verificar.php", para autenticar o usuário ou verificar permissões.
+require_once("../conexao.php"); // Conecta ao banco de dados.
 
+// Define o nome da página atual como produtos
 $pag = 'produtos';
 
 //verificar se ele tem a permissão de estar nessa página
@@ -10,11 +11,10 @@ if (@$produtos == 'ocultar') {
 	echo "<script>window.location='../index.php'</script>";
 	exit();
 }
-
 ?>
 
 <div class="">
-	<a class="btn btn-success" onclick="inserir()" class="btn btn-success btn-flat btn-pri"><i class="fa fa-plus" aria-hidden="true"></i> Novo Produto</a>
+	<a class="btn btn-primary" onclick="inserir()" class="btn btn-primary btn-flat btn-pri"><i class="fa fa-plus" aria-hidden="true"></i> Novo Produto</a>
 </div>
 
 <div class="bs-example widget-shadow" style="padding:15px" id="listar">
@@ -22,10 +22,8 @@ if (@$produtos == 'ocultar') {
 </div>
 
 
-
-
 <!-- Modal Inserir-->
-<div class="modal fade" id="modalform" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -44,6 +42,7 @@ if (@$produtos == 'ocultar') {
 								<input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" required>
 							</div>
 						</div>
+
 						<div class="col-md-5">
 
 							<div class="form-group">
@@ -51,16 +50,20 @@ if (@$produtos == 'ocultar') {
 								<select class="form-control sel2" id="categoria" name="categoria" style="width:100%;">
 
 									<?php
-									$query = $pdo->query("SELECT * FROM categoria_produtos ORDER BY id desc");
+									// consulta para obter todas as categorias de produtos ordenadas pelo ID em ordem crescente
+									$query = $pdo->query("SELECT * FROM categoria_produtos ORDER BY id asc");
 									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
-									$total_registro = @count($resultado);
+									$total_registro = @count($resultado); // Conta o total de registros retornados pela consulta
+									// Verifica se há registros de categorias no resultado da consulta
 									if ($total_registro > 0) {
+										// Itera sobre cada registro encontrado
 										for ($i = 0; $i < $total_registro; $i++) {
 											foreach ($resultado[$i] as $key => $value) {
 											}
 											echo '<option value="' . $resultado[$i]['id'] . '">' . $resultado[$i]['nome'] . '</option>';
 										}
 									} else {
+										// Caso não haja categorias cadastradas, exibe uma opção informando que é necessário cadastrar uma categoria
 										echo '<option value="0">Cadastre uma Categoria</option>';
 									}
 									?>
@@ -69,23 +72,25 @@ if (@$produtos == 'ocultar') {
 								</select>
 							</div>
 						</div>
+
 					</div>
 
 
 					<div class="row">
-
 						<div class="col-md-12">
 							<div class="form-group">
 								<label for="exampleInputEmail1">Descrição <small>(Até 255 Caracteres)</small></label>
 								<input maxlength="255" type="text" class="form-control" id="descricao" name="descricao" placeholder="Descrição do Produto">
 							</div>
 						</div>
+
 					</div>
 
 
 					<div class="row">
 
 						<div class="col-md-4">
+
 							<div class="form-group">
 								<label for="exampleInputEmail1">Valor Compra</label>
 								<input type="text" class="form-control" id="valor_compra" name="valor_compra" placeholder="Valor Compra">
@@ -94,6 +99,7 @@ if (@$produtos == 'ocultar') {
 
 
 						<div class="col-md-4">
+
 							<div class="form-group">
 								<label for="exampleInputEmail1">Valor Venda</label>
 								<input type="text" class="form-control" id="valor_venda" name="valor_venda" placeholder="Valor Venda">
@@ -102,6 +108,7 @@ if (@$produtos == 'ocultar') {
 
 
 						<div class="col-md-4">
+
 							<div class="form-group">
 								<label for="exampleInputEmail1">Alerta Estoque</label>
 								<input type="number" class="form-control" id="nivel_estoque" name="nivel_estoque" placeholder="Nível Mínimo">
@@ -109,7 +116,6 @@ if (@$produtos == 'ocultar') {
 						</div>
 
 					</div>
-
 
 					<div class="row">
 						<div class="col-md-8">
@@ -126,8 +132,6 @@ if (@$produtos == 'ocultar') {
 
 					</div>
 
-
-
 					<input type="hidden" name="id" id="id">
 
 					<br>
@@ -137,7 +141,7 @@ if (@$produtos == 'ocultar') {
 				</div>
 
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-success">Salvar</button>
+					<button type="submit" class="btn btn-primary">Salvar</button>
 				</div>
 			</form>
 
@@ -164,12 +168,12 @@ if (@$produtos == 'ocultar') {
 			<div class="modal-body">
 
 				<div class="row" style="border-bottom: 1px solid #cac7c7;">
-					<div class="col-md-8">
+					<div class="col-md-7">
 						<span><b>Categoria: </b></span>
 						<span id="categoria_dados"></span>
 					</div>
-					<div class="col-md-4">
-						<span><b>Valor Compra </b></span>
+					<div class="col-md-5">
+						<span><b>Valor Compra: </b></span>
 						<span id="valor_compra_dados"></span>
 					</div>
 
@@ -206,13 +210,7 @@ if (@$produtos == 'ocultar') {
 						<span id="descricao_dados"></span>
 					</div>
 
-
-
-
 				</div>
-
-
-
 
 				<div class="row">
 					<div class="col-md-12" align="center">
@@ -220,14 +218,11 @@ if (@$produtos == 'ocultar') {
 					</div>
 				</div>
 
-
 			</div>
-
 
 		</div>
 	</div>
 </div>
-
 
 <!-- Modal Saida-->
 <div class="modal fade" id="modalSaida" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -278,7 +273,6 @@ if (@$produtos == 'ocultar') {
 	</div>
 </div>
 
-
 <!-- Modal Entrada-->
 <div class="modal fade" id="modalEntrada" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
@@ -328,10 +322,6 @@ if (@$produtos == 'ocultar') {
 	</div>
 </div>
 
-
-
-
-
 <script type="text/javascript">
 	var pag = "<?= $pag ?>"
 </script>
@@ -341,14 +331,10 @@ if (@$produtos == 'ocultar') {
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('.sel2').select2({
-			dropdownParent: $('#modalform')
+			dropdownParent: $('#modalForm')
 		});
-
-
-
 	});
 </script>
-
 
 <script type="text/javascript">
 	function carregarImg() {
@@ -395,7 +381,6 @@ if (@$produtos == 'ocultar') {
 					$('#mensagem-saida').text(mensagem)
 				}
 
-
 			},
 
 			cache: false,
@@ -431,7 +416,6 @@ if (@$produtos == 'ocultar') {
 					$('#mensagem-entrada').addClass('text-danger')
 					$('#mensagem-entrada').text(mensagem)
 				}
-
 
 			},
 

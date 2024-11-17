@@ -1,11 +1,16 @@
-<?php 
+<?php
+// Inclui o arquivo de conexão com o banco de dados
 require_once("../conexao.php");
+// Inicia a sessão para acessar variáveis de sessão
 @session_start();
-$id_usuario = $_SESSION['id'];
+$id_usuario = $_SESSION['id']; // Obtém o ID do usuário logado a partir da sessão
 
-
+// Inicializa variáveis de visibilidade como 'ocultar' para restringir o acesso inicial
 $home = 'ocultar';
 $configuracoes = 'ocultar';
+$comanda = 'ocultar';
+$marketing = 'ocultar';
+$calendario = 'ocultar';
 
 //grupo pessoas
 $usuarios = 'ocultar';
@@ -17,11 +22,11 @@ $fornecedores = 'ocultar';
 //grupo cadastros
 $servicos = 'ocultar';
 $cargos = 'ocultar';
-$categoria_servicos = 'ocultar';
+$cat_servicos = 'ocultar';
 $grupos = 'ocultar';
 $acessos = 'ocultar';
 $pagamento = 'ocultar';
-
+$dias_bloqueio = 'ocultar';
 
 //grupo produtos
 $produtos = 'ocultar';
@@ -36,268 +41,255 @@ $vendas = 'ocultar';
 $compras = 'ocultar';
 $pagar = 'ocultar';
 $receber = 'ocultar';
-$comissoes = 'comissoes';
+$comissoes = 'ocultar';
 
 
 //agendamentos / servico
 $agendamentos = 'ocultar';
 $servicos_agenda = 'ocultar';
 
+
 //relatorios
-$relatorio_produtos = 'ocultar';
-$relatorio_entradas = 'ocultar';
-$relatorio_saidas = 'ocultar';
-$relatorio_comissoes = 'ocultar';
-$relatorio_contas = 'ocultar';
-$relatorio_lucro = 'ocultar';
-$relatorio_servicos = 'ocultar';
+$rel_produtos = 'ocultar';
+$rel_entradas = 'ocultar';
+$rel_saidas = 'ocultar';
+$rel_comissoes = 'ocultar';
+$rel_contas = 'ocultar';
+$rel_aniv = 'ocultar';
+$rel_lucro = 'ocultar';
+$rel_servicos = 'ocultar';
 
 //dados site
 $textos_index = 'ocultar';
 $comentarios = 'ocultar';
 
 
-
+// Consulta para buscar permissões do usuário logado
 $query = $pdo->query("SELECT * FROM usuarios_permissoes where usuario = '$id_usuario'");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
-if($total_registro > 0){
-	for($i=0; $i < $total_registro; $i++){
-		foreach ($resultado[$i] as $key => $value){}
+if ($total_registro > 0) {
+	// Loop para processar cada permissão encontrada
+	for ($i = 0; $i < $total_registro; $i++) {
+		foreach ($resultado[$i] as $key => $value) {
+		}
 		$permissao = $resultado[$i]['permissao'];
-		
+		// Busca o nome e chave da permissão na tabela acessos
 		$query2 = $pdo->query("SELECT * FROM acessos where id = '$permissao'");
 		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 		$nome = $resultado2[0]['nome'];
 		$chave = $resultado2[0]['chave'];
 		$id = $resultado2[0]['id'];
 
-		if($chave == 'home'){
+		// Verifica a chave da permissão e, se encontrada, libera o acesso removendo a classe 'ocultar'
+		if ($chave == 'home') {
 			$home = '';
 		}
+		if ($chave == 'configuracoes') {
+			$configuracoes = '';
+		}
+		if ($chave == 'comanda') {
+			$comanda = '';
+		}
+		if ($chave == 'marketing') {
+			$marketing = '';
+		}
+		if ($chave == 'calendario') {
+			$calendario = '';
+		}
 
-
-
-		if($chave == 'usuarios'){
+		// Permissões do grupo de pessoas
+		if ($chave == 'usuarios') {
 			$usuarios = '';
 		}
-
-		if($chave == 'funcionarios'){
+		if ($chave == 'funcionarios') {
 			$funcionarios = '';
 		}
-
-		if($chave == 'clientes'){
+		if ($chave == 'clientes') {
 			$clientes = '';
 		}
-
-		if($chave == 'fornecedores'){
+		if ($chave == 'fornecedores') {
 			$fornecedores = '';
 		}
 
-
-
-
-
-		if($chave == 'servicos'){
+		// Permissões do grupo de cadastros
+		if ($chave == 'servicos') {
 			$servicos = '';
 		}
-
-		if($chave == 'cargos'){
+		if ($chave == 'cargos') {
 			$cargos = '';
 		}
-
-		if($chave == 'categoria_servicos'){
+		if ($chave == 'cat_servicos') {
 			$categoria_servicos = '';
 		}
-
-		if($chave == 'grupos'){
+		if ($chave == 'grupos') {
 			$grupos = '';
 		}
-
-		if($chave == 'acessos'){
+		if ($chave == 'acessos') {
 			$acessos = '';
 		}
-
-		if($chave == 'pagamento'){
+		if ($chave == 'pgto') {
 			$pagamento = '';
 		}
+		if ($chave == 'dias_bloqueio') {
+			$dias_bloqueio = '';
+		}
 
-
-
-
-		if($chave == 'produtos'){
+		// Permissões do grupo de produtos
+		if ($chave == 'produtos') {
 			$produtos = '';
 		}
-
-		if($chave == 'cat_produtos'){
+		if ($chave == 'cat_produtos') {
 			$categoria_produtos = '';
 		}
-
-		if($chave == 'estoque'){
+		if ($chave == 'estoque') {
 			$estoque = '';
 		}
-
-		if($chave == 'saidas'){
+		if ($chave == 'saidas') {
 			$saidas = '';
 		}
-
-		if($chave == 'entradas'){
+		if ($chave == 'entradas') {
 			$entradas = '';
 		}
 
-
-
-
-
-		if($chave == 'compras'){
+		// Permissões do grupo financeiro
+		if ($chave == 'compras') {
 			$compras = '';
 		}
-
-		if($chave == 'vendas'){
+		if ($chave == 'vendas') {
 			$vendas = '';
 		}
-
-		if($chave == 'pagar'){
+		if ($chave == 'pagar') {
 			$pagar = '';
 		}
-
-		if($chave == 'receber'){
+		if ($chave == 'receber') {
 			$receber = '';
 		}
-
-		if($chave == 'comissoes'){
+		if ($chave == 'comissoes') {
 			$comissoes = '';
 		}
 
-
-
-
-		if($chave == 'agendamentos'){
+		// Permissões de agendamentos e serviços
+		if ($chave == 'agendamentos') {
 			$agendamentos = '';
 		}
-
-		if($chave == 'servicos_agenda'){
+		if ($chave == 'servicos_agenda') {
 			$servicos_agenda = '';
 		}
-		
-		if($chave == 'relatorio_produtos'){
-			$relatorio_produtos = '';
+
+		// Permissões de relatórios
+		if ($chave == 'rel_produtos') {
+			$rel_produtos = '';
+		}
+		if ($chave == 'rel_entradas') {
+			$rel_entradas = '';
+		}
+		if ($chave == 'rel_saidas') {
+			$rel_saidas = '';
+		}
+		if ($chave == 'rel_comissoes') {
+			$rel_comissoes = '';
+		}
+		if ($chave == 'rel_contas') {
+			$rel_contas = '';
+		}
+		if ($chave == 'rel_aniv') {
+			$rel_aniv = '';
+		}
+		if ($chave == 'rel_lucro') {
+			$rel_lucro = '';
+		}
+		if ($chave == 'rel_servicos') {
+			$rel_servicos = '';
 		}
 
-		if($chave == 'relatorio_entradas'){
-			$relatorio_entradas = '';
-		}
-
-		if($chave == 'relatorio_saidas'){
-			$relatorio_saidas = '';
-		}
-
-		if($chave == 'relatorio_comissoes'){
-			$relatorio_comissoes = '';
-		}
-
-		if($chave == 'relatorio_contas'){
-			$relatorio_contas = '';
-		}
-
-		if($chave == 'relatorio_lucro'){
-			$relatorio_lucro = '';
-		}
-
-		if($chave == 'relatorio_servicos'){
-			$relatorio_servicos = '';
-		}
-
-
-
-
-		if($chave == 'textos_index'){
+		// Permissões para dados do site
+		if ($chave == 'textos_index') {
 			$textos_index = '';
 		}
-
-		if($chave == 'comentarios'){
+		if ($chave == 'comentarios') {
 			$comentarios = '';
 		}
-
-
-
-
 	}
-
 }
 
 
-
-if($home != 'ocultar'){
+// Define a página inicial com base nas permissões e condições
+if ($home != 'ocultar') {
+	// Se o usuário tiver permissão para "home", essa é a página inicial
 	$pag_inicial = 'home';
-}else if($atendimento == 'Sim'){
+} else if ($atendimento == 'Sim') {
+	// Caso contrário, se o atendimento estiver habilitado, define a página inicial como "agenda"
 	$pag_inicial = 'agenda';
-}else{
+} else {
+	// Caso não tenha acesso à home e atendimento esteja desabilitado, escolhe a primeira permissão do usuário
 	$query = $pdo->query("SELECT * FROM usuarios_permissoes where usuario = '$id_usuario' order by id asc limit 1");
 	$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 	$total_registro = @count($resultado);
-	if($total_registro > 0){	
-			$permissao = $resultado[0]['permissao'];		
-			$query2 = $pdo->query("SELECT * FROM acessos where id = '$permissao'");
-			$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);		
-			$pag_inicial = $resultado2[0]['chave'];		
-
+	if ($total_registro > 0) {
+		$permissao = $resultado[0]['permissao'];
+		// Obtém a chave de acesso da primeira permissão para definir a página inicial
+		$query2 = $pdo->query("SELECT * FROM acessos where id = '$permissao'");
+		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+		$pag_inicial = $resultado2[0]['chave'];
 	}
 }
 
-
-
-if($usuarios == 'ocultar' and $funcionarios == 'ocultar' and $clientes == 'ocultar'  and $fornecedores == 'ocultar'){
+// Define a visibilidade do menu "Pessoas" com base nas permissões relacionadas a pessoas
+if ($usuarios == 'ocultar' and $funcionarios == 'ocultar' and $clientes == 'ocultar' and $fornecedores == 'ocultar') {
 	$menu_pessoas = 'ocultar';
-}else{
+} else {
+	// Mostra o menu "Pessoas" caso tenha pelo menos uma das permissões visíveis
 	$menu_pessoas = '';
 }
 
-
-
-if($servicos == 'ocultar' and $cargos == 'ocultar' and $categoria_servicos == 'ocultar' and $grupos == 'ocultar' and $acessos == 'ocultar' and $pagamento == 'ocultar'){
+// Define a visibilidade do menu "Cadastros" com base nas permissões de cadastros
+if (
+	$servicos == 'ocultar' and $cargos == 'ocultar' and $categoria_servicos == 'ocultar' and $grupos == 'ocultar' and $acessos == 'ocultar' and
+	$pagamento == 'ocultar' and $dias_bloqueio == 'ocultar'
+) {
 	$menu_cadastros = 'ocultar';
-}else{
+} else {
+	// Mostra o menu "Cadastros" se houver alguma permissão visível
 	$menu_cadastros = '';
 }
 
-
-
-if($produtos == 'ocultar' and $categoria_produtos == 'ocultar' and $estoque == 'ocultar' and $saidas == 'ocultar' and $entradas == 'ocultar'){
+// Define a visibilidade do menu "Produtos" com base nas permissões de produtos
+if ($produtos == 'ocultar' and $categoria_produtos == 'ocultar' and $estoque == 'ocultar' and $saidas == 'ocultar' and $entradas == 'ocultar') {
 	$menu_produtos = 'ocultar';
-}else{
+} else {
+	// Mostra o menu "Produtos" se houver pelo menos uma permissão visível
 	$menu_produtos = '';
 }
 
-
-
-if($compras == 'ocultar' and $vendas == 'ocultar' and $pagar == 'ocultar' and $receber == 'ocultar' and $comissoes == 'ocultar'){
+// Define a visibilidade do menu "Financeiro" com base nas permissões de financeiro
+if ($compras == 'ocultar' and $vendas == 'ocultar' and $pagar == 'ocultar' and $receber == 'ocultar' and $comissoes == 'ocultar') {
 	$menu_financeiro = 'ocultar';
-}else{
+} else {
+	// Mostra o menu "Financeiro" caso tenha ao menos uma permissão visível
 	$menu_financeiro = '';
 }
 
-
-
-if($agendamentos == 'ocultar' and $servicos_agenda == 'ocultar' ){
+// Define a visibilidade do menu "Agendamentos" com base nas permissões de agendamentos
+if ($agendamentos == 'ocultar' and $servicos_agenda == 'ocultar') {
 	$menu_agendamentos = 'ocultar';
-}else{
+} else {
+	// Mostra o menu "Agendamentos" se houver pelo menos uma permissão visível
 	$menu_agendamentos = '';
 }
 
-
-if($relatorio_produtos == 'ocultar' and $relatorio_lucro == 'ocultar'  and $relatorio_contas == 'ocultar' and $relatorio_comissoes == 'ocultar' and $relatorio_saidas == 'ocultar' and $relatorio_entradas == 'ocultar' and $relatorio_servicos == 'ocultar'){
+// Define a visibilidade do menu "Relatórios" com base nas permissões de relatórios
+if ($rel_produtos == 'ocultar' and $rel_lucro == 'ocultar' and $rel_aniv == 'ocultar' and $rel_contas == 'ocultar' and $rel_comissoes == 'ocultar' and $rel_saidas == 'ocultar' and $rel_entradas == 'ocultar' and $rel_servicos == 'ocultar') {
 	$menu_relatorio = 'ocultar';
-}else{
+} else {
+	// Mostra o menu "Relatórios" se houver alguma permissão visível
 	$menu_relatorio = '';
 }
 
-
-if($textos_index == 'ocultar' and $comentarios == 'ocultar' ){
+// Define a visibilidade do menu "Site" com base nas permissões relacionadas ao site
+if ($textos_index == 'ocultar' and $comentarios == 'ocultar') {
 	$menu_site = 'ocultar';
-}else{
+} else {
+	// Mostra o menu "Site" se houver alguma permissão visível
 	$menu_site = '';
 }
-
-
- ?>

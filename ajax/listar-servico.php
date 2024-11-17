@@ -1,16 +1,15 @@
-<?php 
-require_once("../sistema/conexao.php");
+<?php
+require_once("../sistema/conexao.php"); // Conecta ao banco de dados.
+$servico = $_POST['serv']; // Obtém o ID do serv enviado pelo formulário
 
-$servico = $_POST['serv'];
-
+// Realiza a consulta no banco de dados para buscar o serviço pelo ID
 $query = $pdo->query("SELECT * FROM servicos where id = '$servico' ");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
-if(@count($resultado) > 0){
+// Verifica se algum resultado foi encontrado
+if (@count($resultado) > 0) {
+	// Obtém o nome do serviço do primeiro resultado
 	$nome = $resultado[0]['nome'];
-		
 }
 
+// Retorna o nome do serviço encontrado
 echo $nome;
-
-?>
-

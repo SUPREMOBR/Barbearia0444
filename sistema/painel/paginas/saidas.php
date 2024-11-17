@@ -1,26 +1,27 @@
-<?php 
-@session_start();
-require_once("verificar.php");
-require_once("../conexao.php");
+<?php
+@session_start(); // Inicia a sessão para manter informações do usuário durante a navegação.
+require_once("verificar.php"); // Inclui o arquivo "verificar.php", para autenticar o usuário ou verificar permissões.
+require_once("../conexao.php"); // Conecta ao banco de dados.
+
+// Define o nome da página atual como saidas
+$pag = 'saidas';
 
 //verificar se ele tem a permissão de estar nessa página
-if(@$saidas == 'ocultar'){
+if (@$saidas == 'ocultar') {
     echo "<script>window.location='../index.php'</script>";
     exit();
 }
-
-
-$pag = 'saidas';
-
 
 ?>
 
 
 <div class="bs-example widget-shadow" style="padding:15px" id="listar">
-	
+
 </div>
 
 
 
-<script type="text/javascript">var pag = "<?=$pag?>"</script>
+<script type="text/javascript">
+    var pag = "<?= $pag ?>"
+</script>
 <script src="js/ajax.js"></script>

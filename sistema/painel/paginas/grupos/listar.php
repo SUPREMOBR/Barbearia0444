@@ -1,35 +1,41 @@
-<?php 
-require_once("../../../conexao.php");
-$tabela = 'grupo_acessos';
+<?php
+require_once("../../../conexao.php"); // Conecta ao banco de dados.
+$tabela = 'grupo_acessos'; // Define o nome da tabela no banco de dado
 
+// Consulta todos os registros na tabela de grupo de acessos, ordenando por ID em ordem decrescente
 $query = $pdo->query("SELECT * FROM $tabela ORDER BY id desc");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
-if($total_registro > 0){
 
-echo <<<HTML
+// Verifica se há registros na tabela
+if ($total_registro > 0) {
+
+	echo <<<HTML
 	<small>
 	<table class="table table-hover" id="tabela">
 	<thead> 
 	<tr> 
-	<th>Nome</th>
-	<th>Acessos</th>	
+	<th>Nome</th>	
+	<th>Acessos</th>		
 	<th>Ações</th>
 	</tr> 
 	</thead> 
 	<tbody>	
 HTML;
 
-for($i=0; $i < $total_registro; $i++){
-	foreach ($resultado[$i] as $key => $value){}
-	$id = $resultado[$i]['id'];
-	$nome = $resultado[$i]['nome'];
+	for ($i = 0; $i < $total_registro; $i++) {
+		foreach ($resultado[$i] as $key => $value) {
+		}
+		$id = $resultado[$i]['id'];
+		$nome = $resultado[$i]['nome'];
 
-	$query2 = $pdo->query("SELECT * FROM acessos where grupo = '$id'");
-	$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-	$total_servicos = @count($resultado2);
-	
-echo <<<HTML
+		// Consulta a tabela 'acessos' para contar o número de acessos relacionados a este grupo
+		$query2 = $pdo->query("SELECT * FROM acessos where grupo = '$id'");
+		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+		$total_servicos = @count($resultado2);
+
+
+		echo <<<HTML
 <tr class="">
 <td>{$nome}</td>
 <td>{$total_servicos}</td>
@@ -37,9 +43,6 @@ echo <<<HTML
 		<big><a href="#" onclick="editar('{$id}','{$nome}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
 
 		
-
-
-
 		<li class="dropdown head-dpdn2" style="display: inline-block;">
 		<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><big><i class="fa fa-trash-o text-danger"></i></big></a>
 
@@ -52,48 +55,46 @@ echo <<<HTML
 		</ul>
 		</li>
 
+
 		</td>
 </tr>
 HTML;
+	}
 
-}
-
-echo <<<HTML
+	echo <<<HTML
 </tbody>
 <small><div align="center" id="mensagem-excluir"></div></small>
 </table>
 </small>
 HTML;
-
-
-}else{
+} else {
 	echo '<small>Não possui nenhum registro Cadastrado!</small>';
 }
 
 ?>
 
+
 <script type="text/javascript">
-	$(document).ready( function () {
-    $('#tabela').DataTable({
-    		"ordering": false,
+	$(document).ready(function() {
+		$('#tabela').DataTable({
+			"ordering": false,
 			"stateSave": true
-    	});
-    $('#tabela_filter label input').focus();
-} );
+		});
+		$('#tabela_filter label input').focus();
+	});
 </script>
 
 
 <script type="text/javascript">
-	function editar(id, nome){
+	function editar(id, nome) {
 		$('#id').val(id);
 		$('#nome').val(nome);
 		$('#titulo_inserir').text('Editar Registro');
-		$('#modalform').modal('show');
+		$('#modalForm').modal('show');
 	}
 
-	function limparCampos(){
+	function limparCampos() {
 		$('#nome').val('');
 		$('#id').val('');
 	}
 </script>
-

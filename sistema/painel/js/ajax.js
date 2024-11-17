@@ -1,112 +1,90 @@
+$(document).ready(function () {
+  listar();
+});
 
-$(document).ready(function() {    
+function listar() {
+  //alert("teste");
+  $.ajax({
+    url: "paginas/" + pag + "/listar.php",
+    method: "POST",
+    data: $("#form").serialize(),
+    dataType: "html",
 
-    listar();    
-
-} );
-
-
-
-function listar(){
-    //alert('teste')
-    $.ajax({
-        url: 'paginas/' + pag + "/listar.php",
-        method: 'POST',
-        data: $('#form').serialize(),
-        dataType: "html",
-
-        success:function(result){
-
-            //alert(result)
-            $("#listar").html(result);
-            $('#mensagem-excluir').text('');
-        }
-    });
+    success: function (result) {
+      //alert(result)
+      $("#listar").html(result);
+      $("#mensagem-excluir").text("");
+    },
+  });
 }
 
-
-function inserir(){
-    //alert('teste')
-    $('#mensagem').text('');
-    $('#titulo_inserir').text('Inserir Registro');
-    $('#modalform').modal('show');
-    limparCampos();
+function inserir() {
+  //alert('teste')
+  $("#mensagem").text("");
+  $("#titulo_inserir").text("Inserir Registro");
+  $("#modalForm").modal("show");
+  limparCampos();
 }
 
-function excluir(id){
-    $.ajax({
-        url: 'paginas/' + pag + "/excluir.php",
-        method: 'POST',
-        data: {id},
-        dataType: "text",
+function excluir(id) {
+  $.ajax({
+    url: "paginas/" + pag + "/excluir.php",
+    method: "POST",
+    data: { id },
+    dataType: "text",
 
-        success: function (mensagem) {            
-            if (mensagem.trim() == "Excluído com Sucesso") {                
-                listar();                
-            } else {
-                    $('#mensagem-excluir').addClass('text-danger')
-                    $('#mensagem-excluir').text(mensagem)
-                }
-
-        },      
-
-    });
+    success: function (mensagem) {
+      if (mensagem.trim() == "Excluído com Sucesso") {
+        listar();
+      } else {
+        $("#mensagem-excluir").addClass("text-danger");
+        $("#mensagem-excluir").text(mensagem);
+      }
+    },
+  });
 }
 
+function ativar(id, acao) {
+  $.ajax({
+    url: "paginas/" + pag + "/mudar-status.php",
+    method: "POST",
+    data: { id, acao },
+    dataType: "text",
 
-function ativar(id, acao){
-    $.ajax({
-        url: 'paginas/' + pag + "/mudar-status.php",
-        method: 'POST',
-        data: {id, acao},
-        dataType: "text",
-
-        success: function (mensagem) {            
-            if (mensagem.trim() == "Alterado com Sucesso") {                
-                listar();                
-            } else {
-                    $('#mensagem-excluir').addClass('text-danger')
-                    $('#mensagem-excluir').text(mensagem)
-                }
-
-        },      
-
-    });
+    success: function (mensagem) {
+      if (mensagem.trim() == "Alterado com Sucesso") {
+        listar();
+      } else {
+        $("#mensagem-excluir").addClass("text-danger");
+        $("#mensagem-excluir").text(mensagem);
+      }
+    },
+  });
 }
 
+$("#form").submit(function () {
+  event.preventDefault();
+  var formData = new FormData(this);
 
-	$("#form").submit(function () {
+  $.ajax({
+    url: "paginas/" + pag + "/salvar.php",
+    type: "POST",
+    data: formData,
 
-		event.preventDefault();
-		var formData = new FormData(this);
+    success: function (mensagem) {
+      $("#mensagem").text("");
+      $("#mensagem").removeClass();
+      if (mensagem.trim() == "Salvo com Sucesso") {
+        $("#btn-fechar").click();
+        listar();
+      } else {
+        $("#mensagem").addClass("text-danger");
+        $("#mensagem").text(mensagem);
+      }
+    },
 
-		$.ajax({
-            url: 'paginas/' + pag + "/salvar.php",
-			type: 'POST',
-			data: formData,
-
-			success: function (mensagem) {
-				$('#mensagem').text('');
-				$('#mensagem').removeClass()
-				if (mensagem.trim() == "Salvo com Sucesso") {
-
-					$('#btn-fechar').click();
-					listar();			
-					
-				} else {
-
-					$('#mensagem').addClass('text-danger')
-					$('#mensagem').text(mensagem)
-				}
-
-
-			},
-
-			cache: false,
-			contentType: false,
-			processData: false,
-
-		});
-
-	});
-
+    cache: false,
+    contentType: false,
+    processData: false,
+  });
+});

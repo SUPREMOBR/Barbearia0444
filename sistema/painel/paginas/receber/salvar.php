@@ -1,78 +1,91 @@
-<?php 
-require_once("../../../conexao.php");
-$tabela = 'receber';
-@session_start();
-$id_usuario = $_SESSION['id'];
+<?php
+require_once("../../../conexao.php"); // Conecta ao banco de dados
+$tabela = 'receber'; // Define o nome da tabela no banco de dados
+@session_start(); // Inicia a sessão ou retoma a sessão ativa.
+$id_usuario = $_SESSION['id']; // Obtém o ID do usuário logado na sessão.
 
-$id = $_POST['id'];
-$descricao = $_POST['descricao'];
-$valor = $_POST['valor'];
-$valor = str_replace(',', '.', $valor);
-$pessoa = $_POST['pessoa'];
-$data_vencimento = $_POST['data_vencimento'];
-$data_pagamento = $_POST['data_pagamento'];
+// Recebe os dados enviados via POST (do formulário)
+$id = $_POST['id']; // ID do registro
+$descricao = $_POST['descricao']; // Descrição da conta
+$valor = $_POST['valor']; // Valor da conta
+$valor = str_replace(',', '.', $valor); // Substitui a vírgula por ponto no valor para garantir que seja numérico
+$pessoa = $_POST['pessoa']; // Pessoa associada à conta
+$data_vencimento = $_POST['data_vencimento']; // Data de vencimento da conta
+$data_pagamento = $_POST['pagamento']; // Data de pagamento da conta
 
-
-if($descricao == ""){
-	echo 'Insira uma descrição!';
-	exit();
+// Validação: Verifica se a descrição foi informada
+if ($descricao == "") {
+	echo 'Insira uma descrição!'; // Exibe mensagem de erro se a descrição estiver vazia
+	exit(); // Encerra o script
 }
 
+// Se o campo 'pessoa' estiver vazio, define como 0 (sem pessoa associada)
+if ($pessoa == "") {
+	$pessoa = 0;
+}
 
-if($data_pagamento != ''){
-	$usuario_pagamento = $id_usuario;
+// Verifica se foi informada uma data de pagamento
+if ($data_pagamento != '') {
+	// Se pago, define o usuário que realizou o pagamento e altera o status para 'Sim'
+	$usuario_pgto = $id_usuario;
 	$pago = 'Sim';
-}else{
-	$usuario_pagamento = 0;
+	// Adiciona a data de pagamento na query de atualização
+	$pgto = " ,pagamento = '$data_pagamento'";
+} else {
+	// Se não foi pago, define como 'Não' e não adiciona a data de pagamento
+	$usuario_pgto = 0;
 	$pago = 'Não';
+	$pgto = "";
 }
 
-
-//validar troca da foto
+// Verifica se o registro já existe para obter a foto atual (caso exista)
 $query = $pdo->query("SELECT * FROM $tabela where id = '$id'");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
-if($total_registro > 0){
+// Se o registro existir, obtém o nome da foto armazenada
+if ($total_registro > 0) {
 	$foto = $resultado[0]['foto'];
-}else{
+} else {
+	// Se não existir foto, define um valor padrão
 	$foto = 'sem-foto.jpg';
 }
 
 
 //SCRIPT PARA SUBIR FOTO NO SERVIDOR
-$nome_img = date('d-m-Y H:i:s') .'-'.@$_FILES['foto']['name'];
-$nome_img = preg_replace('/[ :]+/' , '-' , $nome_img);
+$nome_img = date('d-m-Y H:i:s') . '-' . @$_FILES['foto']['name'];
+$nome_img = preg_replace('/[ :]+/', '-', $nome_img);
 
-$caminho = '../../img/contas/' .$nome_img;
+$caminho = '../../img/contas/' . $nome_img;
 
-$imagem_temporaria = @$_FILES['foto']['tmp_name']; 
+$imagem_temp = @$_FILES['foto']['tmp_name'];
 
-if(@$_FILES['foto']['name'] != ""){
-	$extensao = pathinfo($nome_img, PATHINFO_EXTENSION);   
-	if($extensao == 'png' or $extensao == 'jpg' or $extensao == 'jpeg' or $extensao == 'gif'
-	or $extensao == 'pdf' or $extensao == 'rar' or $extensao == 'zip'){ 
-	
-			//EXCLUO A FOTO ANTERIOR
-			if($foto != "sem-foto.jpg"){
-				@unlink('../../img/contas/'.$foto);
-			}
+if (@$_FILES['foto']['name'] != "") {
+	$ext = pathinfo($nome_img, PATHINFO_EXTENSION);
+	if ($ext == 'png' or $ext == 'jpg' or $ext == 'jpeg' or $ext == 'gif' or $ext == 'pdf' or $ext == 'rar' or $ext == 'zip') {
 
-			$foto = $nome_img;
-		
-		move_uploaded_file($imagem_temporaria, $caminho);
-	}else{
+		//EXCLUO A FOTO ANTERIOR
+		if ($foto != "sem-foto.jpg") {
+			@unlink('../../img/contas/' . $foto);
+		}
+
+		$foto = $nome_img;
+
+		move_uploaded_file($imagem_temp, $caminho);
+	} else {
 		echo 'Extensão de Imagem não permitida!';
 		exit();
 	}
 }
 
-
-
-
-if($id == ""){
-	$query = $pdo->prepare("INSERT INTO $tabela SET descricao = :descricao, tipo = 'Conta', valor = :valor, data_lancamento = curDate(), data_vencimento = '$data_vencimento', data_pagamento = '$data_pagamento', usuario_lancou = '$id_usuario', usuario_baixa = '$usuario_pagamento', foto = '$foto', pessoa = '$pessoa', pago = '$pago'");
-}else{
-	$query = $pdo->prepare("UPDATE $tabela SET descricao = :descricao, valor = :valor, data_vencimento = '$data_vencimento', data_pagamento = '$data_pagamento', foto = '$foto', pessoa = '$pessoa' WHERE id = '$id'");
+if ($id == "") {
+	// Se não foi fornecido um ID, realiza uma inserção
+	$query = $pdo->prepare("INSERT INTO $tabela SET descricao = :descricao, tipo = 'Conta', valor = :valor, data_lancamento = curDate(), 
+	data_vencimento = '$data_vencimento', usuario_lancou = '$id_usuario', usuario_baixa = '$usuario_pagamento', foto = '$foto', pessoa = '$pessoa', 
+	pago = '$pago' $pagamento");
+} else {
+	// Se o ID for fornecido, realiza uma atualização
+	$query = $pdo->prepare("UPDATE $tabela SET descricao = :descricao, valor = :valor, data_vencimento = '$data_vencimento', pagamento = '$pagamento', 
+	foto = '$foto', pessoa = '$pessoa' WHERE id = '$id'");
 }
 
 $query->bindValue(":descricao", "$descricao");
@@ -80,4 +93,3 @@ $query->bindValue(":valor", "$valor");
 $query->execute();
 
 echo 'Salvo com Sucesso';
- ?>

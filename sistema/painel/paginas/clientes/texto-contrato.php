@@ -1,36 +1,37 @@
 <?php
-require_once("../../../conexao.php");
-$tabela = 'clientes';
+require_once("../../../conexao.php"); // Conecta ao banco de dados.
+$tabela = 'clientes'; // Define o nome da tabela no banco de dado
 
-$id = $_POST['id'];
+$id = $_POST['id']; // Recebe o ID do cliente via POST.
 
-$data_hoje = date('Y-m-d');
-$data_hojeF = implode('/', array_reverse(explode('-', $data_hoje)));
+$data_hoje = date('Y-m-d'); // Define a data atual
+$data_hojeF = implode('/', array_reverse(@explode('-', $data_hoje)));
 
-setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
-date_default_timezone_set('America/Sao_Paulo');
-$data_extenso = utf8_encode(strftime('%A, %d de %B de %Y', strtotime('today')));
+include('../../rel/data_formatada.php');  // Inclui um arquivo para formatação de datas
 
+// Consulta o banco de dados para obter os dados do cliente com o ID especificado
 $query = $pdo->query("SELECT * FROM clientes where id = '$id'");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
-$total_registro = @count($resultado);
+$total_registro = @count($resultado); // Conta o número de registros retornados
+
+// Verifica se encontrou registros
 if ($total_registro > 0) {
-	$id = $resultado[0]['id'];
-	$nome = $resultado[0]['nome'];
-	$data_nascimento = $resultado[0]['data_nascimento'];
-	$data_cadastro = $resultado[0]['data_cadastro'];
-	$telefone = $resultado[0]['telefone'];
-	$endereco = $resultado[0]['endereco'];
-	$ultimo_servico = $resultado[0]['ultimo_servico'];
-	$cpf = $resultado[0]['cpf'];
+	$id = $resultado[0]['id']; // Armazena o ID do cliente encontrado
+	$nome = $resultado[0]['nome']; // Armazena o nome do cliente
+	$data_nascimento = $resultado[0]['data_nascimento']; // Armazena a data de nascimento do cliente
+	$data_cadastro = $resultado[0]['data_cadastro']; // Armazena a data de cadastro do cliente
+	$telefone = $resultado[0]['telefone']; // Armazena o telefone do cliente
+	$endereco = $resultado[0]['endereco']; // Armazena o endereço do cliente
+	$ultimo_servico = $resultado[0]['ultimo_servico']; // Armazena o último serviço feito pelo cliente
+	$cpf = $resultado[0]['cpf']; // Armazena o CPF do cliente
 }
 
-$cidade_data = mb_strtoupper($cidade_sistema) . ' ' . mb_strtoupper($data_extenso);
-$nome_sistemaFormatado = mb_strtoupper($nome_sistema);
-$nomeFormatado = mb_strtoupper($nome);
+$cidade_data = mb_strtoupper($cidade_sistema) . ' ' . mb_strtoupper($data_extenso); // Concatena a cidade e a data por extenso, em letras maiúsculas
+$nome_sistemaF = mb_strtoupper($nome_sistema); // Converte o nome do sistema para maiúsculas
+$nomeF = mb_strtoupper($nome); // Converte o nome do cliente para maiúsculas
 
 echo <<<HTML
-<p>Pelo presente instrumento, de um lado, a CONTRATADA, {$nome_sistemaFormatado}, CNPJ: {$cnpj_sistema}, com sede na {$endereco_sistema}, e de outro lado, CONTRATANTE, {$nomeFormatado} CPF: {$cpf}, partes qualificadas acima, tem entre si, justo e contratado este instrumento e com cláusulas e condições que seguem: 
+<p>Pelo presente instrumento, de um lado, a CONTRATADA, {$nome_sistemaF}, CNPJ: {$cnpj_sistema}, com sede na {$endereco_sistema}, e de outro lado, CONTRATANTE, {$nomeF} CPF: {$cpf}, partes qualificadas acima, tem entre si, justo e contratado este instrumento e com cláusulas e condições que seguem: 
 	</p>
 
 

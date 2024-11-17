@@ -1,13 +1,14 @@
-<?php 
-require_once("../../../conexao.php");
-$tabela = 'formas_pagamento';
+<?php
+require_once("../../../conexao.php"); // Conecta ao banco de dados.
+$tabela = 'formas_pagamento'; // Define o nome da tabela no banco de dados
 
+// Consulta os registros da tabela 'formas_pagamento' e ordena por ID decrescente
 $query = $pdo->query("SELECT * FROM $tabela ORDER BY id desc");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
-if($total_registro > 0){
+if ($total_registro > 0) {
 
-echo <<<HTML
+	echo <<<HTML
 	<small>
 	<table class="table table-hover" id="tabela">
 	<thead> 
@@ -19,20 +20,23 @@ echo <<<HTML
 	</thead> 
 	<tbody>	
 HTML;
+	// Loop para exibir cada registro da tabela 'formas_pagamento'
+	for ($i = 0; $i < $total_registro; $i++) {
+		foreach ($resultado[$i] as $key => $value) {
+		}
+		// Atribui os valores de cada campo do registro a variáveis locais
+		$id = $resultado[$i]['id'];
+		$nome = $resultado[$i]['nome'];
+		$taxa = $resultado[$i]['taxa'];
 
-for($i=0; $i < $total_registro; $i++){
-	foreach ($resultado[$i] as $key => $value){}
-	$id = $resultado[$i]['id'];
-	$nome = $resultado[$i]['nome'];
-	$taxa = $resultado[$i]['taxa'];
-
-	if($taxa == ""){
-		$taxa = 0;
-	}
-	
-echo <<<HTML
+		// Se o valor da taxa estiver vazio, substitui por 0
+		if ($taxa == "") {
+			$taxa = 0;
+		}
+		// Exibe os dados do registro na tabela HTML
+		echo <<<HTML
 <tr class="">
-<td>{$nome}</td>
+<td>{$nome}</td> <!-- Exibe o nome da forma de pagamento -->
 <td>{$taxa}%</td>
 <td>
 		<big><a href="#" onclick="editar('{$id}','{$nome}','{$taxa}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
@@ -54,18 +58,15 @@ echo <<<HTML
 		</td>
 </tr>
 HTML;
+	}
 
-}
-
-echo <<<HTML
+	echo <<<HTML
 </tbody>
 <small><div align="center" id="mensagem-excluir"></div></small>
 </table>
 </small>
 HTML;
-
-
-}else{
+} else {
 	echo '<small>Não possui nenhum registro Cadastrado!</small>';
 }
 
@@ -73,26 +74,26 @@ HTML;
 
 
 <script type="text/javascript">
-	$(document).ready( function () {
-    $('#tabela').DataTable({
-    		"ordering": false,
+	$(document).ready(function() {
+		$('#tabela').DataTable({
+			"ordering": false,
 			"stateSave": true
-    	});
-    $('#tabela_filter label input').focus();
-} );
+		});
+		$('#tabela_filter label input').focus();
+	});
 </script>
 
 
 <script type="text/javascript">
-	function editar(id, nome, taxa){
+	function editar(id, nome, taxa) {
 		$('#id').val(id);
 		$('#nome').val(nome);
 		$('#taxa').val(taxa);
 		$('#titulo_inserir').text('Editar Registro');
-		$('#modalform').modal('show');
+		$('#modalForm').modal('show');
 	}
 
-	function limparCampos(){
+	function limparCampos() {
 		$('#nome').val('');
 		$('#taxa').val('');
 	}

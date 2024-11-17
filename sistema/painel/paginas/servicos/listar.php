@@ -1,12 +1,15 @@
 <?php
-require_once("../../../conexao.php");
-$tabela = 'servicos';
+require_once("../../../conexao.php"); // Conecta ao banco de dados.
+$tabela = 'servicos'; // Define o nome da tabela no banco de dados
 
+//consulta para buscar todos os registros da tabela 'servicos', ordenados por ID de forma decrescente
 $query = $pdo->query("SELECT * FROM $tabela ORDER BY id desc");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
-if ($total_registro > 0) {
 
+// Verifica se há registros retornados
+if ($total_registro > 0) {
+	// Verifica se o tipo de comissão é 'Porcentagem', e ajusta o símbolo para '%'
 	if ($tipo_comissao == 'Porcentagem') {
 		$tipo_comissao = '%';
 	}
@@ -20,55 +23,63 @@ if ($total_registro > 0) {
 	<th class="esc">Categoria</th> 	
 	<th class="esc">Valor</th> 	
 	<th class="esc">Comissão <small>({$tipo_comissao})</small></th>	
-	<th class="esc">Tempo</th>
+	<th class="esc">Tempo</th>	
 	<th>Ações</th>
 	</tr> 
 	</thead> 
 	<tbody>	
 HTML;
-
+	// Loop para percorrer todos os registros retornados
 	for ($i = 0; $i < $total_registro; $i++) {
 		foreach ($resultado[$i] as $key => $value) {
 		}
+		// Armazena os dados de cada serviço
 		$id = $resultado[$i]['id'];
 		$nome = $resultado[$i]['nome'];
 		$ativo = $resultado[$i]['ativo'];
-		$foto = $resultado[$i]['foto'];
-		$valor = $resultado[$i]['valor'];
 		$categoria = $resultado[$i]['categoria'];
+		$valor = $resultado[$i]['valor'];
+		$foto = $resultado[$i]['foto'];
 		$comissao = $resultado[$i]['comissao'];
 		$tempo = $resultado[$i]['tempo'];
 
-		$valorFormatado = number_format($valor, 2, ',', '.');
+		// Formata o valor com duas casas decimais e vírgula como separador decimal
+		$valorF = number_format($valor, 2, ',', '.');
 
+		// Verifica se o serviço está ativo ou não e ajusta os ícones, título e classe da linha
 		if ($ativo == 'Sim') {
-			$icone = 'fa-check-square';
-			$titulo_link = 'Desativar Item';
-			$acao = 'Não';
+			$icone = 'fa-check-square'; // Ícone para ativo
+			$titulo_link = 'Desativar Item'; // Título do link para desativar
+			$acao = 'Não'; // Define a ação para desativar
 			$classe_linha = '';
 		} else {
-			$icone = 'fa-square-o';
-			$titulo_link = 'Ativar Item';
-			$acao = 'Sim';
+			$icone = 'fa-square-o'; // Ícone para inativo
+			$titulo_link = 'Ativar Item'; // Título do link para ativar
+			$acao = 'Sim'; // Define a ação para ativar
 			$classe_linha = 'text-muted';
 		}
 
+		//consulta para obter o nome da categoria do serviço
 		$query2 = $pdo->query("SELECT * FROM categoria_servicos where id = '$categoria'");
 		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 		$total_registro2 = @count($resultado2);
+		// Verifica se a categoria foi encontrada
 		if ($total_registro2 > 0) {
+			// Se encontrada, armazena o nome da categoria
 			$nome_categoria = $resultado2[0]['nome'];
 		} else {
+			// Se não encontrada, define o nome da categoria como 'Sem Referência!'
 			$nome_categoria = 'Sem Referência!';
 		}
 
-
+		// Formata a comissão com o símbolo '%' ou com o prefixo 'R$' dependendo do tipo de comissão
 		if ($tipo_comissao == '%') {
-			$comissaoFormatada = number_format($comissao, 0, ',', '.') . '%';
+			// Se for porcentagem, formata como um valor com '%' no final
+			$comissaoF = number_format($comissao, 0, ',', '.') . '%';
 		} else {
-			$comissaoFormatada = 'R$ ' . number_format($comissao, 2, ',', '.');
+			// Se for valor em R$, formata com o prefixo 'R$'
+			$comissaoF = 'R$ ' . number_format($comissao, 2, ',', '.');
 		}
-
 
 
 		echo <<<HTML
@@ -78,13 +89,13 @@ HTML;
 {$nome}
 </td>
 <td class="esc">{$nome_categoria}</td>
-<td class="esc">R$ {$valorFormatado}</td>
-<td class="esc">{$comissaoFormatada}</td>
+<td class="esc">R$ {$valorF}</td>
+<td class="esc">{$comissaoF}</td>
 <td class="esc">{$tempo} Minutos</td>
 <td>
-        <big><a href="#" onclick="editar('{$id}','{$nome}', '{$valor}', '{$categoria}', '{$foto}', '{$comissao}', '{$tempo}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
+		<big><a href="#" onclick="editar('{$id}','{$nome}', '{$valor}', '{$categoria}', '{$foto}', '{$comissao}', '{$tempo}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
 
-		<big><a href="#" onclick="mostrar('{$nome}', '{$valorFormatado}', '{$nome_categoria}', '{$ativo}', '{$foto}', '{$comissaoFormatada}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
+		<big><a href="#" onclick="mostrar('{$nome}', '{$valorF}', '{$nome_categoria}', '{$ativo}', '{$foto}', '{$comissaoF}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
 
 
 
@@ -143,9 +154,8 @@ HTML;
 		$('#tempo').val(tempo);
 
 		$('#titulo_inserir').text('Editar Registro');
-		$('#modalform').modal('show');
+		$('#modalForm').modal('show');
 		$('#foto').val('');
-
 		$('#target').attr('src', 'img/servicos/' + foto);
 	}
 

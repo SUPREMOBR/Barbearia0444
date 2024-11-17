@@ -1,10 +1,13 @@
 <?php
-require_once("../../../conexao.php");
-$tabela = 'produtos';
+require_once("../../../conexao.php"); // Conecta ao banco de dados.
+$tabela = 'produtos'; // Define o nome da tabela no banco de dados
 
+// Faz uma consulta no banco de dados para buscar todos os produtos, ordenados por ID de forma decrescente
 $query = $pdo->query("SELECT * FROM $tabela ORDER BY id desc");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado);
+
+// Verifica se existem produtos no banco de dados
 if ($total_registro > 0) {
 
 	echo <<<HTML
@@ -22,13 +25,11 @@ if ($total_registro > 0) {
 	</thead> 
 	<tbody>	
 HTML;
-
-
-
-
+	// Loop para percorrer todos os produtos encontrados no banco de dados
 	for ($i = 0; $i < $total_registro; $i++) {
 		foreach ($resultado[$i] as $key => $value) {
 		}
+		// Extrai os dados do produto atual
 		$id = $resultado[$i]['id'];
 		$nome = $resultado[$i]['nome'];
 		$descricao = $resultado[$i]['descricao'];
@@ -39,20 +40,23 @@ HTML;
 		$estoque = $resultado[$i]['estoque'];
 		$nivel_estoque = $resultado[$i]['nivel_estoque'];
 
-		$valor_vendaFormatada = number_format($valor_venda, 2, ',', '.');
-		$valor_compraFormatada = number_format($valor_compra, 2, ',', '.');
+		// Formata os valores de compra e venda para exibição (ex: R$ 10,00)
+		$valor_vendaF = number_format($valor_venda, 2, ',', '.');
+		$valor_compraF = number_format($valor_compra, 2, ',', '.');
 
-
+		// Consulta a tabela de categorias para obter o nome da categoria do produto
 		$query2 = $pdo->query("SELECT * FROM categoria_produtos where id = '$categoria'");
 		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 		$total_registro2 = @count($resultado2);
+
+		// Verifica se a categoria foi encontrada e atribui o nome da categoria
 		if ($total_registro2 > 0) {
 			$nome_categoria = $resultado2[0]['nome'];
 		} else {
 			$nome_categoria = 'Sem Referência!';
 		}
 
-
+		// Verifica se o estoque do produto está abaixo do nível mínimo, para adicionar um alerta
 		if ($nivel_estoque >= $estoque) {
 			$alerta_estoque = 'text-danger';
 		} else {
@@ -68,14 +72,14 @@ HTML;
 {$nome}
 </td>
 <td class="esc">{$nome_categoria}</td>
-<td class="esc">R$ {$valor_compraFormatada}</td>
-<td class="esc">R$ {$valor_vendaFormatada}</td>
+<td class="esc">R$ {$valor_compraF}</td>
+<td class="esc">R$ {$valor_vendaF}</td>
 <td class="esc">{$estoque}</td>
 
 <td>
-        <big><a href="#" onclick="editar('{$id}','{$nome}', '{$categoria}', '{$descricao}', '{$valor_compra}', '{$valor_venda}', '{$foto}', '{$nivel_estoque}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
+		<big><a href="#" onclick="editar('{$id}','{$nome}', '{$categoria}', '{$descricao}', '{$valor_compra}', '{$valor_venda}', '{$foto}', '{$nivel_estoque}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
 
-		<big><a href="#" onclick="mostrar('{$nome}', '{$nome_categoria}', '{$descricao}', '{$valor_compraFormatada}',  '{$valor_vendaFormatada}', '{$estoque}', '{$foto}', '{$nivel_estoque}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
+		<big><a href="#" onclick="mostrar('{$nome}', '{$nome_categoria}', '{$descricao}', '{$valor_compraF}',  '{$valor_vendaF}', '{$estoque}', '{$foto}', '{$nivel_estoque}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
 
 
 
@@ -91,10 +95,12 @@ HTML;
 		</ul>
 		</li>
 
-        <big><a href="#" onclick="saida('{$id}','{$nome}', '{$estoque}')" title="Saída de Produto"><i class="fa fa-sign-out text-danger"></i></a></big>
+
+		<big><a href="#" onclick="saida('{$id}','{$nome}', '{$estoque}')" title="Saída de Produto"><i class="fa fa-sign-out text-danger"></i></a></big>
 
 		<big><a href="#" onclick="entrada('{$id}','{$nome}', '{$estoque}')" title="Entrada de Produto"><i class="fa fa-sign-in verde"></i></a></big>
 
+	
 		</td>
 </tr>
 HTML;
@@ -134,9 +140,8 @@ HTML;
 		$('#nivel_estoque').val(nivel_estoque);
 
 		$('#titulo_inserir').text('Editar Registro');
-		$('#modalform').modal('show');
+		$('#modalForm').modal('show');
 		$('#foto').val('');
-
 		$('#target').attr('src', 'img/produtos/' + foto);
 	}
 
@@ -150,6 +155,7 @@ HTML;
 		$('#target').attr('src', 'img/produtos/sem-foto.jpg');
 	}
 </script>
+
 
 
 <script type="text/javascript">
@@ -168,6 +174,8 @@ HTML;
 		$('#modalDados').modal('show');
 	}
 </script>
+
+
 
 
 <script type="text/javascript">

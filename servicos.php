@@ -1,4 +1,5 @@
-<?php require_once("cabecalho.php") ?>
+<?php require_once("cabecalho.php") // Inclui o cabeçalho do sistema
+?>
 <style type="text/css">
   .sub_page .hero_area {
     min-height: auto;
@@ -7,10 +8,7 @@
 
 </div>
 
-
-
-
-
+<!-- Seção de Serviços -->
 <section class="product_section layout_padding">
   <div class="container-fluid">
     <div class="heading_container heading_center ">
@@ -19,6 +17,7 @@
       </h2>
       <p class="col-lg-8 px-0">
         <?php
+        // Busca e exibe as categorias de serviços disponíveis
         $query = $pdo->query("SELECT * FROM categoria_servicos ORDER BY id asc");
         $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
         $total_registro = @count($resultado);
@@ -29,14 +28,15 @@
             $id = $resultado[$i]['id'];
             $nome = $resultado[$i]['nome'];
 
+            // Exibe o nome da categoria de serviço
             echo $nome;
 
             if ($i < ($total_registro - 1)) {
-              echo ' / ';
+              echo ' / '; // Adiciona uma barra entre as categorias
             }
           }
         }
-
+        // Busca os serviços ativos no banco de dados
         $query = $pdo->query("SELECT * FROM servicos where ativo = 'Sim' ORDER BY id asc");
         $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
         $total_registro = @count($resultado);
@@ -44,6 +44,7 @@
         ?>
       </p>
     </div>
+    <!-- Exibe os serviços disponíveis em um layout de grade -->
     <div class="row" style="background: #f0f0f2">
 
       <?php
@@ -55,8 +56,10 @@
             $nome = $resultado[$i]['nome'];
             $valor = $resultado[$i]['valor'];
             $foto = $resultado[$i]['foto'];
-            $valorFormatado = number_format($valor, 2, ',', '.');
-            $nomeFormatado = mb_strimwidth($nome, 0, 20, "...");
+            // Formata o valor do serviço
+            $valorF = number_format($valor, 2, ',', '.');
+            // Limita o nome a 20 caracteres
+            $nomeF = mb_strimwidth($nome, 0, 20, "...");
 
       ?>
 
@@ -67,14 +70,17 @@
             </div>
             <div class="detail-box">
               <h5>
-                <?php echo $nomeFormatado ?>
+                <?php echo $nomeF // Limita o nome a 20 caracteres
+                ?>
               </h5>
               <h6 class="price">
                 <span class="new_price">
-                  R$ <?php echo $valorFormatado ?>
+                  R$ <?php echo $valorF // Preço do serviço
+                      ?>
                 </span>
 
               </h6>
+              <!-- Link para a página de agendamentos -->
               <a href="agendamentos">
                 Agendar
               </a>
@@ -82,12 +88,14 @@
           </div>
         </div>
 
-      <?php } ?>
+      <?php } // Fecha o loop de exibição dos serviços
+      ?>
 
 
     </div>
 
-  <?php } ?>
+  <?php } // Fecha a verificação de serviços ativos
+  ?>
 
   </div>
 </section>

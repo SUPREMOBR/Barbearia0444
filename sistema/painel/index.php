@@ -39,7 +39,6 @@ $ano_atual = Date('Y');
 $data_mes = $ano_atual . "-" . $mes_atual . "-01";
 $data_ano = $ano_atual . "-01-01";
 
-
 $partesInicial = explode('-', $data_atual);
 $dataDiaInicial = $partesInicial[2];
 $dataMesInicial = $partesInicial[1];
@@ -78,7 +77,9 @@ $dataMesInicial = $partesInicial[1];
 	<!-- side nav css file -->
 	<link href='css/SidebarNav.min.css' media='all' rel='stylesheet' type='text/css' />
 	<!-- //side nav css file -->
+
 	<link rel="stylesheet" href="css/monthly.css">
+
 	<!-- js-->
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/modernizr.custom.js"></script>
@@ -127,7 +128,7 @@ $dataMesInicial = $partesInicial[1];
 			});
 
 			$('#demo-pie-3').pieChart({
-				barColor: '#ffc168',
+				barColor: '#e32424',
 				trackColor: '#eee',
 				lineCap: 'square',
 				lineWidth: 8,
@@ -136,15 +137,12 @@ $dataMesInicial = $partesInicial[1];
 				}
 			});
 
-
 		});
 	</script>
 	<!-- //pie-chart --><!-- index page sales reviews visitors pie chart -->
 
-
 	<link rel="stylesheet" type="text/css" href="DataTables/datatables.min.css" />
 	<script type="text/javascript" src="DataTables/datatables.min.js"></script>
-
 
 </head>
 
@@ -155,18 +153,17 @@ $dataMesInicial = $partesInicial[1];
 			<aside class="sidebar-left" style="overflow: scroll; height:100%; scrollbar-width: thin;">
 				<nav class="navbar navbar-inverse">
 					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".collapse" aria-expanded="false">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".collapse" aria-expanded="false" id="showLeftPush2">
 							<span class="sr-only">Toggle navigation</span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<h1><a class="navbar-brand" href="index.html"><span class="fa fa-area-chart"></span> Sistema<span class="dashboard_text"><?php echo $nome_sistema ?></span></a></h1>
+						<h1><a class="navbar-brand" href="index.php"><span class="fa fa-area-chart"></span> Sistema<span class="dashboard_text"><?php echo $nome_sistema ?></span></a></h1>
 					</div>
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul class="sidebar-menu">
 							<li class="header">MENU DE NAVEGAÇÃO</li>
-
 
 							<li class="treeview <?php echo @$home ?>">
 								<a href="index.php">
@@ -174,66 +171,73 @@ $dataMesInicial = $partesInicial[1];
 								</a>
 							</li>
 
+							<li class="treeview <?php echo @$comanda ?>">
+								<a href="comanda">
+									<i class="fa fa-file-o"></i> <span>Nova Comanda</span>
+								</a>
+							</li>
 
-							<li class="treeview <?php echo $menu_pessoas ?>">
+							<li class="treeview <?php echo @$menu_pessoas ?>">
 								<a href="#">
 									<i class="fa fa-users"></i>
 									<span>Pessoas</span>
 									<i class="fa fa-angle-left pull-right"></i>
 								</a>
 								<ul class="treeview-menu">
-									<li class="<?php echo @$usuarios ?>"><a href="index.php?pag=usuarios"><i class="fa fa-angle-right"></i>Usuários</a></li>
+									<li class="<?php echo @$usuarios ?>"><a href="usuarios"><i class="fa fa-angle-right"></i>Usuários</a></li>
+									<li class="<?php echo @$funcionarios ?>"><a href="funcionarios"><i class="fa fa-angle-right"></i>Funcionários</a></li>
+									<li class="<?php echo @$clientes ?>"><a href="clientes"><i class="fa fa-angle-right"></i>Clientes</a></li>
+									<li class="<?php echo @$fornecedores ?>"><a href="fornecedores"><i class="fa fa-angle-right"></i>Fornecedores</a></li>
 
-									<li class="<?php echo @$funcionarios ?>"><a href="index.php?pag=funcionarios"><i class="fa fa-angle-right"></i>Funcionários</a></li>
-
-									<li class="<?php echo @$clientes ?>"><a href="index.php?pag=clientes"><i class="fa fa-angle-right"></i>Clientes</a></li>
-
-									<li class="<?php echo @$fornecedores ?>"><a href="index.php?pag=fornecedores"><i class="fa fa-angle-right"></i>Fornecedores</a></li>
 								</ul>
 							</li>
 
-							<li class="treeview <?php echo $menu_cadastros ?>">
+							<li class="treeview <?php echo @$menu_cadastros ?>">
 								<a href="#">
 									<i class="fa fa-plus"></i>
 									<span>Cadastros</span>
 									<i class="fa fa-angle-left pull-right"></i>
 								</a>
 								<ul class="treeview-menu">
-									<li class="<?php echo @$servicos ?>"><a href="index.php?pag=servicos"><i class="fa fa-angle-right"></i>Serviços</a></li>
+									<li class="<?php echo @$servicos ?>"><a href="servicos"><i class="fa fa-angle-right"></i>Serviços</a></li>
 
-									<li class="<?php echo @$cargos ?>"><a href="index.php?pag=cargos"><i class="fa fa-angle-right"></i>Cargos</a></li>
+									<li class="<?php echo @$cargos ?>"><a href="cargos"><i class="fa fa-angle-right"></i>Cargos</a></li>
 
-									<li class="<?php echo @$categoria_servicos ?>"><a href="index.php?pag=categoria_servicos"><i class="fa fa-angle-right"></i>Categoria Serviços</a></li>
+									<li class="<?php echo @$categoria_servicos ?>"><a href="cat_servicos"><i class="fa fa-angle-right"></i>Categoria Serviços</a></li>
 
-									<li class="<?php echo @$grupos ?>"><a href="index.php?pag=grupos"><i class="fa fa-angle-right"></i>Grupo Acessos</a></li>
+									<li class="<?php echo @$grupos ?>"><a href="grupos"><i class="fa fa-angle-right"></i>Grupo Acessos</a></li>
 
-									<li class="<?php echo @$acessos ?>"><a href="index.php?pag=acessos"><i class="fa fa-angle-right"></i>Acessos</a></li>
+									<li class="<?php echo @$acessos ?>"><a href="acessos"><i class="fa fa-angle-right"></i>Acessos</a></li>
 
-									<li class="<?php echo @$pagamento ?>"><a href="index.php?pag=pagamento"><i class="fa fa-angle-right"></i>Formas de Pagamento</a></li>
+									<li class="<?php echo @$pagamento ?>"><a href="pgto"><i class="fa fa-angle-right"></i>Formas de Pagamento</a></li>
+
+									<li class="<?php echo @$dias_bloqueio ?>"><a href="dias_bloqueio"><i class="fa fa-angle-right"></i>Bloqueio de Dias</a></li>
 
 								</ul>
 							</li>
 
-							<li class="treeview <?php echo $menu_produtos ?>">
+							<li class="treeview <?php echo @$menu_produtos ?>">
 								<a href="#">
 									<i class="fa fa-plus"></i>
 									<span>Produtos</span>
 									<i class="fa fa-angle-left pull-right"></i>
 								</a>
 								<ul class="treeview-menu">
-									<li class="<?php echo @$produtos ?>"><a href="index.php?pag=produtos"><i class="fa fa-angle-right"></i>Produtos</a></li>
 
-									<li class="<?php echo @$categoria_produtos ?>"><a href="index.php?pag=categoria_produtos"><i class="fa fa-angle-right"></i>Categorias</a></li>
+									<li class="<?php echo @$produtos ?>"><a href="produtos"><i class="fa fa-angle-right"></i>Produtos</a></li>
 
-									<li class="<?php echo @$estoque ?>"><a href="index.php?pag=estoque"><i class="fa fa-angle-right"></i>Estoque Baixo</a></li>
+									<li class="<?php echo @$categoria_produtos ?>"><a href="categoria_produtos"><i class="fa fa-angle-right"></i>Categorias</a></li>
 
-									<li class="<?php echo @$saidas ?>"><a href="index.php?pag=saidas"><i class="fa fa-angle-right"></i>Saídas</a></li>
+									<li class="<?php echo @$estoque ?>"><a href="estoque"><i class="fa fa-angle-right"></i>Estoque Baixo</a></li>
 
-									<li class="<?php echo @$entradas ?>"><a href="index.php?pag=entradas"><i class="fa fa-angle-right"></i>Entradas</a></li>
+									<li class="<?php echo @$saidas ?>"><a href="saidas"><i class="fa fa-angle-right"></i>Saídas</a></li>
+
+									<li class="<?php echo @$entradas ?>"><a href="entradas"><i class="fa fa-angle-right"></i>Entradas</a></li>
+
 								</ul>
 							</li>
 
-							<li class="treeview <?php echo $menu_financeiro ?>">
+							<li class="treeview <?php echo @$menu_financeiro ?>">
 								<a href="#">
 									<i class="fa fa-usd"></i>
 									<span>Financeiro</span>
@@ -241,21 +245,20 @@ $dataMesInicial = $partesInicial[1];
 								</a>
 								<ul class="treeview-menu">
 
-									<li class="<?php echo @$vendas ?>"><a href="index.php?pag=vendas"><i class="fa fa-angle-right"></i>Vendas</a></li>
+									<li class="<?php echo @$vendas ?>"><a href="vendas"><i class="fa fa-angle-right"></i>Vendas</a></li>
 
-									<li class="<?php echo @$compras ?>"><a href="index.php?pag=compras"><i class="fa fa-angle-right"></i>Compras</a></li>
+									<li class="<?php echo @$compras ?>"><a href="compras"><i class="fa fa-angle-right"></i>Compras</a></li>
 
-									<li class="<?php echo @$pagar ?>"><a href="index.php?pag=pagar"><i class="fa fa-angle-right"></i>Contas à Pagar</a></li>
+									<li class="<?php echo @$pagar ?>"><a href="pagar"><i class="fa fa-angle-right"></i>Contas à Pagar</a></li>
 
-									<li class="<?php echo @$receber ?>"><a href="index.php?pag=receber"><i class="fa fa-angle-right"></i>Contas à Receber</a></li>
+									<li class="<?php echo @$receber ?>"><a href="receber"><i class="fa fa-angle-right"></i>Contas à Receber</a></li>
 
-									<li class="<?php echo @$comissoes ?>"><a href="index.php?pag=comissoes"><i class="fa fa-angle-right"></i>Comissões</a></li>
+									<li class="<?php echo @$comissoes ?>"><a href="comissoes"><i class="fa fa-angle-right"></i>Comissões</a></li>
 
 								</ul>
 							</li>
 
-
-							<li class="treeview <?php echo $menu_agendamentos ?>">
+							<li class="treeview <?php echo @$menu_agendamentos ?>">
 								<a href="#">
 									<i class="fa fa-calendar-o"></i>
 									<span>Agendamento / Serviço</span>
@@ -263,16 +266,14 @@ $dataMesInicial = $partesInicial[1];
 								</a>
 								<ul class="treeview-menu">
 
-									<li class="<?php echo @$agendamentos ?>"><a href="index.php?pag=agendamentos"><i class="fa fa-angle-right"></i>Agendamentos</a></li>
+									<li class="<?php echo @$agendamentos ?>"><a href="agendamentos"><i class="fa fa-angle-right"></i>Agendamentos</a></li>
 
-									<li class="<?php echo @$servicos_agenda ?>"><a href="index.php?pag=servicos_agenda"><i class="fa fa-angle-right"></i>Serviços</a></li>
-
-
+									<li class="<?php echo @$servicos_agenda ?>"><a href="servicos_agenda"><i class="fa fa-angle-right"></i>Serviços</a></li>
 
 								</ul>
 							</li>
 
-							<li class="treeview <?php echo $menu_relatorio ?>">
+							<li class="treeview <?php echo @$menu_relatorio ?>">
 								<a href="#">
 									<i class="fa fa-file-pdf-o"></i>
 									<span>Relatórios</span>
@@ -280,27 +281,51 @@ $dataMesInicial = $partesInicial[1];
 								</a>
 								<ul class="treeview-menu">
 
-									<li class="<?php echo @$relatorio_produtos ?>"><a href="relatorio/relatorio_produtos_class.php" target="_blank"><i class="fa fa-angle-right"></i>Relatório de Produtos</a></li>
+									<li class="<?php echo @$rel_produtos ?>"><a href="rel/rel_produtos_class.php" target="_blank"><i class="fa fa-angle-right"></i>Relatório de Produtos</a></li>
 
-									<li class="<?php echo @$relatorio_entradas ?>"><a href="#" data-toggle="modal" data-target="#RelatorioEntradas"><i class="fa fa-angle-right"></i>Entradas / Ganhos</a></li>
+									<li class="<?php echo @$rel_entradas ?>"><a href="#" data-toggle="modal" data-target="#RelEntradas"><i class="fa fa-angle-right"></i>Entradas / Ganhos</a></li>
 
-									<li class="<?php echo @$relatorio_saidas ?>"><a href="#" data-toggle="modal" data-target="#RelatorioSaidas"><i class="fa fa-angle-right"></i>Saídas / Despesas</a></li>
+									<li class="<?php echo @$rel_saidas ?>"><a href="#" data-toggle="modal" data-target="#RelSaidas"><i class="fa fa-angle-right"></i>Saídas / Despesas</a></li>
 
-									<li class="<?php echo @$relatorio_comissoes ?>"><a href="#" data-toggle="modal" data-target="#RelatorioComissoes"><i class="fa fa-angle-right"></i>Relatório de Comissões</a></li>
+									<li class="<?php echo @$rel_comissoes ?>"><a href="#" data-toggle="modal" data-target="#RelComissoes"><i class="fa fa-angle-right"></i>Relatório de Comissões</a></li>
 
-									<li class="<?php echo @$relatorio_contas ?>"><a href="#" data-toggle="modal" data-target="#RelatorioContas"><i class="fa fa-angle-right"></i>Relatório de Contas</a></li>
+									<li class="<?php echo @$rel_contas ?>"><a href="#" data-toggle="modal" data-target="#RelCon"><i class="fa fa-angle-right"></i>Relatório de Contas</a></li>
 
-									<li class="<?php echo @$relatorio_servicos ?>"><a href="#" data-toggle="modal" data-target="#RelatorioServicos"><i class="fa fa-angle-right"></i>Relatório de Serviços</a></li>
+									<li class="<?php echo @$rel_servicos ?>"><a href="#" data-toggle="modal" data-target="#RelServicos"><i class="fa fa-angle-right"></i>Relatório de Serviços</a></li>
 
-									<li class="<?php echo @$relatorio_lucro ?>"><a href="#" data-toggle="modal" data-target="#RelatorioLucro"><i class="fa fa-angle-right"></i>Demonstrativo de Lucro</a></li>
+									<li class="<?php echo @$rel_aniv ?>"><a href="#" data-toggle="modal" data-target="#RelAniv"><i class="fa fa-angle-right"></i>Relatório de Aniversáriantes</a></li>
 
-
+									<li class="<?php echo @$rel_lucro ?>"><a href="#" data-toggle="modal" data-target="#RelLucro"><i class="fa fa-angle-right"></i>Demonstrativo de Lucro</a></li>
 
 								</ul>
 							</li>
 
+							<li class="treeview" style="display:none">
+								<a href="#">
+									<i class="fa fa-whatsapp"></i>
+									<span>Whatsapp - (Menuia)</span>
+									<i class="fa fa-angle-left pull-right"></i>
+								</a>
+								<ul class="treeview-menu">
 
-							<li class="treeview <?php echo $menu_site ?>">
+									<li class="treeview <?= @$whatsapp ?>"><a href="whatsapp"><i class="fa fa-cog"></i>Configurações</a></li>
+
+								</ul>
+							</li>
+
+							<li class="treeview <?= @$marketings ?>">
+								<a href="marketingp">
+									<i class="fa fa-paper-plane"></i><span>Campanha Marketing</span>
+								</a>
+							</li>
+
+							<li class="treeview <?php echo @$calendario ?>">
+								<a href="calendario">
+									<i class="fa fa-calendar-o"></i> <span>Calendário</span>
+								</a>
+							</li>
+
+							<li class="treeview <?php echo @$menu_site ?>">
 								<a href="#">
 									<i class="fa fa-globe"></i>
 									<span>Dados do Site</span>
@@ -308,60 +333,50 @@ $dataMesInicial = $partesInicial[1];
 								</a>
 								<ul class="treeview-menu">
 
-									<li class="<?php echo @$textos_index ?>"><a href="index.php?pag=textos_index"><i class="fa fa-angle-right"></i>Textos Index</a></li>
+									<li class="<?php echo @$textos_index ?>"><a href="textos_index"><i class="fa fa-angle-right"></i>Textos Index</a></li>
 
-
-									<li class="<?php echo @$comentarios ?>"><a href="index.php?pag=comentarios"><i class="fa fa-angle-right"></i>Comentários</a></li>
-
-
+									<li class="<?php echo @$comentarios ?>"><a href="comentarios"><i class="fa fa-angle-right"></i>Comentários</a></li>
 
 								</ul>
 							</li>
-
 
 							<?php if (@$atendimento == 'Sim') { ?>
 								<li class="treeview">
-									<a href="index.php?pag=agenda">
+									<a href="agenda">
 										<i class="fa fa-calendar-o"></i> <span>Minha Agenda</span>
 									</a>
 								</li>
+
+								<li class="treeview">
+									<a href="meus_servicos">
+										<i class="fa fa-server"></i> <span>Meus Serviços</span>
+									</a>
+								</li>
+
+								<li class="treeview">
+									<a href="minhas_comissoes">
+										<i class="fa fa-server"></i> <span>Minhas Comissões</span>
+									</a>
+								</li>
+
+								<li class="treeview">
+									<a href="#">
+										<i class="fa fa-usd"></i>
+										<span>Meus Horário / Dias</span>
+										<i class="fa fa-clock-o pull-right"></i>
+									</a>
+									<ul class="treeview-menu">
+
+										<li><a href="dias"><i class="fa fa-angle-right"></i>Horários / Dias</a></li>
+
+										<li><a href="servicos_funcionarios"><i class="fa fa-angle-right"></i>Lançar Serviços</a></li>
+
+										<li><a href="dias_bloqueio_func"><i class="fa fa-angle-right"></i>Bloqueio de Dias</a></li>
+
+									</ul>
+								</li>
+
 							<?php } ?>
-
-
-							<li class="treeview">
-								<a href="index.php?pag=meus_servicos">
-									<i class="fa fa-server"></i> <span>Meus Serviços</span>
-								</a>
-							</li>
-
-
-							<li class="treeview">
-								<a href="index.php?pag=minhas_comissoes">
-									<i class="fa fa-server"></i> <span>Minhas Comissões</span>
-								</a>
-							</li>
-
-
-							<li class="treeview">
-								<a href="#">
-									<i class="fa fa-usd"></i>
-									<span>Horário / Dias</span>
-									<i class="fa fa-clock-o pull-right"></i>
-								</a>
-								<ul class="treeview-menu">
-
-									<li><a href="index.php?pag=dias"><i class="fa fa-angle-right"></i>Horários / Dias</a></li>
-
-									<li><a href="index.php?pag=servicos_funcionarios"><i class="fa fa-angle-right"></i>Lançar Serviços</a></li>
-
-
-
-
-								</ul>
-							</li>
-
-
-
 
 						</ul>
 					</div>
@@ -380,11 +395,11 @@ $dataMesInicial = $partesInicial[1];
 				<div class="profile_details_left"><!--notifications of menu start -->
 					<ul class="nofitications-dropdown">
 
-
 						<?php if ($atendimento == 'Sim') {
 
 							//totalizando agendamentos dia usuario
-							$query = $pdo->query("SELECT * FROM agendamentos where data = curDate() and funcionario = '$id_usuario' and status = 'Agendado'");
+							$query = $pdo->query("SELECT * FROM agendamentos where data = curDate() and funcionario = '$id_usuario' and 
+							status = 'Agendado'");
 							$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 							$total_agendamentos_hoje_usuario_pendentes = @count($resultado);
 
@@ -406,8 +421,7 @@ $dataMesInicial = $partesInicial[1];
 										$cliente = $resultado[$i]['cliente'];
 										$hora = $resultado[$i]['hora'];
 										$servico = $resultado[$i]['servico'];
-										$horaFormatada = date("H:i", strtotime($hora));
-
+										$horaF = date("H:i", strtotime($hora));
 
 										$query2 = $pdo->query("SELECT * FROM servicos where id = '$servico'");
 										$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
@@ -419,7 +433,6 @@ $dataMesInicial = $partesInicial[1];
 											$valor_serv = '';
 										}
 
-
 										$query2 = $pdo->query("SELECT * FROM clientes where id = '$cliente'");
 										$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 										if (@count($resultado2) > 0) {
@@ -430,7 +443,7 @@ $dataMesInicial = $partesInicial[1];
 									?>
 										<li>
 											<div class="notification_desc">
-												<p><b><?php echo $horaFormatada ?> </b> - <?php echo $nome_cliente ?> / <?php echo $nome_serv ?></p>
+												<p><b><?php echo $horaF ?> </b> - <?php echo $nome_cliente ?> / <?php echo $nome_serv ?></p>
 												<p><span></span></p>
 											</div>
 											<div class="clearfix"></div>
@@ -439,21 +452,18 @@ $dataMesInicial = $partesInicial[1];
 									}
 									?>
 
-
-
 									<li>
 										<div class="notification_bottom" style="background: #ffe8e6">
-											<a href="index.php?pag=agenda">Ver Agendamentos</a>
+											<a href="agenda">Ver Agendamentos</a>
 										</div>
 									</li>
 								</ul>
 							</li>
 						<?php } ?>
 
-
 						<?php if (@$comentarios == '') {
 
-
+							//totalizando aniversariantes do dia
 							$query = $pdo->query("SELECT * FROM comentarios where ativo != 'Sim'");
 							$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 							$total_comentarios = @count($resultado);
@@ -475,7 +485,6 @@ $dataMesInicial = $partesInicial[1];
 
 										$nome = $resultado[$i]['nome'];
 
-
 									?>
 										<li>
 											<div class="notification_desc">
@@ -488,21 +497,14 @@ $dataMesInicial = $partesInicial[1];
 									}
 									?>
 
-
-
 									<li>
 										<div class="notification_bottom" style="background: #d8d4fc">
-											<a href="index.php?pag=comentarios">Ver Depoimentos</a>
+											<a href="comentarios">Ver Depoimentos</a>
 										</div>
 									</li>
 								</ul>
 							</li>
 						<?php } ?>
-
-
-
-
-
 
 					</ul>
 					<div class="clearfix"> </div>
@@ -510,9 +512,6 @@ $dataMesInicial = $partesInicial[1];
 
 			</div>
 			<div class="header-right">
-
-
-
 
 				<div class="profile_details">
 					<ul>
@@ -531,7 +530,7 @@ $dataMesInicial = $partesInicial[1];
 							</a>
 							<ul class="dropdown-menu drp-mnu">
 								<?php if (@$configuracoes == '') { ?>
-									<li> <a href="index.php?pag=configuracoes"><i class="fa fa-cog"></i> Configurações</a> </li>
+									<li> <a href="configuracoes"><i class="fa fa-cog"></i> Configurações</a> </li>
 								<?php } ?>
 
 								<li> <a href="" data-toggle="modal" data-target="#modalPerfil"><i class="fa fa-suitcase"></i> Editar Perfil</a> </li>
@@ -546,29 +545,14 @@ $dataMesInicial = $partesInicial[1];
 		</div>
 		<!-- //header-ends -->
 
-
-
-
-
-
-
-
 		<!-- main content start-->
 		<div id="page-wrapper">
 			<?php require_once("paginas/" . $pag . '.php') ?>
 		</div>
 
-
-
-
-
-
-
-
-
 		<!--footer-->
 		<div class="footer">
-			<p> //adicionar comentário </p>
+			<p>.....<a href="" target="_blank"></a></p>
 		</div>
 		<!--//footer-->
 	</div>
@@ -587,10 +571,24 @@ $dataMesInicial = $partesInicial[1];
 			disableOther('showLeftPush');
 		};
 
-
 		function disableOther(button) {
 			if (button !== 'showLeftPush') {
 				classie.toggle(showLeftPush, 'disabled');
+			}
+		}
+
+		showLeftPush2 = document.getElementById('showLeftPush2'),
+
+			showLeftPush2.onclick = function() {
+				classie.toggle(this, 'active');
+				classie.toggle(body, 'cbp-spmenu-push-toright');
+				classie.toggle(menuLeft, 'cbp-spmenu-open');
+				disableOther2('showLeftPush2');
+			};
+
+		function disableOther2(button) {
+			if (button !== 'showLeftPush2') {
+				classie.toggle(showLeftPush2, 'disabled');
 			}
 		}
 	</script>
@@ -608,8 +606,6 @@ $dataMesInicial = $partesInicial[1];
 	</script>
 	<!-- //side nav js -->
 
-
-
 	<!-- Bootstrap Core JavaScript -->
 	<script src="js/bootstrap.js"> </script>
 	<!-- //Bootstrap Core JavaScript -->
@@ -617,7 +613,6 @@ $dataMesInicial = $partesInicial[1];
 </body>
 
 </html>
-
 
 <!-- Mascaras JS -->
 <script type="text/javascript" src="js/mascaras.js"></script>
@@ -643,7 +638,6 @@ $dataMesInicial = $partesInicial[1];
 
 	}
 </style>
-
 
 <!-- Modal Perfil-->
 <div class="modal fade" id="modalPerfil" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -674,7 +668,6 @@ $dataMesInicial = $partesInicial[1];
 						</div>
 					</div>
 
-
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
@@ -691,85 +684,79 @@ $dataMesInicial = $partesInicial[1];
 						</div>
 					</div>
 
-
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-4">
 							<div class="form-group">
 								<label for="exampleInputEmail1">Senha</label>
 								<input type="password" class="form-control" id="senha-perfil" name="senha" placeholder="Senha" value="<?php echo $senha_usuario ?>" required>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-4">
 
 							<div class="form-group">
 								<label for="exampleInputEmail1">Confirmar Senha</label>
 								<input type="password" class="form-control" id="conf-senha-perfil" name="conf_senha" placeholder="Confirmar Senha" required>
 							</div>
 						</div>
-					</div>
 
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="exampleInputEmail1">Atendimento</label>
-							<select class="form-control" name="atendimento" id="atendimento-perfil">
-								<option <?php if ($atendimento == 'Sim') { ?> selected <?php } ?> value="Sim">Sim</option>
-								<option <?php if ($atendimento == 'Não') { ?> selected <?php } ?> value="Não">Não</option>
-							</select>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Atendimento</label>
+								<select class="form-control" name="atendimento" id="atendimento-perfil">
+									<option <?php if ($atendimento == 'Sim') { ?> selected <?php } ?> value="Sim">Sim</option>
+									<option <?php if ($atendimento == 'Não') { ?> selected <?php } ?> value="Não">Não</option>
+								</select>
+							</div>
 						</div>
+
 					</div>
 
 					<div class="row">
-						<div class="col-md-12">
+						<div class="col-md-8">
 							<div class="form-group">
 								<label for="exampleInputEmail1">Endereço</label>
-								<input type="text" class="form-control" id="endereco-perfil" name="endereco" placeholder="Rua, Número, Bairro" value="<?php echo $endereco_usuario ?>">
+								<input type="text" class="form-control" id="endereco-perfil" name="endereco" placeholder="Rua X Número 1 Bairro xxx" value="<?php echo $endereco_usuario ?>">
 							</div>
-
-							<div class="col-md-4">
-								<div class="form-group">
-									<label for="exampleInputEmail1">Intervalo Minutos</label>
-									<input type="number" class="form-control" id="intervalo_perfil" name="intervalo" placeholder="Intervalo Horários" value="<?php echo $intervalo_horarios ?>" required>
-								</div>
-							</div>
-
 						</div>
 
-
-
-
-
-						<div class="row">
-							<div class="col-md-8">
-								<div class="form-group">
-									<label>Foto</label>
-									<input class="form-control" type="file" name="foto" onChange="carregarImgPerfil();" id="foto-usu">
-								</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Intervalo Minutos</label>
+								<input type="number" class="form-control" id="intervalo_perfil" name="intervalo" placeholder="Intervalo Horários" value="<?php echo $intervalo_horarios ?>" required>
 							</div>
-							<div class="col-md-4">
-								<div id="divImg">
-									<img src="img/perfil/<?php echo $foto_usuario ?>" width="80px" id="target-usu">
-								</div>
-							</div>
-
 						</div>
 
-
-
-						<input type="hidden" name="id" value="<?php echo $id_usuario ?>">
-
-						<br>
-						<small>
-							<div id="mensagem-perfil" align="center"></div>
-						</small>
 					</div>
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-success">Editar Perfil</button>
+
+					<div class="row">
+						<div class="col-md-8">
+							<div class="form-group">
+								<label>Foto</label>
+								<input class="form-control" type="file" name="foto" onChange="carregarImgPerfil();" id="foto-usu">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div id="divImg">
+								<img src="img/perfil/<?php echo $foto_usuario ?>" width="80px" id="target-usu">
+							</div>
+						</div>
+
 					</div>
+
+					<input type="hidden" name="id" value="<?php echo $id_usuario ?>">
+
+					<br>
+					<small>
+						<div id="mensagem-perfil" align="center"></div>
+					</small>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary">Editar Perfil</button>
+				</div>
 			</form>
 		</div>
 	</div>
 </div>
-
 
 <!-- Modal Config-->
 <div class="modal fade" id="modalConfig" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -786,52 +773,50 @@ $dataMesInicial = $partesInicial[1];
 	</div>
 </div>
 
-<!-- Modal Relatorio Entradas / Ganhos -->
-<div class="modal fade" id="RelatorioEntradas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal Rel Entradas / Ganhos -->
+<div class="modal fade" id="RelEntradas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title" id="exampleModalLabel">Relatório de Ganhos
 					<small>(
-						<a href="#" onclick="datas('1980-01-01', 'tudo-Entrada', 'Entrada')">
-							<span style="color:#000" id="tudo-Entrada">Tudo</span>
+						<a href="#" onclick="datas('1980-01-01', 'tudo-Ent', 'Ent')">
+							<span style="color:#000" id="tudo-Ent">Tudo</span>
 						</a> /
-						<a href="#" onclick="datas('<?php echo $data_atual ?>', 'hoje-Entrada', 'Entrada')">
-							<span id="hoje-Entrada">Hoje</span>
+						<a href="#" onclick="datas('<?php echo $data_atual ?>', 'hoje-Ent', 'Ent')">
+							<span id="hoje-Ent">Hoje</span>
 						</a> /
-						<a href="#" onclick="datas('<?php echo $data_mes ?>', 'mes-Entrada', 'Entrada')">
-							<span style="color:#000" id="mes-Entrada">Mês</span>
+						<a href="#" onclick="datas('<?php echo $data_mes ?>', 'mes-Ent', 'Ent')">
+							<span style="color:#000" id="mes-Ent">Mês</span>
 						</a> /
-						<a href="#" onclick="datas('<?php echo $data_ano ?>', 'ano-Entrada', 'Entrada')">
-							<span style="color:#000" id="ano-Entrada">Ano</span>
+						<a href="#" onclick="datas('<?php echo $data_ano ?>', 'ano-Ent', 'Ent')">
+							<span style="color:#000" id="ano-Ent">Ano</span>
 						</a>
 						)</small>
-
-
 
 				</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form method="post" action="relatorio/relatorio_entradas_class.php" target="_blank">
+			<form method="post" action="rel/rel_entradas_class.php" target="_blank">
 				<div class="modal-body">
 
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-6">
 							<div class="form-group">
 								<label>Data Inicial</label>
-								<input type="date" class="form-control" name="dataInicial" id="dataInicialRelatorio-Entrada" value="<?php echo date('Y-m-d') ?>" required>
+								<input type="date" class="form-control" name="dataInicial" id="dataInicialRel-Ent" value="<?php echo date('Y-m-d') ?>" required>
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-6">
 							<div class="form-group">
 								<label>Data Final</label>
-								<input type="date" class="form-control" name="dataFinal" id="dataFinalRelatorio-Entrada" value="<?php echo date('Y-m-d') ?>" required>
+								<input type="date" class="form-control" name="dataFinal" id="dataFinalRel-Ent" value="<?php echo date('Y-m-d') ?>" required>
 							</div>
 						</div>
 
-						<div class="col-md-4">
+						<div class="col-md-6">
 							<div class="form-group">
 								<label>Entradas / Ganhos</label>
 								<select class="form-control sel13" name="filtro" style="width:100%;">
@@ -844,15 +829,34 @@ $dataMesInicial = $partesInicial[1];
 							</div>
 						</div>
 
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Selecionar Cliente</label>
+								<select class="form-control selcli" name="cliente" style="width:100%;">
+									<option value="">Todos</option>
+									<?php
+									$query = $pdo->query("SELECT * FROM clientes");
+									$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+									$total_registro = @count($resultado);
+									if ($total_registro > 0) {
+										for ($i = 0; $i < $total_registro; $i++) {
+											foreach ($resultado[$i] as $key => $value) {
+											}
+											echo '<option value="' . $resultado[$i]['id'] . '">' . $resultado[$i]['nome'] . '</option>';
+										}
+									}
+									?>
+
+								</select>
+							</div>
+						</div>
+
 					</div>
-
-
-
 
 				</div>
 
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-success">Gerar Relatório</button>
+					<button type="submit" class="btn btn-primary">Gerar Relatório</button>
 				</div>
 			</form>
 
@@ -860,8 +864,8 @@ $dataMesInicial = $partesInicial[1];
 	</div>
 </div>
 
-<!-- Modal Relatorio Saidas / Despesas -->
-<div class="modal fade" id="RelatorioSaidas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal Rel Saidas / Despesas -->
+<div class="modal fade" id="RelSaidas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -881,27 +885,25 @@ $dataMesInicial = $partesInicial[1];
 						</a>
 						)</small>
 
-
-
 				</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form method="post" action="relatorio/relatorio_saidas_class.php" target="_blank">
+			<form method="post" action="rel/rel_saidas_class.php" target="_blank">
 				<div class="modal-body">
 
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group">
 								<label>Data Inicial</label>
-								<input type="date" class="form-control" name="dataInicial" id="dataInicialRelatorio-Saida" value="<?php echo date('Y-m-d') ?>" required>
+								<input type="date" class="form-control" name="dataInicial" id="dataInicialRel-Saida" value="<?php echo date('Y-m-d') ?>" required>
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group">
 								<label>Data Final</label>
-								<input type="date" class="form-control" name="dataFinal" id="dataFinalRelatorio-Saida" value="<?php echo date('Y-m-d') ?>" required>
+								<input type="date" class="form-control" name="dataFinal" id="dataFinalRel-Saida" value="<?php echo date('Y-m-d') ?>" required>
 							</div>
 						</div>
 
@@ -920,13 +922,10 @@ $dataMesInicial = $partesInicial[1];
 
 					</div>
 
-
-
-
 				</div>
 
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-success">Gerar Relatório</button>
+					<button type="submit" class="btn btn-primary">Gerar Relatório</button>
 				</div>
 			</form>
 
@@ -934,48 +933,46 @@ $dataMesInicial = $partesInicial[1];
 	</div>
 </div>
 
-<!-- Modal Relatorio Comissoes -->
-<div class="modal fade" id="RelatorioComissoes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal Rel Comissoes -->
+<div class="modal fade" id="RelComissoes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title" id="exampleModalLabel">Relatório de Comissões
 					<small>(
-						<a href="#" onclick="datas('1980-01-01', 'tudo-Comissoes', 'Comissoes')">
-							<span style="color:#000" id="tudo-Comissoes">Tudo</span>
+						<a href="#" onclick="datas('1980-01-01', 'tudo-Com', 'Com')">
+							<span style="color:#000" id="tudo-Com">Tudo</span>
 						</a> /
-						<a href="#" onclick="datas('<?php echo $data_atual ?>', 'hoje-Comissoes', 'Comissoes')">
-							<span id="hoje-Comissoes">Hoje</span>
+						<a href="#" onclick="datas('<?php echo $data_atual ?>', 'hoje-Com', 'Com')">
+							<span id="hoje-Com">Hoje</span>
 						</a> /
-						<a href="#" onclick="datas('<?php echo $data_mes ?>', 'mes-Comissoes', 'Comissoes')">
-							<span style="color:#000" id="mes-Comissoes">Mês</span>
+						<a href="#" onclick="datas('<?php echo $data_mes ?>', 'mes-Com', 'Com')">
+							<span style="color:#000" id="mes-Com">Mês</span>
 						</a> /
-						<a href="#" onclick="datas('<?php echo $data_ano ?>', 'ano-Comissoes', 'Comissoes')">
-							<span style="color:#000" id="ano-Comissoes">Ano</span>
+						<a href="#" onclick="datas('<?php echo $data_ano ?>', 'ano-Com', 'Com')">
+							<span style="color:#000" id="ano-Com">Ano</span>
 						</a>
 						)</small>
-
-
 
 				</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form method="post" action="relatorio/relatorio_comissoes_class.php" target="_blank">
+			<form method="post" action="rel/rel_comissoes_class.php" target="_blank">
 				<div class="modal-body">
 
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group">
 								<label>Data Inicial</label>
-								<input type="date" class="form-control" name="dataInicial" id="dataInicialRelatorio-Comissoes" value="<?php echo date('Y-m-d') ?>" required>
+								<input type="date" class="form-control" name="dataInicial" id="dataInicialRel-Com" value="<?php echo date('Y-m-d') ?>" required>
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group">
 								<label>Data Final</label>
-								<input type="date" class="form-control" name="dataFinal" id="dataFinalRelatorio-Comissoes" value="<?php echo date('Y-m-d') ?>" required>
+								<input type="date" class="form-control" name="dataFinal" id="dataFinalRel-Com" value="<?php echo date('Y-m-d') ?>" required>
 							</div>
 						</div>
 
@@ -1016,13 +1013,10 @@ $dataMesInicial = $partesInicial[1];
 						</div>
 					</div>
 
-
-
-
 				</div>
 
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-success">Gerar Relatório</button>
+					<button type="submit" class="btn btn-primary">Gerar Relatório</button>
 				</div>
 			</form>
 
@@ -1030,48 +1024,46 @@ $dataMesInicial = $partesInicial[1];
 	</div>
 </div>
 
-<!-- Modal Relatorio Contas -->
-<div class="modal fade" id="RelatorioContas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal Rel Contas -->
+<div class="modal fade" id="RelCon" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title" id="exampleModalLabel">Relatório de Contas
 					<small>(
-						<a href="#" onclick="datas('1980-01-01', 'tudo-Contas', 'Contas')">
-							<span style="color:#000" id="tudo-Contas">Tudo</span>
+						<a href="#" onclick="datas('1980-01-01', 'tudo-Con', 'Con')">
+							<span style="color:#000" id="tudo-Con">Tudo</span>
 						</a> /
-						<a href="#" onclick="datas('<?php echo $data_atual ?>', 'hoje-Contas', 'Contas')">
-							<span id="hoje-Contas">Hoje</span>
+						<a href="#" onclick="datas('<?php echo $data_atual ?>', 'hoje-Con', 'Con')">
+							<span id="hoje-Con">Hoje</span>
 						</a> /
-						<a href="#" onclick="datas('<?php echo $data_mes ?>', 'mes-Contas', 'Contas')">
-							<span style="color:#000" id="mes-Contas">Mês</span>
+						<a href="#" onclick="datas('<?php echo $data_mes ?>', 'mes-Con', 'Con')">
+							<span style="color:#000" id="mes-Con">Mês</span>
 						</a> /
-						<a href="#" onclick="datas('<?php echo $data_ano ?>', 'ano-Contas', 'Contas')">
-							<span style="color:#000" id="ano-Contas">Ano</span>
+						<a href="#" onclick="datas('<?php echo $data_ano ?>', 'ano-Con', 'Con')">
+							<span style="color:#000" id="ano-Con">Ano</span>
 						</a>
 						)</small>
-
-
 
 				</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form method="post" action="relatorio/relatorio_contas_class.php" target="_blank">
+			<form method="post" action="rel/rel_contas_class.php" target="_blank">
 				<div class="modal-body">
 
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group">
 								<label>Data Inicial</label>
-								<input type="date" class="form-control" name="dataInicial" id="dataInicialRelatorio-Contas" value="<?php echo date('Y-m-d') ?>" required>
+								<input type="date" class="form-control" name="dataInicial" id="dataInicialRel-Con" value="<?php echo date('Y-m-d') ?>" required>
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group">
 								<label>Data Final</label>
-								<input type="date" class="form-control" name="dataFinal" id="dataFinalRelatorio-Contas" value="<?php echo date('Y-m-d') ?>" required>
+								<input type="date" class="form-control" name="dataFinal" id="dataFinalRel-Con" value="<?php echo date('Y-m-d') ?>" required>
 							</div>
 						</div>
 
@@ -1088,8 +1080,6 @@ $dataMesInicial = $partesInicial[1];
 						</div>
 
 					</div>
-
-
 
 					<div class="row">
 						<div class="col-md-6">
@@ -1113,17 +1103,12 @@ $dataMesInicial = $partesInicial[1];
 							</div>
 						</div>
 
-
-
 					</div>
-
-
-
 
 				</div>
 
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-success">Gerar Relatório</button>
+					<button type="submit" class="btn btn-primary">Gerar Relatório</button>
 				</div>
 			</form>
 
@@ -1131,8 +1116,8 @@ $dataMesInicial = $partesInicial[1];
 	</div>
 </div>
 
-<!-- Modal Relatorio Lucro -->
-<div class="modal fade" id="RelatorioLucro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal Rel Lucro -->
+<div class="modal fade" id="RelLucro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -1152,39 +1137,90 @@ $dataMesInicial = $partesInicial[1];
 						</a>
 						)</small>
 
-
-
 				</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form method="post" action="relatorio/relatorio_lucro_class.php" target="_blank">
+			<form method="post" action="rel/rel_lucro_class.php" target="_blank">
 				<div class="modal-body">
 
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group">
 								<label>Data Inicial</label>
-								<input type="date" class="form-control" name="dataInicial" id="dataInicialRelatorio-Lucro" value="<?php echo date('Y-m-d') ?>" required>
+								<input type="date" class="form-control" name="dataInicial" id="dataInicialRel-Lucro" value="<?php echo date('Y-m-d') ?>" required>
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group">
 								<label>Data Final</label>
-								<input type="date" class="form-control" name="dataFinal" id="dataFinalRelatorio-Lucro" value="<?php echo date('Y-m-d') ?>" required>
+								<input type="date" class="form-control" name="dataFinal" id="dataFinalRel-Lucro" value="<?php echo date('Y-m-d') ?>" required>
 							</div>
 						</div>
 
 					</div>
 
+				</div>
 
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary">Gerar Relatório</button>
+				</div>
+			</form>
 
+		</div>
+	</div>
+</div>
+
+<!-- Modal Rel Anivesariantes -->
+<div class="modal fade" id="RelAniv" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="exampleModalLabel">Relatório de Aniversáriantes
+					<small>(
+						<a href="#" onclick="datas('1980-01-01', 'tudo-Aniv', 'Aniv')">
+							<span style="color:#000" id="tudo-Aniv">Tudo</span>
+						</a> /
+						<a href="#" onclick="datas('<?php echo $data_atual ?>', 'hoje-Aniv', 'Aniv')">
+							<span id="hoje-Aniv">Hoje</span>
+						</a> /
+						<a href="#" onclick="datas('<?php echo $data_mes ?>', 'mes-Aniv', 'Aniv')">
+							<span style="color:#000" id="mes-Aniv">Mês</span>
+						</a> /
+						<a href="#" onclick="datas('<?php echo $data_ano ?>', 'ano-Aniv', 'Aniv')">
+							<span style="color:#000" id="ano-Aniv">Ano</span>
+						</a>
+						)</small>
+
+				</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<form method="post" action="rel/rel_aniv_class.php" target="_blank">
+				<div class="modal-body">
+
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Data Inicial</label>
+								<input type="date" class="form-control" name="dataInicial" id="dataInicialRel-Aniv" value="<?php echo date('Y-m-d') ?>" required>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Data Final</label>
+								<input type="date" class="form-control" name="dataFinal" id="dataFinalRel-Aniv" value="<?php echo date('Y-m-d') ?>" required>
+							</div>
+						</div>
+
+					</div>
 
 				</div>
 
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-success">Gerar Relatório</button>
+					<button type="submit" class="btn btn-primary">Gerar Relatório</button>
 				</div>
 			</form>
 
@@ -1193,47 +1229,45 @@ $dataMesInicial = $partesInicial[1];
 </div>
 
 <!-- Modal Rel Entradas / Ganhos -->
-<div class="modal fade" id="RelatorioServicos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="RelServicos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title" id="exampleModalLabel">Relatório de Serviços
 					<small>(
-						<a href="#" onclick="datas('1980-01-01', 'tudo-Servico', 'Servico')">
-							<span style="color:#000" id="tudo-Servico">Tudo</span>
+						<a href="#" onclick="datas('1980-01-01', 'tudo-Ser', 'Ser')">
+							<span style="color:#000" id="tudo-Ser">Tudo</span>
 						</a> /
-						<a href="#" onclick="datas('<?php echo $data_atual ?>', 'hoje-Servico', 'Servico')">
-							<span id="hoje-Servico">Hoje</span>
+						<a href="#" onclick="datas('<?php echo $data_atual ?>', 'hoje-Ser', 'Ser')">
+							<span id="hoje-Ser">Hoje</span>
 						</a> /
-						<a href="#" onclick="datas('<?php echo $data_mes ?>', 'mes-Servico', 'Servico')">
-							<span style="color:#000" id="mes-Servico">Mês</span>
+						<a href="#" onclick="datas('<?php echo $data_mes ?>', 'mes-Ser', 'Ser')">
+							<span style="color:#000" id="mes-Ser">Mês</span>
 						</a> /
-						<a href="#" onclick="datas('<?php echo $data_ano ?>', 'ano-Servico', 'Servico')">
-							<span style="color:#000" id="ano-Servico">Ano</span>
+						<a href="#" onclick="datas('<?php echo $data_ano ?>', 'ano-Ser', 'Ser')">
+							<span style="color:#000" id="ano-Ser">Ano</span>
 						</a>
 						)</small>
-
-
 
 				</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form method="post" action="relatorio/relatorio_servicos_class.php" target="_blank">
+			<form method="post" action="rel/rel_servicos_class.php" target="_blank">
 				<div class="modal-body">
 
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Data Inicial</label>
-								<input type="date" class="form-control" name="dataInicial" id="dataInicialRelatorio-Servico" value="<?php echo date('Y-m-d') ?>" required>
+								<input type="date" class="form-control" name="dataInicial" id="dataInicialRel-Ser" value="<?php echo date('Y-m-d') ?>" required>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Data Final</label>
-								<input type="date" class="form-control" name="dataFinal" id="dataFinalRelatorio-Servico" value="<?php echo date('Y-m-d') ?>" required>
+								<input type="date" class="form-control" name="dataFinal" id="dataFinalRel-Ser" value="<?php echo date('Y-m-d') ?>" required>
 							</div>
 						</div>
 					</div>
@@ -1242,7 +1276,7 @@ $dataMesInicial = $partesInicial[1];
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Forma de Pagamento</label>
-								<select class="form-control" name="pagamento" style="width:100%;">
+								<select class="form-control" name="pgto" style="width:100%;">
 									<option value="">Selecionar Pagamento</option>
 									<?php
 									$query = $pdo->query("SELECT * FROM formas_pagamento");
@@ -1257,11 +1291,9 @@ $dataMesInicial = $partesInicial[1];
 									}
 									?>
 
-
 								</select>
 							</div>
 						</div>
-
 
 						<div class="col-md-6">
 							<div class="form-group">
@@ -1281,20 +1313,16 @@ $dataMesInicial = $partesInicial[1];
 									}
 									?>
 
-
 								</select>
 							</div>
 						</div>
 
 					</div>
 
-
-
-
 				</div>
 
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-success">Gerar Relatório</button>
+					<button type="submit" class="btn btn-primary">Gerar Relatório</button>
 				</div>
 			</form>
 
@@ -1302,11 +1330,14 @@ $dataMesInicial = $partesInicial[1];
 	</div>
 </div>
 
-
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('.sel15').select2({
-			dropdownParent: $('#RelatorioComissoes')
+			dropdownParent: $('#RelComissoes')
+		});
+
+		$('.selcli').select2({
+			dropdownParent: $('#RelEntradas')
 		});
 	});
 </script>
@@ -1335,8 +1366,6 @@ $dataMesInicial = $partesInicial[1];
 					$('#mensagem-perfil').addClass('text-danger')
 					$('#mensagem-perfil').text(mensagem)
 				}
-
-
 			},
 
 			cache: false,
@@ -1347,7 +1376,6 @@ $dataMesInicial = $partesInicial[1];
 
 	});
 </script>
-
 
 <script type="text/javascript">
 	function carregarImgPerfil() {
@@ -1368,7 +1396,6 @@ $dataMesInicial = $partesInicial[1];
 		}
 	}
 </script>
-
 
 <script type="text/javascript">
 	$("#form-config").submit(function() {
@@ -1395,7 +1422,6 @@ $dataMesInicial = $partesInicial[1];
 					$('#mensagem-config').text(mensagem)
 				}
 
-
 			},
 
 			cache: false,
@@ -1406,7 +1432,6 @@ $dataMesInicial = $partesInicial[1];
 
 	});
 </script>
-
 
 <script type="text/javascript">
 	function carregarImgLogo() {
@@ -1428,9 +1453,8 @@ $dataMesInicial = $partesInicial[1];
 	}
 </script>
 
-
 <script type="text/javascript">
-	function carregarImgLogoRelatorio() {
+	function carregarImgLogoRel() {
 		var target = document.getElementById('target-logo-relatorio');
 		var file = document.querySelector("#foto-logo-relatorio").files[0];
 
@@ -1448,7 +1472,6 @@ $dataMesInicial = $partesInicial[1];
 		}
 	}
 </script>
-
 
 <script type="text/javascript">
 	function carregarImgIcone() {
@@ -1530,7 +1553,6 @@ $dataMesInicial = $partesInicial[1];
 	}
 </script>
 
-
 <script type="text/javascript">
 	function datas(data, id, campo) {
 
@@ -1560,8 +1582,8 @@ $dataMesInicial = $partesInicial[1];
 
 		}
 
-		$('#dataInicialRelatorio-' + campo).val(data);
-		$('#dataFinalRelatorio-' + campo).val(data_atual);
+		$('#dataInicialRel-' + campo).val(data);
+		$('#dataFinalRel-' + campo).val(data_atual);
 
 		document.getElementById('hoje-' + campo).style.color = "#000";
 		document.getElementById('mes-' + campo).style.color = "#000";
