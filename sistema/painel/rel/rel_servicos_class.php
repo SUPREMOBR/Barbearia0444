@@ -1,22 +1,23 @@
-<?php 
+<?php
 
 include('../../conexao.php');
 
 $dataInicial = $_POST['dataInicial'];
 $dataFinal = $_POST['dataFinal'];
-$pgto = urlencode($_POST['pgto']);
+$pagamento = urlencode($_POST['pagamento']);
 $servico = $_POST['servico'];
 
 //ALIMENTAR OS DADOS NO RELATÓRIO
-$html = file_get_contents($url_sistema."sistema/painel/rel/rel_servicos.php?dataInicial=$dataInicial&dataFinal=$dataFinal&pgto=$pgto&servico=$servico");
+$html = file_get_contents($url_sistema . "sistema/painel/rel/rel_servicos.php?dataInicial=$dataInicial&dataFinal=$dataFinal&pagamento=$pagamento&servico=$servico");
 
-if($tipo_rel != 'PDF'){
+if ($tipo_rel != 'PDF') {
 	echo $html;
 	exit();
 }
 
 //CARREGAR DOMPDF
 require_once '../../dompdf/autoload.inc.php';
+
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
@@ -41,7 +42,6 @@ $pdf->render();
 
 //NOMEAR O PDF GERADO
 $pdf->stream(
-'servicos.pdf',
-array("Attachment" => false)
+	'servicos.pdf',
+	array("Attachment" => false)
 );
-?>

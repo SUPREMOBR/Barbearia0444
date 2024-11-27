@@ -1,4 +1,4 @@
-<?php 
+<?php
 include('../../conexao.php');
 include('data_formatada.php');
 
@@ -6,33 +6,33 @@ $id = $_GET['id'];
 
 //BUSCAR AS INFORMAÇÕES DO PEDIDO
 $query = $pdo->query("SELECT * from receber where id = '$id' ");
-$res = $query->fetchAll(PDO::FETCH_ASSOC);
+$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 
-$id = $res[0]['id'];	
-$cliente = $res[0]['pessoa'];
-$valor = $res[0]['valor'];
-$descricao = $res[0]['descricao'];
-$data = $res[0]['data_pgto'];
-$servico = $res[0]['servico'];
-$funcionario = $res[0]['funcionario'];
-$obs = $res[0]['obs'];
-$pgto = $res[0]['pgto'];
-$valor2 = $res[0]['valor2'];
+$id = $resultado[0]['id'];
+$cliente = $resultado[0]['pessoa'];
+$valor = $resultado[0]['valor'];
+$descricao = $resultado[0]['descricao'];
+$data = $resultado[0]['data_pgto'];
+$servico = $resultado[0]['servico'];
+$funcionario = $resultado[0]['funcionario'];
+$obs = $resultado[0]['obs'];
+$pgto = $resultado[0]['pgto'];
+$valor2 = $resultado[0]['valor2'];
 
-if($valor <= 0){
+if ($valor <= 0) {
 	$valor = $valor2;
 }
 
 $valorF = number_format($valor, 2, ',', '.');
 $dataF = implode('/', array_reverse(explode('-', $data)));
-	//$horaF = date("H:i", strtotime($hora));	
+//$horaF = date("H:i", strtotime($hora));	
 
 
 $query2 = $pdo->query("SELECT * FROM clientes where id = '$cliente'");
-$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-$nome_cliente = @$res2[0]['nome'];
-$telefone_cliente = @$res2[0]['telefone'];
-$endereco_cliente = @$res2[0]['endereco'];
+$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+$nome_cliente = @$resultado2[0]['nome'];
+$telefone_cliente = @$resultado2[0]['telefone'];
+$endereco_cliente = @$resultado2[0]['endereco'];
 
 
 ?>
@@ -44,19 +44,22 @@ $endereco_cliente = @$res2[0]['endereco'];
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 
 <style type="text/css">
-	*{
-		margin:0px;
+	* {
+		margin: 0px;
 
 		/*Espaçamento da margem da esquerda e da Direita*/
-		padding:0px;
-		background-color:#ffffff;
+		padding: 0px;
+		background-color: #ffffff;
 
 
 	}
+
 	.text {
-		&-center { text-align: center; }
+		&-center {
+			text-align: center;
+		}
 	}
-	
+
 	.printer-ticket {
 		display: table !important;
 		width: 100%;
@@ -68,171 +71,153 @@ $endereco_cliente = @$res2[0]['endereco'];
 
 		/*Espaçamento da margem da esquerda e da Direita*/
 		padding: 0px;
-		font-family: TimesNewRoman, Geneva, sans-serif; 
+		font-family: TimesNewRoman, Geneva, sans-serif;
 
 		/*tamanho da Fonte do Texto*/
-		font-size: 11px; 
+		font-size: 11px;
 
 
 
 	}
-	
-	.th { 
+
+	.th {
 		font-weight: inherit;
 		/*Espaçamento entre as uma linha para outra*/
-		padding:5px;
+		padding: 5px;
 		text-align: center;
 		/*largura dos tracinhos entre as linhas*/
 		border-bottom: 1px dashed #000000;
 	}
 
-	.itens { 
+	.itens {
 		font-weight: inherit;
 		/*Espaçamento entre as uma linha para outra*/
-		padding:5px;
-		
+		padding: 5px;
+
 	}
 
-	.valores { 
+	.valores {
 		font-weight: inherit;
 		/*Espaçamento entre as uma linha para outra*/
-		padding:2px 5px;
-		
+		padding: 2px 5px;
+
 	}
 
 
-	.cor{
-		color:#000000;
+	.cor {
+		color: #000000;
 	}
-	
-	
-	.title { 
+
+
+	.title {
 		font-size: 12px;
 		text-transform: uppercase;
 		font-weight: bold;
 	}
 
 	/*margem Superior entre as Linhas*/
-	.margem-superior{
-		padding-top:5px;
+	.margem-superior {
+		padding-top: 5px;
 	}
-	
-	
-}
 </style>
 
+<div class="printer-ticket">
+	<div class="th title"><?php echo $nome_sistema ?></div>
 
-
-<div class="printer-ticket">		
-	<div  class="th title"><?php echo $nome_sistema ?></div>
-
-	<div  class="th">
+	<div class="th">
 		<?php echo $endereco_sistema ?> <br />
-		<small>Contato: <?php echo $whatsapp_sistema ?> 
-		<?php if($cnpj_sistema != ""){echo ' / CNPJ '. @$cnpj_sistema; } ?>
-	</small>  
-</div>
+		<small>Contato: <?php echo $whatsapp_sistema ?>
+			<?php if ($cnpj_sistema != "") {
+				echo ' / CNPJ ' . @$cnpj_sistema;
+			} ?>
+		</small>
+	</div>
 
+	<div class="th">Cliente <?php echo $nome_cliente ?> Tel: <?php echo $telefone_cliente ?>
+		<br>
+		Venda: <b><?php echo $id ?></b> - Data: <?php echo $dataF ?>
+	</div>
 
+	<div class="th title">Comprovante de Venda</div>
 
-<div  class="th">Cliente <?php echo $nome_cliente ?> Tel: <?php echo $telefone_cliente ?>			
-<br>
-Venda: <b><?php echo $id ?></b> - Data: <?php echo $dataF ?>
-</div>
+	<div class="th">CUMPOM NÃO FISCAL</div>
 
-<div  class="th title" >Comprovante de Venda</div>
+	<?php
 
-<div  class="th">CUMPOM NÃO FISCAL</div>
+	$resultado = $pdo->query("SELECT * from receber where data_pagamento = '$data' and pessoa = '$cliente' and tipo = 'Venda' order by id asc");
+	$dados = $resultado->fetchAll(PDO::FETCH_ASSOC);
+	$linhas = count($dados);
 
-<?php 
+	$sub_tot = 0;
+	for ($i = 0; $i < count($dados); $i++) {
+		foreach ($dados[$i] as $key => $value) {
+		}
+		$id_serv = $dados[$i]['id'];
+		$produto = $dados[$i]['produto'];
+		$valor_serv = $dados[$i]['valor'];
 
-$res = $pdo->query("SELECT * from receber where data_pgto = '$data' and pessoa = '$cliente' and tipo = 'Venda' order by id asc");
-$dados = $res->fetchAll(PDO::FETCH_ASSOC);
-$linhas = count($dados);
+		$valor2 = $dados[$i]['valor2'];
 
-$sub_tot = 0;
-for ($i=0; $i < count($dados); $i++) { 
-	foreach ($dados[$i] as $key => $value) {
-	}
-	$id_serv = $dados[$i]['id']; 
-	$produto = $dados[$i]['produto']; 
-	$valor_serv = $dados[$i]['valor'];
-
-	$valor2 = $dados[$i]['valor2'];
-
-		if($valor_serv <= 0){
+		if ($valor_serv <= 0) {
 			$valor_serv = $valor2;
 		}
 
-	$valor_servF = number_format($valor_serv, 2, ',', '.');
+		$valor_servF = number_format($valor_serv, 2, ',', '.');
 
-	$sub_tot += $valor_serv;
-	$sub_totF = number_format($sub_tot, 2, ',', '.');
+		$sub_tot += $valor_serv;
+		$sub_totF = number_format($sub_tot, 2, ',', '.');
 
 		$query2 = $pdo->query("SELECT * FROM produtos where id = '$produto'");
-		$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-		if(@count(@$res2) > 0){
-			$nome_serv = $res2[0]['nome'];			
-		}else{
+		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+		if (@count(@$resultado2) > 0) {
+			$nome_serv = $resultado2[0]['nome'];
+		} else {
 			$nome_serv = '';
 		}
 
-	
-
-
 	?>
 
-	<div class="row itens">
+		<div class="row itens">
 
-		<div align="left" class="col-9"> <?php echo $nome_serv ?> 
+			<div align="left" class="col-9"> <?php echo $nome_serv ?>
 
-	</div>		
+			</div>
 
-	<div align="right" class="col-3">
-		R$ <?php
-		echo $valor_servF ;
-		?>
+			<div align="right" class="col-3">
+				R$ <?php
+					echo $valor_servF;
+					?>
+			</div>
+
+		</div>
+
+
+	<?php } ?>
+
+	<div class="th" style="margin-bottom: 7px"></div>
+
+
+	<div class="row valores">
+		<div class="col-6">SubTotal</div>
+		<div class="col-6" align="right">R$ <b><?php echo @$sub_totF ?></b></div>
 	</div>
 
+	</tr>
 
-	
+	<div class="th" style="margin-bottom: 7px"></div>
 
-</div>
+	<div class="row valores">
+		<div class="col-6">Forma de Pagamento</div>
+		<div class="col-6" align="right"><?php echo @$pagamento ?></div>
+	</div>
 
+	<div class="th" style="margin-bottom: 10px"></div>
 
-<?php } ?>
-
-<div class="th" style="margin-bottom: 7px"></div>
-	
-
-<div class="row valores">			
-	<div class="col-6">SubTotal</div>
-	<div class="col-6" align="right">R$ <b><?php echo @$sub_totF ?></b></div>	
-</div>	
-
-
-</tr>
-
-
-<div class="th" style="margin-bottom: 7px"></div>
-
-<div class="row valores">			
-	<div class="col-6">Forma de Pagamento</div>
-	<div class="col-6" align="right"><?php echo @$pgto ?></div>	
-</div>	
-
-
-
-
-<div class="th" style="margin-bottom: 10px"></div>
-
-
-
-<?php if($obs != ""){ ?>
-	<div class="valores" align="center">
-		<b>Observações do Pedido</b>		
-			<br>			
+	<?php if ($obs != "") { ?>
+		<div class="valores" align="center">
+			<b>Observações do Pedido</b>
+			<br>
 			<?php echo $obs ?>
-		</div>	
-<div class="th" style="margin-bottom: 10px"></div>
-<?php } ?>	
+		</div>
+		<div class="th" style="margin-bottom: 10px"></div>
+	<?php } ?>

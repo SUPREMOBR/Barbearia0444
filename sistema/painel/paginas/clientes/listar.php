@@ -8,14 +8,17 @@ $busca = '%' . @$_POST['busca'] . '%';
 
 // Verifica se a página atual está definida; se não, define como 0.
 if (@$_POST['pagina'] == "") {
-	@$_POST['pagina'] = 0;
+	@$_POST['pagina'] = 1;
 }
 
 $pagina = intval(@$_POST['pagina']); // Converte a página atual em inteiro.
 $limite = $pagina * $itens_pag;  // Define o limite para paginação.
 
+
+
+
 // Consulta ao banco para buscar clientes que contenham o termo de busca no nome, telefone ou CPF.
-$query = $pdo->query("SELECT * FROM $tabela ORDER BY id DESC LIMIT $limite, $itens_pag");
+$query = $pdo->query("SELECT * FROM $tabela ORDER BY id DESC LIMIT  $itens_pag");
 $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_registro = @count($resultado); // Conta o número de registros retornados.
 // Se houver registros, começa a exibir a tabela.
