@@ -58,7 +58,6 @@ if ($total_registro == 0) {
 	$icone_site = $resultado[0]['icone_site'];
 	$texto_sobre = $resultado[0]['texto_sobre'];
 	$imagem_sobre = $resultado[0]['imagem_sobre'];
-	$mapa = $resultado[0]['mapa'];
 	$texto_agendamento = $resultado[0]['texto_agendamento'];
 	$msg_agendamento = $resultado[0]['msg_agendamento'];
 	$cnpj_sistema = $resultado[0]['cnpj'];

@@ -39,10 +39,10 @@ if (@$configuracoes == 'ocultar') {
 						<label for="exampleInputEmail1">Tipo Relatório</label>
 						<!-- Campo de seleção para escolher o tipo de relatório (PDF ou HTML) -->
 						<select class="form-control" name="tipo_relatorio" id="tipo_relatorio">
-							<!-- Opção para PDF, com verificação para marcar como selecionada se a variável $tipo_relatorio for "PDF" -->
-							<option value="PDF" <?php if ($tipo_relatorio == 'PDF') { ?> selected <?php } ?>>PDF</option>
-							<!-- Opção para HTML, com verificação para marcar como selecionada se a variável $tipo_relatorio for "HTML" -->
-							<option value="HTML" <?php if ($tipo_relatorio == 'HTML') { ?> selected <?php } ?>>HTML</option>
+							<!-- Opção para PDF, com verificação para marcar como selecionada se a variável $tipo_rel for "PDF" -->
+							<option value="PDF" <?php if ($tipo_rel == 'PDF') { ?> selected <?php } ?>>PDF</option>
+							<!-- Opção para HTML, com verificação para marcar como selecionada se a variável $tipo_rel for "HTML" -->
+							<option value="HTML" <?php if ($tipo_rel == 'HTML') { ?> selected <?php } ?>>HTML</option>
 						</select>
 					</div>
 				</div>
@@ -222,13 +222,6 @@ if (@$configuracoes == 'ocultar') {
 					</div>
 				</div>
 
-				<div class="col-md-4">
-					<div class="form-group">
-						<label for="exampleInputEmail1">Facebook</label>
-						<input type="text" class="form-control" id="facebook_sistema" name="facebook_sistema" placeholder="Link do Perfil no Facebook" value="<?php echo $facebook_sistema ?>">
-					</div>
-				</div>
-
 			</div>
 
 			<div class="row">
@@ -247,16 +240,6 @@ if (@$configuracoes == 'ocultar') {
 						<input maxlength="255" type="text" class="form-control" id="texto_sobre" name="texto_sobre" placeholder="Texto para a área Sobre a empresa no site" value="<?php echo $texto_sobre ?>">
 					</div>
 				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-md-4">
-					<div class="form-group">
-						<label for="exampleInputEmail1">Mapa Site <small>(Url incorporada)</small></label>
-						<input type="text" class="form-control" id="mapa" name="mapa" placeholder="" value='<?php echo $mapa ?>'>
-					</div>
-				</div>
-
 			</div>
 
 			<div class="row">

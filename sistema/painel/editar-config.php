@@ -14,7 +14,6 @@ $instagram = $_POST['instagram_sistema'];
 $tipo_comissao = $_POST['tipo_comissao'];
 $texto_rodape = $_POST['texto_rodape'];
 $texto_sobre = $_POST['texto_sobre'];
-$mapa = $_POST['mapa'];
 $texto_agendamento = $_POST['texto_agendamento'];
 $msg_agendamento = $_POST['msg_agendamento'];
 $cnpj_sistema = $_POST['cnpj_sistema'];
@@ -130,7 +129,7 @@ if (@$_FILES['foto-icone-site']['name'] != "") {
 $query = $pdo->prepare("UPDATE config SET nome = :nome, email = :email, api = :api, telefone_whatsapp = :whatsapp, telefone_fixo = :telefone_fixo, 
 endereco = :endereco, logo = 'logo.png', icone = 'favicon.png', logo_relatorio = 'logo_relatorio.jpg', tipo_rel = '$tipo_rel', 
 instagram = :instagram, tipo_comissao = '$tipo_comissao', texto_rodape = :texto_rodape, img_banner_index = '$img_banner_index', icone_site = 'favicon.png', 
-imagem_sobre = '$img_sobre', texto_sobre = :texto_sobre, mapa = :mapa, texto_agendamento = :texto_agendamento, msg_agendamento = :msg_agendamento, 
+imagem_sobre = '$img_sobre', texto_sobre = :texto_sobre, texto_agendamento = :texto_agendamento, msg_agendamento = :msg_agendamento, 
 cnpj = :cnpj, cidade = :cidade, agendamento_dias = '$agendamento_dias', itens_pag = '$itens_pag', token = :token, minutos_aviso = '$minutos_aviso', 
 instancia = :instancia, taxa_sistema = :taxa_sistema, lancamento_comissao = :lancamento_comissao, porc_servico = :porc_servico, pagamento_api = :pagamento_api");
 
@@ -144,7 +143,6 @@ $query->bindValue(":endereco", "$endereco");
 $query->bindValue(":instagram", "$instagram");
 $query->bindValue(":texto_rodape", "$texto_rodape");
 $query->bindValue(":texto_sobre", "$texto_sobre");
-$query->bindValue(":mapa", "$mapa");
 $query->bindValue(":texto_agendamento", "$texto_agendamento");
 $query->bindValue(":msg_agendamento", "$msg_agendamento");
 $query->bindValue(":cnpj", "$cnpj_sistema");

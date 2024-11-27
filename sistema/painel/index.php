@@ -203,13 +203,13 @@ $dataMesInicial = $partesInicial[1];
 
 									<li class="<?php echo @$cargos ?>"><a href="cargos"><i class="fa fa-angle-right"></i>Cargos</a></li>
 
-									<li class="<?php echo @$categoria_servicos ?>"><a href="cat_servicos"><i class="fa fa-angle-right"></i>Categoria Serviços</a></li>
+									<li class="<?php echo @$categoria_servicos ?>"><a href="categoria_servicos"><i class="fa fa-angle-right"></i>Categoria Serviços</a></li>
 
 									<li class="<?php echo @$grupos ?>"><a href="grupos"><i class="fa fa-angle-right"></i>Grupo Acessos</a></li>
 
 									<li class="<?php echo @$acessos ?>"><a href="acessos"><i class="fa fa-angle-right"></i>Acessos</a></li>
 
-									<li class="<?php echo @$pagamento ?>"><a href="pgto"><i class="fa fa-angle-right"></i>Formas de Pagamento</a></li>
+									<li class="<?php echo @$pagamento ?>"><a href="pagamento"><i class="fa fa-angle-right"></i>Formas de Pagamento</a></li>
 
 									<li class="<?php echo @$dias_bloqueio ?>"><a href="dias_bloqueio"><i class="fa fa-angle-right"></i>Bloqueio de Dias</a></li>
 
@@ -292,8 +292,6 @@ $dataMesInicial = $partesInicial[1];
 									<li class="<?php echo @$rel_contas ?>"><a href="#" data-toggle="modal" data-target="#RelCon"><i class="fa fa-angle-right"></i>Relatório de Contas</a></li>
 
 									<li class="<?php echo @$rel_servicos ?>"><a href="#" data-toggle="modal" data-target="#RelServicos"><i class="fa fa-angle-right"></i>Relatório de Serviços</a></li>
-
-									<li class="<?php echo @$rel_aniv ?>"><a href="#" data-toggle="modal" data-target="#RelAniv"><i class="fa fa-angle-right"></i>Relatório de Aniversáriantes</a></li>
 
 									<li class="<?php echo @$rel_lucro ?>"><a href="#" data-toggle="modal" data-target="#RelLucro"><i class="fa fa-angle-right"></i>Demonstrativo de Lucro</a></li>
 
@@ -1172,60 +1170,7 @@ $dataMesInicial = $partesInicial[1];
 	</div>
 </div>
 
-<!-- Modal Rel Anivesariantes -->
-<div class="modal fade" id="RelAniv" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title" id="exampleModalLabel">Relatório de Aniversáriantes
-					<small>(
-						<a href="#" onclick="datas('1980-01-01', 'tudo-Aniv', 'Aniv')">
-							<span style="color:#000" id="tudo-Aniv">Tudo</span>
-						</a> /
-						<a href="#" onclick="datas('<?php echo $data_atual ?>', 'hoje-Aniv', 'Aniv')">
-							<span id="hoje-Aniv">Hoje</span>
-						</a> /
-						<a href="#" onclick="datas('<?php echo $data_mes ?>', 'mes-Aniv', 'Aniv')">
-							<span style="color:#000" id="mes-Aniv">Mês</span>
-						</a> /
-						<a href="#" onclick="datas('<?php echo $data_ano ?>', 'ano-Aniv', 'Aniv')">
-							<span style="color:#000" id="ano-Aniv">Ano</span>
-						</a>
-						)</small>
 
-				</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<form method="post" action="rel/rel_aniv_class.php" target="_blank">
-				<div class="modal-body">
-
-					<div class="row">
-						<div class="col-md-4">
-							<div class="form-group">
-								<label>Data Inicial</label>
-								<input type="date" class="form-control" name="dataInicial" id="dataInicialRel-Aniv" value="<?php echo date('Y-m-d') ?>" required>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="form-group">
-								<label>Data Final</label>
-								<input type="date" class="form-control" name="dataFinal" id="dataFinalRel-Aniv" value="<?php echo date('Y-m-d') ?>" required>
-							</div>
-						</div>
-
-					</div>
-
-				</div>
-
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary">Gerar Relatório</button>
-				</div>
-			</form>
-
-		</div>
-	</div>
 </div>
 
 <!-- Modal Rel Entradas / Ganhos -->
