@@ -76,9 +76,9 @@ if ($total_registro > 0) {
 		// Busca o nome e chave da permissão na tabela acessos
 		$query2 = $pdo->query("SELECT * FROM acessos where id = '$permissao'");
 		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-		$nome = $resultado2[0]['nome'];
-		$chave = $resultado2[0]['chave'];
-		$id = $resultado2[0]['id'];
+		$nome = @$resultado2[0]['nome'];
+		$chave = @$resultado2[0]['chave'];
+		$id = @$resultado2[0]['id'];
 
 		// Verifica a chave da permissão e, se encontrada, libera o acesso removendo a classe 'ocultar'
 		if ($chave == 'home') {

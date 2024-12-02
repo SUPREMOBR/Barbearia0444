@@ -354,7 +354,8 @@ if ($total_registro > 0) {
       <div class="col-md-6">
         <div class="map_container ">
           <!-- Exibe o mapa inserido no banco de dados -->
-          <?php echo $mapa ?>
+          <?php // echo $mapa 
+          ?>
         </div>
       </div>
     </div>
