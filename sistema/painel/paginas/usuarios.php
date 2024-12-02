@@ -369,14 +369,14 @@ $pag = 'usuarios';
 		});
 	}
 
-	function adicionarPermissao(idpermissao, idusuario) {
+	function adicionarPermissao(id_permissao, id_usuario) { //idusuario //idpermissao
 
 		$.ajax({
 			url: 'paginas/' + pag + "/add-permissao.php",
 			method: 'POST',
 			data: {
-				idpermissao,
-				idusuario
+				id_permissao, //idpermissao
+				id_usuario //idusuario
 			},
 			dataType: "html",
 

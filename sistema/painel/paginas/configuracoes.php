@@ -38,7 +38,7 @@ if (@$configuracoes == 'ocultar') {
 					<div class="form-group">
 						<label for="exampleInputEmail1">Tipo Relatório</label>
 						<!-- Campo de seleção para escolher o tipo de relatório (PDF ou HTML) -->
-						<select class="form-control" name="tipo_relatorio" id="tipo_relatorio">
+						<select class="form-control" name="tipo_rel" id="tipo_rel">
 							<!-- Opção para PDF, com verificação para marcar como selecionada se a variável $tipo_rel for "PDF" -->
 							<option value="PDF" <?php if ($tipo_rel == 'PDF') { ?> selected <?php } ?>>PDF</option>
 							<!-- Opção para HTML, com verificação para marcar como selecionada se a variável $tipo_rel for "HTML" -->
@@ -74,6 +74,16 @@ if (@$configuracoes == 'ocultar') {
 					<div class="form-group">
 						<label for="exampleInputEmail1">Instancia API</label>
 						<input type="text" class="form-control" id="instancia" name="instancia" placeholder="Instância Api Whatsapp" place value="<?php echo @$instancia ?>">
+					</div>
+				</div>
+
+				<div class="col-md-2">
+					<div class="form-group">
+						<label for="exampleInputEmail1">Seletor de Api</label>
+						<select class="form-control" name="api" id="api">
+							<option value="menuia" <?php if ($api == 'menuia') { ?> selected <?php } ?>>Menuia</option>
+							<option value="outros" <?php if ($api == 'outros') { ?> selected <?php } ?>>Word Mensagens</option>
+						</select>
 					</div>
 				</div>
 

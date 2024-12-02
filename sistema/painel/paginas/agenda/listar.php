@@ -201,7 +201,7 @@ if ($total_registro > 0) {
         		<hr style="margin-top:-2px; margin-bottom: 3px">                    
                     <div class="stats esc" align="center">
                       <span style="">                      
-                        <small> <span class="{$ocultar_cartoes}" style=""><img class="icon-rounded-vermelho" src="img/presente.jpg" width="20px" height="20px"></span> <span style="color:{$classe_deb}; font-size:13px">{$nome_cliente}</span> (<i><span style="color:#061f9c; font-size:12px">{$nome_serv}</span></i>)</small></span>
+                        <small> <span class="" style=""><img class="icon-rounded-vermelho" src="img/presente.jpg" width="20px" height="20px"></span> <span style="color:{$classe_deb}; font-size:13px">{$nome_cliente}</span> (<i><span style="color:#061f9c; font-size:12px">{$nome_serv}</span></i>)</small></span>
                     </div>
                 </div>
         	</div>

@@ -22,7 +22,7 @@ $fornecedores = 'ocultar';
 //grupo cadastros
 $servicos = 'ocultar';
 $cargos = 'ocultar';
-$cat_servicos = 'ocultar';
+$categoria_servicos = 'ocultar';
 $grupos = 'ocultar';
 $acessos = 'ocultar';
 $pagamento = 'ocultar';
@@ -55,7 +55,6 @@ $rel_entradas = 'ocultar';
 $rel_saidas = 'ocultar';
 $rel_comissoes = 'ocultar';
 $rel_contas = 'ocultar';
-$rel_aniv = 'ocultar';
 $rel_lucro = 'ocultar';
 $rel_servicos = 'ocultar';
 
@@ -119,7 +118,7 @@ if ($total_registro > 0) {
 		if ($chave == 'cargos') {
 			$cargos = '';
 		}
-		if ($chave == 'cat_servicos') {
+		if ($chave == 'categoria_servicos') {
 			$categoria_servicos = '';
 		}
 		if ($chave == 'grupos') {
@@ -128,7 +127,7 @@ if ($total_registro > 0) {
 		if ($chave == 'acessos') {
 			$acessos = '';
 		}
-		if ($chave == 'pgto') {
+		if ($chave == 'pagamento') {
 			$pagamento = '';
 		}
 		if ($chave == 'dias_bloqueio') {
@@ -139,7 +138,7 @@ if ($total_registro > 0) {
 		if ($chave == 'produtos') {
 			$produtos = '';
 		}
-		if ($chave == 'cat_produtos') {
+		if ($chave == 'categoria_produtos') {
 			$categoria_produtos = '';
 		}
 		if ($chave == 'estoque') {
@@ -192,9 +191,6 @@ if ($total_registro > 0) {
 		}
 		if ($chave == 'rel_contas') {
 			$rel_contas = '';
-		}
-		if ($chave == 'rel_aniv') {
-			$rel_aniv = '';
 		}
 		if ($chave == 'rel_lucro') {
 			$rel_lucro = '';
@@ -279,7 +275,7 @@ if ($agendamentos == 'ocultar' and $servicos_agenda == 'ocultar') {
 }
 
 // Define a visibilidade do menu "Relatórios" com base nas permissões de relatórios
-if ($rel_produtos == 'ocultar' and $rel_lucro == 'ocultar' and $rel_aniv == 'ocultar' and $rel_contas == 'ocultar' and $rel_comissoes == 'ocultar' and $rel_saidas == 'ocultar' and $rel_entradas == 'ocultar' and $rel_servicos == 'ocultar') {
+if ($rel_produtos == 'ocultar' and $rel_lucro == 'ocultar'  and $rel_contas == 'ocultar' and $rel_comissoes == 'ocultar' and $rel_saidas == 'ocultar' and $rel_entradas == 'ocultar' and $rel_servicos == 'ocultar') {
 	$menu_relatorio = 'ocultar';
 } else {
 	// Mostra o menu "Relatórios" se houver alguma permissão visível
