@@ -514,7 +514,7 @@ if ($total_registro > 0) {
   // Envio de Email
   $("#form-email").submit(function() {
 
-    // Impede o envio normal do formulário
+
     event.preventDefault();
     // Cria um objeto FormData a partir do formulário
     var formData = new FormData(this);
