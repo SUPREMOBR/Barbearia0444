@@ -161,7 +161,7 @@ $data_final_mes = $ano_atual . "-" . $mes_atual . "-" . $dia_final_mes;
 
 							<div class="form-group">
 								<label for="exampleInputEmail1">Pago Em</label>
-								<input type="date" class="form-control" id="data_pagamento" name="data_pagamento">
+								<input type="date" class="form-control" id="data_pagamento" name="data_Pagamento">
 							</div>
 						</div>
 
@@ -233,7 +233,7 @@ $data_final_mes = $ano_atual . "-" . $mes_atual . "-" . $dia_final_mes;
 					</div>
 
 					<div class="col-md-6">
-						<span><b>Data PGTO: </b></span>
+						<span><b>Data Pagamento: </b></span>
 						<span id="data_pagamento_dados"></span>
 					</div>
 

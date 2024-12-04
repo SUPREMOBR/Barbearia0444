@@ -127,7 +127,7 @@ if (@$_FILES['foto-icone-site']['name'] != "") {
 
 // Atualiza a tabela 'config' no banco de dados com os novos dados
 $query = $pdo->prepare("UPDATE config SET nome = :nome, email = :email, api = :api, telefone_whatsapp = :whatsapp, telefone_fixo = :telefone_fixo, 
-endereco = :endereco, logo = 'logo.png', icone = 'favicon.png', logo_relatorio = 'logo_relatorio.jpg', tipo_rel = '$tipo_rel', 
+endereco = :endereco, logo = 'logo.png', icone = 'favicon.png', logo_rel = 'logo_rel.jpg', tipo_rel = '$tipo_rel', 
 instagram = :instagram, tipo_comissao = '$tipo_comissao', texto_rodape = :texto_rodape, img_banner_index = '$img_banner_index', icone_site = 'favicon.png', 
 imagem_sobre = '$img_sobre', texto_sobre = :texto_sobre, texto_agendamento = :texto_agendamento, msg_agendamento = :msg_agendamento, 
 cnpj = :cnpj, cidade = :cidade, agendamento_dias = '$agendamento_dias', itens_pag = '$itens_pag', token = :token, minutos_aviso = '$minutos_aviso', 

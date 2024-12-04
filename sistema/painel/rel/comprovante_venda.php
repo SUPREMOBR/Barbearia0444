@@ -12,11 +12,11 @@ $id = $resultado[0]['id'];
 $cliente = $resultado[0]['pessoa'];
 $valor = $resultado[0]['valor'];
 $descricao = $resultado[0]['descricao'];
-$data = $resultado[0]['data_pgto'];
+$data = $resultado[0]['data_pagamento'];
 $servico = $resultado[0]['servico'];
 $funcionario = $resultado[0]['funcionario'];
 $obs = $resultado[0]['obs'];
-$pgto = $resultado[0]['pgto'];
+$pagamento = $resultado[0]['pagamento'];
 $valor2 = $resultado[0]['valor2'];
 
 if ($valor <= 0) {
@@ -133,7 +133,7 @@ $endereco_cliente = @$resultado2[0]['endereco'];
 		</small>
 	</div>
 
-	<div class="th">Cliente <?php echo $nome_cliente ?> Tel: <?php echo $telefone_cliente ?>
+	<div class="th">Cliente <?php echo $nome_cliente ?> Telefone: <?php echo $telefone_cliente ?>
 		<br>
 		Venda: <b><?php echo $id ?></b> - Data: <?php echo $dataF ?>
 	</div>

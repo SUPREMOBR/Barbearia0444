@@ -39,7 +39,7 @@ if ($total_registro > 0) {
 	<tbody>	
 HTML;
 	// Percorre os registros encontrados e exibe os dados na tabela
-	for ($i = 0; $i < $total_reg; $i++) {
+	for ($i = 0; $i < $total_registro; $i++) {
 		foreach ($resultado[$i] as $key => $value) {
 		}
 		$id = $resultado[$i]['id'];

@@ -285,12 +285,12 @@ if (@$configuracoes == 'ocultar') {
 				<div class="col-md-4">
 					<div class="form-group">
 						<label>Logo Relatório (*Jpg)</label>
-						<input class="form-control" type="file" name="foto-logo-relatorio" onChange="carregarImgLogoRelatorio();" id="foto-logo-relatorio">
+						<input class="form-control" type="file" name="foto-logo-rel" onChange="carregarImgLogoRel();" id="foto-logo-rel">
 					</div>
 				</div>
 				<div class="col-md-2">
 					<div id="divImg">
-						<img src="../img/<?php echo $logo_relatorio ?>" width="80px" id="target-logo-rel">
+						<img src="../img/<?php echo $logo_rel ?>" width="80px" id="target-logo-rel">
 					</div>
 				</div>
 

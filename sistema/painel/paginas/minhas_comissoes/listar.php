@@ -60,7 +60,7 @@ HTML;
 		$data_lancamento = $resultado[$i]['data_lancamento'];
 		$data_pagamento = $resultado[$i]['data_pagamento'];
 		$data_vencimento = $resultado[$i]['data_vencimento'];
-		$usuario_lanc = $resultado[$i]['usuario_lanc'];
+		$usuario_lancou = $resultado[$i]['usuario_lancou'];
 		$usuario_baixa = $resultado[$i]['usuario_baixa'];
 		$foto = $resultado[$i]['foto'];
 		$pessoa = $resultado[$i]['pessoa'];
@@ -122,7 +122,7 @@ HTML;
 		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 		$total_registro2 = @count($resultado2);
 		if ($total_registro2 > 0) {
-			$nome_funcinario = $resultado2[0]['nome']; //nome_func
+			$nome_funcionario = $resultado2[0]['nome']; //nome_func
 		} else {
 			$nome_funcionario = 'Sem Referência!';
 		}

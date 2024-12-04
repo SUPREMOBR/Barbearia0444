@@ -26,7 +26,7 @@ if ($total_registro > 0) {
 	$cpf = $resultado[0]['cpf']; // Armazena o CPF do cliente
 }
 
-$cidade_data = mb_strtoupper($cidade_sistema) . ' ' . mb_strtoupper($data_extenso); // Concatena a cidade e a data por extenso, em letras maiúsculas
+$cidade_data = mb_strtoupper($cidade_sistema) . ' ' . mb_strtoupper($data_hojeF); // Concatena a cidade e a data por extenso, em letras maiúsculas
 $nome_sistemaF = mb_strtoupper($nome_sistema); // Converte o nome do sistema para maiúsculas
 $nomeF = mb_strtoupper($nome); // Converte o nome do cliente para maiúsculas
 

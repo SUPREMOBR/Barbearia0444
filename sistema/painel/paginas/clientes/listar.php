@@ -77,7 +77,7 @@ HTML;
 		if (@count($resultado2) > 0) {
 			$obs_servico = $resultado2[0]['obs'];
 			$valor_servico = $resultado2[0]['valor'];
-			$data_servico = $resultado2[0]['data_lanc'];
+			$data_servico = $resultado2[0]['data_lancamento'];
 			$valor_servico = number_format($valor_servico, 2, ',', '.'); // Formata o valor do serviço.
 			$data_servico = implode('/', array_reverse(@explode('-', $data_servico)));  // Formata a data do serviço.
 		} else {

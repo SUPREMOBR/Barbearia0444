@@ -40,7 +40,7 @@ if ($funcionario == '') {
 	$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 	$nome_funcionario = ' - Funcionário: ' . $resultado[0]['nome'];
 	$nome_funcionario2 = $resultado[0]['nome'];
-	$tel_funcionario = $resultado[0]['telefone'];
+	$telefone_funcionario = $resultado[0]['telefone'];
 	$pix_funcionario = ' <b>Chave:</b> ' . $resultado[0]['tipo_chave'] . ' <b>Pix:</b> ' . $resultado[0]['chave_pix'];
 }
 

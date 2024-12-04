@@ -25,7 +25,7 @@ try {
 //VARIAVEIS DO SISTEMA
 $nome_sistema = 'Barbearia Lima';
 $email_sistema = 'nagatabrisa.05@gmail.com';
-$whatsapp_sistema = '(96) 99182-7077';
+$whatsapp_sistema = '(96) 99182-8687';
 $not_sistema = 'Sim';
 
 
@@ -36,7 +36,7 @@ $total_registro = @count($resultado);
 // Se não há registros, insere as configurações padrão
 if ($total_registro == 0) {
 	$pdo->query("INSERT INTO config SET nome = '$nome_sistema', email = '$email_sistema', telefone_whatsapp = '$whatsapp_sistema', logo = 'logo.png', 
-	icone = 'favicon.ico', logo_relatorio = 'logo_relatorio.jpg', tipo_rel = 'pdf', tipo_comissao = 'Porcentagem', 
+	icone = 'favicon.ico', logo_rel = 'logo_rel.jpg', tipo_rel = 'pdf', tipo_comissao = 'Porcentagem', 
 	texto_rodape = 'Edite este texto nas configurações do painel administrador', img_banner_index = 'hero-bg.jpg', 
 	texto_agendamento = 'Selecionar Prestador de Serviço', msg_agendamento = 'Sim', agendamento_dias = '30', itens_pag = '10', minutos_aviso = '0', 
 	porc_servico = '0', pagamento_api = 'Sim', api = 'menuia'");
@@ -48,7 +48,7 @@ if ($total_registro == 0) {
 	$tipo_rel = $resultado[0]['tipo_rel'];
 	$telefone_fixo_sistema = $resultado[0]['telefone_fixo'];
 	$endereco_sistema = $resultado[0]['endereco'];
-	$logo_relatorio = $resultado[0]['logo_relatorio'];
+	$logo_rel = $resultado[0]['logo_rel'];
 	$logo_sistema = $resultado[0]['logo'];
 	$icone_sistema = $resultado[0]['icone'];
 	$instagram_sistema = $resultado[0]['instagram'];

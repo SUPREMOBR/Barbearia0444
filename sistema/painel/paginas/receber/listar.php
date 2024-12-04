@@ -43,7 +43,7 @@ HTML;
 		$tipo = $resultado[$i]['tipo'];
 		$valor = $resultado[$i]['valor'];
 		$data_lancamento = $resultado[$i]['data_lancamento'];
-		$data_Pagamento = $resultado[$i]['data_Pagamento'];
+		$data_pagamento = $resultado[$i]['data_pagamento'];
 		$data_vencimento = $resultado[$i]['data_vencimento'];
 		$usuario_lancou = $resultado[$i]['usuario_lancou'];
 		$usuario_baixa = $resultado[$i]['usuario_baixa'];
@@ -54,7 +54,7 @@ HTML;
 		// Formatação dos valores e datas
 		$valorF = number_format($valor, 2, ',', '.');
 		$data_lancamentoF = implode('/', array_reverse(explode('-', $data_lancamento)));
-		$data_PagamentoF = implode('/', array_reverse(explode('-', $data_Pagamento)));
+		$data_pagamentoF = implode('/', array_reverse(explode('-', $data_pagamento)));
 		$data_vencimentoF = implode('/', array_reverse(explode('-', $data_vencimento)));
 
 		// Consulta o cliente associado ao pagamento
@@ -76,9 +76,9 @@ HTML;
 		$resultado2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 		$total_registro2 = @count($resultado2);
 		if ($total_registro2 > 0) {
-			$nome_usuario_Pagamento = $resultado2[0]['nome'];
+			$nome_usuario_pagamento = $resultado2[0]['nome'];
 		} else {
-			$nome_usuario_Pagamento = 'Nenhum!';
+			$nome_usuario_pagamento = 'Nenhum!';
 		}
 
 		$query2 = $pdo->query("SELECT * FROM usuarios01 where id = '$usuario_lancou'");
@@ -133,14 +133,14 @@ HTML;
 <td><i class="fa fa-square {$classe_alerta}"></i> {$descricao}</td>
 <td class="esc">R$ {$valorF}</td>
 <td class="esc">{$data_vencimentoF}</td>
-<td class="esc">{$data_PagamentoF}</td>
-<td class="esc">{$nome_usuario_Pagamento}</td>
+<td class="esc">{$data_pagamentoF}</td>
+<td class="esc">{$nome_usuario_pagamento}</td>
 <td class="esc">{$nome_pessoa}</td>
 <td><a href="img/contas/{$foto}" target="_blank"><img src="img/contas/{$tumb_arquivo}" width="27px" class="mr-2"></a></td>
 <td>
-		<big><a href="#" onclick="editar('{$id}','{$descricao}', '{$pessoa}', '{$valor}', '{$data_vencimento}', '{$data_Pagamento}', '{$tumb_arquivo}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
+		<big><a href="#" onclick="editar('{$id}','{$descricao}', '{$pessoa}', '{$valor}', '{$data_vencimento}', '{$data_pagamento}', '{$tumb_arquivo}')" title="Editar Dados"><i class="fa fa-edit text-primary"></i></a></big>
 
-		<big><a href="#" onclick="mostrar('{$descricao}', '{$valorF}', '{$data_lancamentoF}', '{$data_vencimentoF}',  '{$data_PagamentoF}', '{$nome_usuario_lancou}', '{$nome_usuario_Pagamento}', '{$tumb_arquivo}', '{$nome_pessoa}', '{$foto}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
+		<big><a href="#" onclick="mostrar('{$descricao}', '{$valorF}', '{$data_lancamentoF}', '{$data_vencimentoF}',  '{$data_pagamentoF}', '{$nome_usuario_lancou}', '{$nome_usuario_pagamento}', '{$tumb_arquivo}', '{$nome_pessoa}', '{$foto}')" title="Ver Dados"><i class="fa fa-info-circle text-secondary"></i></a></big>
 
 
 
@@ -209,13 +209,13 @@ HTML;
 
 
 <script type="text/javascript">
-	function editar(id, descricao, pessoa, valor, data_vencimento, data_Pagamento, foto) {
+	function editar(id, descricao, pessoa, valor, data_vencimento, data_pagamento, foto) {
 		$('#id').val(id);
 		$('#descricao').val(descricao);
 		$('#pessoa').val(pessoa).change();
 		$('#valor').val(valor);
 		$('#data_vencimento').val(data_vencimento);
-		$('#data_Pagamento').val(data_Pagamento);
+		$('#data_pagamento').val(data_pagamento);
 
 		$('#titulo_inserir').text('Editar Registro');
 		$('#modalForm').modal('show');
@@ -227,8 +227,8 @@ HTML;
 		$('#id').val('');
 		$('#descricao').val('');
 		$('#valor').val('');
-		$('#data_Pagamento').val('');
-		$('#data_venc').val('<?= $data_hoje ?>');
+		$('#data_pagamento').val('');
+		$('#data_vencimento').val('<?= $data_hoje ?>');
 		$('#foto').val('');
 
 		$('#target').attr('src', 'img/contas/sem-foto.jpg');
@@ -236,13 +236,13 @@ HTML;
 </script>
 
 <script type="text/javascript">
-	function mostrar(descricao, valor, data_lancamento, data_vencimento, data_Pagamento, usuario_lancou, usuario_Pagamento, foto, pessoa, link) {
+	function mostrar(descricao, valor, data_lancamento, data_vencimento, data_pagamento, usuario_lancou, usuario_Pagamento, foto, pessoa, link) {
 
 		$('#nome_dados').text(descricao);
 		$('#valor_dados').text(valor);
 		$('#data_lancamento_dados').text(data_lancamento);
 		$('#data_vencimento_dados').text(data_vencimento);
-		$('#data_Pagamento_dados').text(data_Pagamento);
+		$('#data_pagamento_dados').text(data_pagamento);
 		$('#usuario_lancou_dados').text(usuario_lancou);
 		$('#usuario_baixa_dados').text(usuario_Pagamento);
 		$('#pessoa_dados').text(pessoa);

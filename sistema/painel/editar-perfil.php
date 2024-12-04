@@ -1,5 +1,5 @@
 <?php
-// Inclui o arquivo de conexão com o banco de dados
+// Conecta ao bd
 require_once('../conexao.php');
 
 // Recebe os dados enviados via POST e os armazena em variáveis

@@ -771,7 +771,7 @@ $dataMesInicial = $partesInicial[1];
 	</div>
 </div>
 
-<!-- Modal Rel Entradas / Ganhos -->
+<!-- Modal Relatorio Entradas / Ganhos -->
 <div class="modal fade" id="RelEntradas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -862,7 +862,7 @@ $dataMesInicial = $partesInicial[1];
 	</div>
 </div>
 
-<!-- Modal Rel Saidas / Despesas -->
+<!-- Modal Relatorio Saidas / Despesas -->
 <div class="modal fade" id="RelSaidas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -931,7 +931,7 @@ $dataMesInicial = $partesInicial[1];
 	</div>
 </div>
 
-<!-- Modal Rel Comissoes -->
+<!-- Modal Relatorio Comissoes -->
 <div class="modal fade" id="RelComissoes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -1022,7 +1022,7 @@ $dataMesInicial = $partesInicial[1];
 	</div>
 </div>
 
-<!-- Modal Rel Contas -->
+<!-- Modal Relatorio Contas -->
 <div class="modal fade" id="RelCon" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -1114,7 +1114,7 @@ $dataMesInicial = $partesInicial[1];
 	</div>
 </div>
 
-<!-- Modal Rel Lucro -->
+<!-- Modal Relatorio Lucro -->
 <div class="modal fade" id="RelLucro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -1173,7 +1173,7 @@ $dataMesInicial = $partesInicial[1];
 
 </div>
 
-<!-- Modal Rel Entradas / Ganhos -->
+<!-- Modal Relatorio Entradas / Ganhos -->
 <div class="modal fade" id="RelServicos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -1221,7 +1221,7 @@ $dataMesInicial = $partesInicial[1];
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Forma de Pagamento</label>
-								<select class="form-control" name="pgto" style="width:100%;">
+								<select class="form-control" name="pagamento" style="width:100%;">
 									<option value="">Selecionar Pagamento</option>
 									<?php
 									$query = $pdo->query("SELECT * FROM formas_pagamento");
@@ -1400,8 +1400,8 @@ $dataMesInicial = $partesInicial[1];
 
 <script type="text/javascript">
 	function carregarImgLogoRel() {
-		var target = document.getElementById('target-logo-relatorio');
-		var file = document.querySelector("#foto-logo-relatorio").files[0];
+		var target = document.getElementById('target-logo-rel');
+		var file = document.querySelector("#foto-logo-rel").files[0];
 
 		var reader = new FileReader();
 
