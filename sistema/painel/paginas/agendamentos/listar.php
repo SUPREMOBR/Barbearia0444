@@ -38,7 +38,7 @@ if ($total_registro > 0) {
 		$hora = $resultado[$i]['hora'];
 		$data = $resultado[$i]['data'];
 		$usuario = $resultado[$i]['usuario'];
-		$data_lancamento = $resultado[$i]['v'];
+		$data_lancamento = $resultado[$i]['data_lancamento'];
 		$obs = $resultado[$i]['obs'];
 		$status = $resultado[$i]['status'];
 		$servico = $resultado[$i]['servico'];
